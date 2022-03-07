@@ -1,4 +1,4 @@
-package pro02;
+package j0307;
 
 import java.util.Scanner;
 

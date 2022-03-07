@@ -1,4 +1,4 @@
-package pro02;
+package j0307;
 
 public class Sam573 {
    public static void main(String[] args) {
