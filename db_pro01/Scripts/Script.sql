@@ -20,3 +20,4 @@ SELECT 'Hello' FROM DUAL;
 --GRANT CREATE SESSION TO puser1; 도 필요(클라우드)
   
 --계정 비밀번호 바꾸는법 CREATE -> ALTER 로 변경
+--아아
