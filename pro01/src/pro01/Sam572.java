@@ -32,6 +32,7 @@ public class Sam572 {
 			 * 이 형식의 주석은 여러 줄 작성 할 수 있다.
 			 */
 			   System.out.println("Hello World!!");   
+			   System.out.println("Hello World!!");   
 			   }
 			   
 }
