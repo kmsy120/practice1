@@ -154,9 +154,9 @@ SELECT LENGTHB ('Hello Oracle'),
 LENGTHB ('오라클 안녕')
  FROM DUAL;
  
-SELECT INSTR('sample@example@com','@',1)
+SELECT INSTR('sample@example@com','@e',1) ---원하는 문자 순서찾기
      ,INSTR('sample@example@com','@',-1)
-     ,INSTR('sample@example@com','@',-1)
+     ,INSTR('sample@example@com','@',-1,2)
 FROM DUAL;
 
 SELECT '!' ||LPAD('A',4)
@@ -268,8 +268,7 @@ SELECT SYSDATE
       , SYSDATE + INTERVAL '1' HOUR
       , SYSDATE + INTERVAL '1' MINUTE
       , SYSDATE + INTERVAL '1' SECOND
-      
-    FROM DUAL;
+      FROM DUAL;
     
  SELECT SYSTIMESTAMP
       , SYSTIMESTAMP + INTERVAL '30' SECOND
