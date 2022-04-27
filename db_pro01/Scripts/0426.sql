@@ -109,6 +109,8 @@ SELECT EMPLOYEE_ID
   GROUP BY SUBSTR(TO_CHAR(HIRE_DATE,'YYYY"년"MM"월"DD"일"'),1,3)
   ORDER BY SUBSTR(TO_CHAR(HIRE_DATE,'YYYY"년"MM"월"DD"일"'),1,3) ASC;
  
+ SELECT ROUND(1243.153,2)
+ FROM DUAL;
  /*
   * 
   * 급여집계를 위한 그룹을 다음과 같이 묶어서 총 인원수를 구한다.

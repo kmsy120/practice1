@@ -222,8 +222,9 @@ SELECT  FLOOR(10.34) --버림
 
 SELECT TRUNC(10.34, 1)--소수점 첫번째 자리까지만 나타내고 절삭
       ,TRUNC(10.36, 1)
-      ,TRUNC(10.3456, 2)
-      ,TRUNC(1234, -2)--정수 자리수 절삭
+      ,TRUNC(11.3456, -1)
+      ,TRUNC(1234, -1)
+      ,TRUNC(123.34, -2)--정수 자리수 절삭
  FROM DUAL;
 
 ALTER SESSION SET NLS_LANGUAGE = AMERICAN; --언어를 아메리카로 바꾸기
@@ -240,6 +241,12 @@ SELECT SYSDATE
     , NEXT_DAY(SYSDATE,'금')
     , NEXT_DAY(SYSDATE,6) --1:일요일,2:월요일...6:금요일,7:토요일
   FROM DUAL;
+ 
+ SELECT HIRE_DATE 
+       , HIRE_DATE +1
+       , HIRE_DATE + INTERVAL '1' DAY
+       , HIRE_DATE + INTERVAL '10' SECOND
+ FROM EMPLOYEES;
   
  
  SELECT EXTRACT(YEAR FROM SYSDATE) --년,월,일 뽑아내기
@@ -291,8 +298,9 @@ SELECT SYSDATE
    , TO_CHAR(1000000, '000,000,000')-- , 형식의 문자열. 앞에 여백이 없음.
    , TO_CHAR(1000000, '999,999,999L')-- , 형식의 문자열. 원화표시 추가
    FROM DUAL;
+
    
-  ALTER SESSION SET NLS_CURRENCY = '$'; -- 원화표시를 달러로 변경
+  ALTER SESSION SET NLS_CURRENCY = '\'; -- 원화표시를 달러로 변경
   SELECT * FROM V$NLS_PARAMETERS WHERE PARAMETER = 'NLS_CURRENCY';
   
  SELECT TO_DATE('20220425','YYYYMMDD') --문자열을 날짜로 변환
@@ -307,7 +315,7 @@ SELECT SYSDATE
  
 
 SELECT TO_NUMBER('20220425')
-       , TO_NUMBER('20,220,425','999,999,999') --콤마가있는 형식일경우 포맷형식 선언   
+       , TO_NUMBER('123,220,425','000,099,999') --콤마가있는 형식일경우 포맷형식 선언   
        , TO_NUMBER('AB33', 'XXXX') --16진수값에 대한 변환
  FROM DUAL;
  
