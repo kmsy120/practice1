@@ -1,48 +1,89 @@
 package pro04;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.util.Arrays;
+
 public class Sam572 {
 	
-	public static void main(String[] args) {
-				/*
-		 * 지역 변수 사용할 때 주의사항 
-		 *     지역 변수를 사용할 때에는 반드시 초기화가 되어있어야 한다.  
-		 */
-		int i1; // 선언만 한 상태
-		i1 = 1; // 초기화를 시켜주면 에러가 나오지 않는다.
+	public static void main(String[] args) throws IOException {
 		
-		System.out.println(i1); 
-		
-		/*
-		 *  상수 : 변하지 않는 값을 의미한다
-		 *  자바 프로그램에서는 한 번 초기화를 한 후에는 변경되지 않는 것을 의미
-		 */
-	final int number;
-	number = 2;
-
-	/*
-	 *  변수명 명명 규칙
-	 *   1. 한글 사용 가능하나 가급적 사용하지 않는 것이 좋음.
-	 *   2. 영문자는 대소문자 구분하여 사용
-	 *   3. 띄어쓰기 금지,대신 _(언더바) 사용
-	 *   4. 숫자는 영문자 뒤에 작성
-	 *   5. 예약어 사용금지
-	 *   6. 자바에서는 $ 특수문자도 사용할 수 있다.
-	 *   
-	 *   권고 사항
-	 *       상수명을 작명할 때 반드시 대문자로만 작명할 것.
-	 */
-	
-	
-	String str1 = "기차"+123+45+"출발";
-	String str2 = 124 + 45 + "기차" + "출발";
-	String str3 = "기차"+"출발"+123+45;
-	String str4 = "기차" + "출발" + (123+45);
-				System.out.println(str1);
-				System.out.println(str2);
-				System.out.println(str3);
-				System.out.println(str4);
-			
-	
+		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        String[] num = br.readLine().split("");
+        int length = num.length;
+        int count = (int)length/3;
+        StringBuilder check = new StringBuilder();
+        int k = 0;
+        int rest = length%3;
+        StringBuilder result = new StringBuilder();    
+        
+        if(num.length==1 && num[0].equals("0")){
+            	result.append("0");
+        }
+        if(rest!=0){
+                for(int i=0;i<rest;i++){
+                     check.append(num[k]);
+                     ++k;
+                   }
+                
+        if(check.toString().equals("1")) {
+        	result.append("1");
+        }
+        if(check.toString().equals("10")) {
+        	result.append("2");
+        }
+        if(check.toString().equals("11")) {
+        	result.append("3");
+        }
+        if(check.toString().equals("100")) {
+        	result.append("4");
+        }
+        if(check.toString().equals("101")) {
+        	result.append("5");
+        }
+        if(check.toString().equals("110")) {
+        	result.append("6");
+        }
+        if(check.toString().equals("111")) {
+        	result.append("7");
+        }
+        check.setLength(0);
+          }
+        for(int i =0;i<count;i++) {
+            check.append(num[k]);
+            ++k;
+            check.append(num[k]);
+            ++k;
+            check.append(num[k]);
+            ++k;
+            if(check.toString().equals("000")) {
+	        	result.append("0");
+	        }
+            if(check.toString().equals("001")) {
+	        	result.append("1");
+	        }
+	        if(check.toString().equals("010")) {
+	        	result.append("2");
+	        }
+	        if(check.toString().equals("011")) {
+	        	result.append("3");
+	        }
+	        if(check.toString().equals("100")) {
+	        	result.append("4");
+	        }
+	        if(check.toString().equals("101")) {
+	        	result.append("5");
+	        }
+	        if(check.toString().equals("110")) {
+	        	result.append("6");
+	        }
+	        if(check.toString().equals("111")) {
+	        	result.append("7");
+	        }
+	        check.setLength(0);
+	          }
+	        System.out.print(result);
 	}
 
 }

@@ -1,0 +1,19 @@
+CREATE TABLE PARCTICE(
+             이름 VARCHAR(100)
+           , 나이 NUMBER
+           , 성별 CHAR(1)
+);
+
+INSERT INTO PARCTICE VALUES('경명우',28,'M');
+
+CREATE OR REPLACE VIEW PRACTICE
+   AS SELECT 이름
+           , 나이
+           , 성별
+       FROM PARCTICE
+      WITH READ ONLY;
+
+SELECT * FROM PARCTICE;
+SELECT * FROM PRACTICE;
+
+INSERT INTO PRACTICE VALUES('김양환',28,'F');
