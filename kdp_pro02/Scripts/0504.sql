@@ -1,0 +1,308 @@
+CREATE PUBLIC SYNONYM EMP1 FOR PUSER1.EMPLOYEES;
+CREATE PUBLIC SYNONYM DEP1 FOR PUSER1.DEPARTMENTS;
+
+SELECT * FROM EMPLOYEES;--어드민으로 안됨
+SELECT * FROM PUSER1.EMPLOYEES;--어드민으로 됨, 다른 일반계정으론 안됨.
+
+
+DROP SYNONYM EMP1;
+
+SELECT * FROM EMP1;
+
+SELECT * FROM DEP1;
+
+GRANT SELECT ON EMP1 TO DEVADMIN; --PUBLIC한 SYNONYM에 접근가능하게해줌
+
+
+SELECT * FROM EMPLOYEES;
+
+GRANT CREATE SYNONYM TO PUSER1; -- 동의어 생성 권한 부여.
+CREATE SYNONYM EMP100 FOR EMPLOYEES;
+SELECT * FROM PUSER1.EMP100;
+
+
+/*
+* PL/SQL
+*  - 프로그래밍 기능이 추가된 SQL
+*  - 변수 정의, 조건문, 반복문을 만들어서 	SQL문장에 대한 처리 가능
+* /
+* 
+*--PL/SQL 기본구조
+DECLARE 
+/*
+ * 변수 선언부
+ */
+BEGIN
+	/*
+	 *  프로그래밍 로직이 작성되는 부분
+	 */
+	 DBMS_OUTPUT.PUT_LINE('HELLO WROLD');
+EXCEPTION
+   /*
+    * 예외처리 부분
+    */
+END;
+
+DECLARE
+   VAR1 NUMBER;
+   VAR2 VARCHAR2(30);
+   VAR3 VARCHAR2(30);
+BEGIN
+    VAR1 := 100;
+    VAR2 := 'Hello';
+    VAR3 := &VAR3;   --사용자 입력을 받아서 저장
+   DBMS_OUTPUT.PUT_LINE(VAR1);
+   DBMS_OUTPUT.PUT_LINE(VAR2);
+   DBMS_OUTPUT.PUT_LINE(VAR3);
+END;
+
+SET SERVEROUTPUT ON; --켜줘야함
+SET SERVEROUTPUT OFF; -- 기본은 OFF // 비버는 설정안해도 자동 OUTPUT이 나오게 됨
+
+-- =는 비교연산으로 이미 사용되고있어서 :=로 사용함.
+
+---------------------IF
+DECLARE
+     VAR1 NUMBER;
+     USER_INPUT NUMBER;
+BEGIN
+	 VAR1 := &USER_INPUT;
+	 IF(VAR1>10) THEN
+	     DBMS_OUTPUT.PUT_LINE('10보다 큰 값을 입력했습니다.');
+	 ELSIF(VAR1=10) THEN --ELSE IF 대신 ELSIF를 사용
+	 DBMS_OUTPUT.PUT_LINE('10을 입력했습니다.');
+	 ELSE --필요하면 집어넣기
+	    DBMS_OUTPUT.PUT_LINE('10보다 작은 값을 입력했습니다.');
+	 END IF; --항상 끝에
+END;
+----------------IF
+DECLARE
+     VAR1 NUMBER;
+     USER_INPUT NUMBER;
+BEGIN
+	 VAR1 := &USER_INPUT;
+	 IF(MOD(VAR1,2)=0) THEN
+	     DBMS_OUTPUT.PUT_LINE('짝수 입니다.');
+	 	 ELSE
+	    DBMS_OUTPUT.PUT_LINE('홀수 입니다.');
+	 END IF; 
+END;
+-------------------LOOP IF
+
+DECLARE
+     VAR1 NUMBER;
+     USER_INPUT NUMBER;
+BEGIN
+	 VAR1 := &USER_INPUT;
+    LOOP -- LOOP만 사용하면 무한반복 
+	    DBMS_OUTPUT.PUT_LINE(VAR1);
+	    IF (VAR1 = 0) THEN EXIT;--EXIT가 BREAK;
+	     END IF; 
+    	VAR1 := VAR1-1;
+    END LOOP;
+END;
+--------------------FOR
+DECLARE
+     VAR1 NUMBER;
+     USER_INPUT NUMBER;
+BEGIN
+	 VAR1 := &USER_INPUT;
+     
+	FOR I IN 0..VAR1 LOOP --0에서 VAR1까지 반복
+		DBMS_OUTPUT.PUT_LINE(VAR1 || '/' || I);
+	END LOOP;
+END;
+------------------FOR 리버스
+
+DECLARE
+     VAR1 NUMBER;
+     USER_INPUT NUMBER;
+BEGIN
+	 VAR1 := &USER_INPUT;
+     
+	FOR I IN REVERSE 0..VAR1 LOOP --0에서 VAR1까지 반복
+		DBMS_OUTPUT.PUT_LINE(VAR1 || '/' || I);
+	END LOOP;
+END;
+---------------WHILE
+DECLARE
+     VAR1 NUMBER;
+     USER_INPUT NUMBER;
+BEGIN
+	 VAR1 := &USER_INPUT;
+     
+	WHILE VAR1 > 0 LOOP
+		DBMS_OUTPUT.PUT_LINE(VAR1);
+	   VAR1 := VAR1-1;
+	END LOOP;
+END;
+
+
+
+---------------------------테이블 조건 검색해서 OUTPUT---
+DECLARE
+    EMP_ID NUMBER;
+   EMP_NAME1 VARCHAR2(50);
+   EMP_NAME2 VARCHAR2(50);
+    USER_INPUT NUMBER;
+BEGIN
+     SELECT EMPLOYEE_ID
+          , FIRST_NAME
+          , LAST_NAME
+        INTO EMP_ID, EMP_NAME1, EMP_NAME2 --변수, 순서대로 집어넣어라
+        FROM EMPLOYEES
+        WHERE EMPLOYEE_ID = &USER_INPUT;
+       DBMS_OUTPUT.PUT_LINE(EMP_ID || ',' || EMP_NAME1 || ',' || EMP_NAME2);
+END;
+--------------------검색해서 LOOP
+
+DECLARE
+    EMP_ID NUMBER;
+   EMP_NAME1 VARCHAR2(50);
+   EMP_NAME2 VARCHAR2(50);
+    USER_INPUT NUMBER;
+BEGIN
+  FOR ID IN 100..199 LOOP
+     SELECT EMPLOYEE_ID
+          , FIRST_NAME
+          , LAST_NAME
+        INTO EMP_ID, EMP_NAME1, EMP_NAME2 --변수, 순서대로 집어넣어라
+        FROM EMPLOYEES
+        WHERE EMPLOYEE_ID = ID;
+       DBMS_OUTPUT.PUT_LINE(EMP_ID || ',' || EMP_NAME1 || ',' || EMP_NAME2);
+      END LOOP;
+END;
+-------------------타입을 지정하는법
+
+DECLARE
+    EMP_ID EMPLOYEES.EMPLOYEE_ID%TYPE;
+   EMP_NAME1 EMPLOYEES.FIRST_NAME%TYPE;
+   EMP_NAME2 EMPLOYEES.LAST_NAME%TYPE;
+    USER_INPUT NUMBER;
+BEGIN
+  FOR ID IN 100..199 LOOP
+     SELECT EMPLOYEE_ID
+          , FIRST_NAME
+          , LAST_NAME
+        INTO EMP_ID, EMP_NAME1, EMP_NAME2 --변수, 순서대로 집어넣어라
+        FROM EMPLOYEES
+        WHERE EMPLOYEE_ID = ID;
+       DBMS_OUTPUT.PUT_LINE(EMP_ID || ',' || EMP_NAME1 || ',' || EMP_NAME2);
+      END LOOP;
+END;
+--------------------컬럼을 *로 ROW_DATA로 만들기(1개 행만 저장)
+
+DECLARE
+	RDATA EMPLOYEES%ROWTYPE; --한 행에대한 데이터타입 : ROWTYPE
+BEGIN
+  FOR ID IN 100..199 LOOP
+     SELECT *
+        INTO RDATA
+        FROM EMPLOYEES
+        WHERE EMPLOYEE_ID = ID;
+       DBMS_OUTPUT.PUT_LINE(RDATA.EMPLOYEE_ID || ',' || RDATA.FIRST_NAME || ',' || RDATA.LAST_NAME);
+      END LOOP;
+END;
+
+--------------------배열처럼 N행대한 1컬럼 데이터 저장
+DECLARE
+	TYPE EMP_ID_TABLE_TYPE IS TABLE OF EMPLOYEES.EMPLOYEE_ID%TYPE 
+	                          INDEX BY BINARY_INTEGER;
+	TYPE EMP_NAME_TABLE_TYPE IS TABLE OF EMPLOYEES.FIRST_NAME%TYPE 
+	                          INDEX BY BINARY_INTEGER;                         
+	--배열(테이블) 타입 생성/ EMPLYEES.EMPLOYEE_ID%TYPE  배열에 저장할 데이터 타입
+	-- INDEX BY BINARY_INTEGER ->인덱스 번호 지정                      
+	EMP_IDS     EMP_ID_TABLE_TYPE;--테이블타입 선언
+	EMP_NAMES   EMP_NAME_TABLE_TYPE;
+    IDX         BINARY_INTEGER :=0; --인덱스 0번부터
+BEGIN
+  FOR R_DATA IN (SELECT EMPLOYEE_ID, FIRST_NAME
+                   FROM EMPLOYEES 
+                   WHERE EMPLOYEE_ID BETWEEN 100 AND 199
+                   ORDER BY EMPLOYEE_ID) LOOP
+       IDX := IDX + 1;
+       EMP_IDS(IDX) := R_DATA.EMPLOYEE_ID;
+       EMP_NAMES(IDX) := R_DATA.FIRST_NAME;
+      END LOOP;
+     
+     FOR I IN 1..EMP_IDS.COUNT LOOP 
+	    DBMS_OUTPUT.PUT_LINE(EMP_IDS(I)||','||EMP_NAMES(I));
+     END LOOP;
+END; --왜 순서대로 안될까..?
+
+
+
+---------------------------------TABLE타입에 ROWTYPE대입
+DECLARE
+	TYPE EMP_ROW_TABLE_TYPE IS TABLE OF EMPLOYEES%ROWTYPE 
+	                          INDEX BY BINARY_INTEGER;                       
+              
+	EMP_ROWS     EMP_ROW_TABLE_TYPE;
+    IDX         BINARY_INTEGER :=0; 
+BEGIN
+  FOR R_DATA IN (SELECT *
+                   FROM EMPLOYEES 
+                   WHERE EMPLOYEE_ID BETWEEN 100 AND 199
+                   ORDER BY EMPLOYEE_ID) LOOP
+       IDX := IDX + 1;
+       EMP_ROWS(IDX) := R_DATA;
+      END LOOP;
+     
+     FOR I IN 1..EMP_ROWS.COUNT LOOP 
+	    DBMS_OUTPUT.PUT_LINE(EMP_ROWS(I).EMPLOYEE_ID||','||EMP_ROWS(I).FIRST_NAME);
+     END LOOP;
+END;
+------------- N개행 N개열 RECORD타입
+
+DECLARE
+    TYPE EMP_RECORD_TYPE IS RECORD (
+         ID          EMPLOYEES.EMPLOYEE_ID%TYPE
+       , FIRST_NAME  EMPLOYEES.FIRST_NAME%TYPE
+       , LAST_NAME   EMPLOYEES.LAST_NAME%TYPE
+       , SALARY      EMPLOYEES.SALARY%TYPE
+       , DEPART_ID   DEPARTMENTS.DEPARTMENT_ID%TYPE
+       , DEPART_NAME DEPARTMENTS.DEPARTMENT_NAME%TYPE
+    );
+   
+    TYPE EMP_TABLE_TYPE IS TABLE OF EMP_RECORD_TYPE INDEX BY BINARY_INTEGER;
+
+    EMP_TABLE   EMP_TABLE_TYPE;
+    IDX BINARY_INTEGER := 0;
+BEGIN
+    FOR D IN (SELECT E.EMPLOYEE_ID
+                   , E.FIRST_NAME
+                   , E.LAST_NAME
+                   , E.SALARY
+                   , D.DEPARTMENT_ID
+                   , D.DEPARTMENT_NAME
+                FROM EMPLOYEES E JOIN DEPARTMENTS D
+                  ON E.DEPARTMENT_ID = D.DEPARTMENT_ID) LOOP
+        IDX := IDX + 1;
+        EMP_TABLE(IDX) := D;
+    END LOOP;
+    
+    FOR REC IN 1..EMP_TABLE.COUNT LOOP
+    	DBMS_OUTPUT.PUT_LINE(EMP_TABLE(REC).ID);
+    END LOOP;
+END;
+
+-------------------강사님 추가본
+DECLARE
+    TYPE EMP_TABLE_TYPE IS TABLE OF PUSER1.EMPLOYEES%ROWTYPE;
+ 
+    EMP_RECORDS   EMP_TABLE_TYPE;
+BEGIN
+    SELECT * BULK COLLECT INTO EMP_RECORDS FROM PUSER1.EMPLOYEES;
+    
+    FOR R IN 1..EMP_RECORDS.COUNT LOOP
+        DBMS_OUTPUT.PUT_LINE(EMP_RECORDS(R).FIRST_NAME);
+    END LOOP;
+END;
+
+
+
+
+
+
+
+
