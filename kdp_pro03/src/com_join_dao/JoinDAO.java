@@ -2,6 +2,7 @@
 
 package com_join_dao;
 
+import java.io.File;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.text.SimpleDateFormat;
@@ -20,7 +21,7 @@ public class JoinDAO {
 	
 	public JoinDAO() {
 	try {
-     db = new DBconn("localhost","1521","XEPDB1","puser1","puser1");
+     db = new DBconn(new File(System.getProperty("user.home")+"/oracle_db.conf"));
 	}  catch(Exception e) {
 		e.printStackTrace();
 	}

@@ -20,3 +20,20 @@ INSERT INTO PRACTICE VALUES('김양환',28,'F');
 
 SELECT * FROM DEPARTMENTS;
 
+CREATE TABLE accounts(
+            userid     varchar2(20)
+          , userpw   varchar2(20)
+          , username      varchar2(20)
+          , gender      char(1)
+          , age      NUMBER
+          , createDate date
+);
+
+SELECT * FROM accounts;
+COMMIT;
+SELECT * FROM accounts WHERE USERID = 'kmsy120';
+INSERT INTO ACCOUNTS VALUES('kmsy120','auddn852','경명우','M',28,TO_DATE(20220511));
+INSERT INTO ACCOUNTS VALUES('kmsy120','auddn852','경명우','M',28, TO_DATE(20224711));
+UPDATE ACCOUNTS SET AGE = 10 WHERE USERID = 'kmsy120';
+DELETE ACCOUNTS WHERE USERID = 'kmsy120';
+DROP TABLE accounts

@@ -18,8 +18,9 @@ public class JoinView {
 		//회원 가입 및 로그인 요청에 맞추어 적절한 메서드를 호출한다
 		System.out.println("   회원가입 프로그램   ");
 		System.out.println("------------------");
-		System.out.println("     1.회원 가입     ");
-		System.out.println("     2. 로그인      ");
+		System.out.println("     1.회원가입     ");
+		System.out.println("     2.로그인       ");
+		System.out.println("     3.프로그램 종료  ");
 		while(true) {
 
 			System.out.println(">>>>>>");
@@ -32,6 +33,8 @@ public class JoinView {
 			case "2" :
 				this.loginMenu();
 				break;
+			case "3" :
+				System.exit(0);
 			default :
 				System.out.print("잘못된 메뉴번호 입니다. 다시 입력하세요.");
 			}
