@@ -41,7 +41,7 @@ import DBcon.DBCon;
 	 public ResultSet selectwhere(String table,String columns,String where) throws Exception {
 		 String query = String.format("SELECT %s FROM %s WHERE %s", columns, table,where);
 		 //System.out.print(query);
-		 return DB.select2(query);
+		 return DB.select(query);
      }
 	 
 	 public ResultSet selectwhereorderby(String table,String columns,String where,String order) throws Exception {
@@ -55,14 +55,19 @@ import DBcon.DBCon;
     	 DB.close();
      }
      
-    public int insert(String table,String value) throws Exception{
-    	String query = String.format("INSERT INTO %s VALUES(%s)", table, value);
-    	return DB.update(query);
-    }
     
     public int update(String table,String set,String where) throws Exception{
      	String query = String.format("UPDATE %s SET %s WHERE %s", table, set, where);   
-        System.out.println(query);
+    	return DB.update(query);
+    }
+    public void commit() throws Exception {
+    	DB.conmmit();
+    }
+    public void rollback() throws Exception{
+        DB.rollback();
+    }
+    public int insert(String table,String columns,String values) throws Exception{
+     	String query = String.format("INSERT INTO %s(%s) VALUES(%s)", table, columns, values);   
     	return DB.update(query);
     }
 

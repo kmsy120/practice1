@@ -5,7 +5,7 @@ import java.util.Date;
 
 import DBAcc.DBAcc;
 import DBRes.DBRes;
-import DBReser.DBReser;
+import DBTemaview.DBTemaview;
 import DBView.DBView;
 
 public class DBMain {

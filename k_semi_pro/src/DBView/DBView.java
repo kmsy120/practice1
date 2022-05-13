@@ -7,7 +7,7 @@ import java.sql.ResultSet;
 
 import DBAcc.DBAcc;
 import DBRes.DBRes;
-import DBReser.DBReser;
+import DBTemaview.DBTemaview;
 
 
 public class DBView {
@@ -17,8 +17,11 @@ public class DBView {
 	public static String userpw;
     public DBAcc DBA;
     public DBRes DBR;
+    public DBTemaview DBT;
 	public static String name;
 	public static String phone;
+	public String where;
+	public boolean str;
 
 //Start : 예약 시스템의 초기 화면.	
     public void start() throws Exception{
@@ -138,9 +141,10 @@ public class DBView {
 		System.out.println("          1. 방탈출 정보 보기                 ");
 		System.out.println("          2. 방탈출 예약표 보기                ");
 		System.out.println("          3. 방탈출 예약하기                  ");
-		System.out.println("          4. 후기쓰기                       ");
-		System.out.println("          5. 회원탈퇴하기                     ");	
-		System.out.println("          6. 이전으로                       ");
+		System.out.println("          4. 후기보기                       ");
+		System.out.println("          5. 후기쓰기                       ");
+		System.out.println("          6. 회원탈퇴하기                     ");	
+		System.out.println("          7. 이전으로                       ");
 		System.out.print(">>> ");
 		while(true) {
 			
@@ -149,11 +153,142 @@ public class DBView {
 	    	switch(br.readLine()){
 	     	
 	    	case "1" : 
-	        this.viewtema();
-	        break;
+	    	     System.out.println("           테마보기            ");
+		         System.out.println("1.전체보기                     ");
+		         System.out.println("2.특정테마만보기                 ");
+		         System.out.println("3.특정지점만보기                 ");
+		         System.out.println("4.특정지역만보기                 ");
+		         System.out.println("5.특정장르만보기                  ");
+		         System.out.println("6.돌아가기                        ");
+		         System.out.print(">>> ");
+		         br = new BufferedReader(new InputStreamReader(System.in));
+		        switch(br.readLine()) {
+		           case "1" :
+		        	DBT = new DBTemaview();
+				    DBT.viewtema();
+				    break;
+		           case "2" :
+					  System.out.println("원하시는 테마명을 입력해주세요.(이전으로 돌아가시려면 'exit'를 입력해주세요.)");
+					  System.out.print(">>> ");
+					  str = true;
+				      while(str) {
+					       String tema = br.readLine();
+					       if(tema.equals("exit")) {
+						   this.usersystem();
+					        }
+					       
+					       DBA = new DBAcc();
+					       where = String.format("테마명 = '%s'",tema);
+					       ResultSet rs = DBA.selectwhere("테마정보", "*",where);
+					       if(!rs.next()) {
+					    	   DBA.close();
+					    	   System.out.println("같은 테마명의 테마가 없습니다.");
+						       System.out.print(">>> ");
+					    	}
+					       else {
+					    	   DBA.close();
+					    	  DBT = new DBTemaview();
+							  DBT.viewtema("테마명",tema);
+					    	   
+					       }
+				       }
+				    break;
+		        case "3" :
+		        	System.out.println("원하시는 지점명을 입력해주세요.(이전으로 돌아가시려면 'exit'를 입력해주세요.)");
+					  System.out.print(">>> ");
+					  str = true;
+				      while(str) {
+					       String store = br.readLine();
+					       if(store.equals("exit")) {
+						   this.usersystem();
+					        }
+					       
+					       DBA = new DBAcc();
+					       where = String.format("지점명 = '%s'",store);
+					       ResultSet rs = DBA.selectwhere("테마정보", "*",where);
+					       if(!rs.next()) {
+					    	   DBA.close();
+					    	   System.out.println("같은 지점명의 테마가 없습니다.");
+						       System.out.print(">>> ");
+						    
+					    	}
+					       else {
+					     DBA.close();
+					    	  DBT = new DBTemaview();
+							  DBT.viewtema("지점명",store);
+					    	   
+					       }
+				       }	
+			
+				    break;
+		        case "4" :
+		        	System.out.println("원하시는 지역명을 입력해주세요.(이전으로 돌아가시려면 'exit'를 입력해주세요.)");
+					  System.out.print(">>> ");
+					  str = true;
+				      while(str) {
+					       String region = br.readLine();
+					       if(region.equals("exit")) {
+						   this.usersystem();
+					        }
+					       
+					       DBA = new DBAcc();
+					       where = String.format("지역 = '%s'",region);
+					       ResultSet rs = DBA.selectwhere("테마정보", "*",where);
+					       if(!rs.next()) {
+					    	   DBA.close();
+					    	   System.out.println("같은 지역의 테마가 없습니다.");
+						       System.out.print(">>> ");
+						    
+					    	}
+					       else {
+					     DBA.close();
+					    	  DBT = new DBTemaview();
+							  DBT.viewtema("지역",region);
+					    	   
+					       }
+				       }	
+			
+				    break;
+		        case "5" :
+		        	System.out.println("원하시는 장르를 입력해주세요.(이전으로 돌아가시려면 'exit'를 입력해주세요.)");
+					  System.out.print(">>> ");
+					  str = true;
+				      while(str) {
+					       String genre = br.readLine();
+					       if(genre.equals("exit")) {
+						   this.usersystem();
+					        }
+					       
+					       DBA = new DBAcc();
+					       where = String.format("장르 = '%s'",genre);
+					       ResultSet rs = DBA.selectwhere("테마정보", "*",where);
+					       if(!rs.next()) {
+					    	   DBA.close();
+					    	   System.out.println("같은 장르의 테마가 없습니다.");
+						       System.out.print(">>> ");
+						    
+					    	}
+					       else {
+					     DBA.close();
+					    	  DBT = new DBTemaview();
+							  DBT.viewtema("장르",genre);
+					    	   
+					       }
+				       }	
+			
+				    break;
+				    
+		        case "6" : 
+		        	this.usersystem();
+		        	break;
+				 default :
+					System.out.println("잘못 입력하였습니다. 다시 입력해주세요.");
+					System.out.print(">>> ");
+		        }
+	   
 		    
 	    	case "2" :
-	        DBReser dr = new DBReser();
+	        DBTemaview dr = new DBTemaview();
 		    dr.viewreservation();
 		    break;
 	    	case "3" : 
@@ -161,12 +296,147 @@ public class DBView {
 	        break;
 	     	
 	    	case "4" :
-	        //this.writereview();
+	         System.out.println("           후기보기            ");
+	         System.out.println("1.전체보기                     ");
+	         System.out.println("2.특정테마만보기                 ");
+	         System.out.println("3.특정지점만보기                 ");
+	         System.out.println("4.특정지역만보기                 ");
+	         System.out.println("5.특정장르만보기                  ");
+	         System.out.println("6.돌아가기                  ");
+	         System.out.print(">>> ");
+	         br = new BufferedReader(new InputStreamReader(System.in));
+	        switch(br.readLine()) {
+	           case "1" :
+	        	DBT = new DBTemaview();
+			    DBT.viewreview();
+			    break;
+	            case "2" :
+				  System.out.println("원하시는 테마명을 입력해주세요.(이전으로 돌아가시려면 'exit'를 입력해주세요.)");
+				  System.out.print(">>> ");
+				  str = true;
+			      while(str) {
+				       String tema = br.readLine();
+				       if(tema.equals("exit")) {
+					   this.usersystem();
+				        }
+				       
+				       DBA = new DBAcc();
+				       where = String.format("테마명 = '%s'",tema);
+				       ResultSet rs = DBA.selectwhere("테마_후기", "*",where);
+				       if(!rs.next()) {
+				    	   DBA.close();
+				    	   System.out.println("같은 테마명의 후기가 없습니다.");
+					       System.out.print(">>> ");
+				    	}
+				       else {
+				    	   DBA.close();
+				    	  DBT = new DBTemaview();
+						  DBT.viewreview("테마명",tema);
+				    	   
+				       }
+			       }
+			    break;
+	        case "3" :
+	        	System.out.println("원하시는 지점명을 입력해주세요.(이전으로 돌아가시려면 'exit'를 입력해주세요.)");
+				  System.out.print(">>> ");
+				  str = true;
+			      while(str) {
+				       String store = br.readLine();
+				       if(store.equals("exit")) {
+					   this.usersystem();
+				        }
+				       
+				       DBA = new DBAcc();
+				       where = String.format("지점명 = '%s'",store);
+				       ResultSet rs = DBA.selectwhere("테마_후기", "*",where);
+				       if(!rs.next()) {
+				    	   DBA.close();
+				    	   System.out.println("같은 지점명의 후기가 없습니다.");
+					       System.out.print(">>> ");
+					    
+				    	}
+				       else {
+				     DBA.close();
+				    	  DBT = new DBTemaview();
+						  DBT.viewreview("지점명",store);
+				    	   
+				       }
+			       }	
+		
+			    break;
+	        case "4" :
+	        	System.out.println("원하시는 지역명을 입력해주세요.(이전으로 돌아가시려면 'exit'를 입력해주세요.)");
+				  System.out.print(">>> ");
+				  str = true;
+			      while(str) {
+				       String region = br.readLine();
+				       if(region.equals("exit")) {
+					   this.usersystem();
+				        }
+				       
+				       DBA = new DBAcc();
+				       where = String.format("지역 = '%s'",region);
+				       ResultSet rs = DBA.selectwhere("테마_후기", "*",where);
+				       if(!rs.next()) {
+				    	   DBA.close();
+				    	   System.out.println("같은 지역의 후기가 없습니다.");
+					       System.out.print(">>> ");
+					    
+				    	}
+				       else {
+				     DBA.close();
+				    	  DBT = new DBTemaview();
+						  DBT.viewreview("지역",region);
+				    	   
+				       }
+			       }	
+		
+			    break;
+	        case "5" :
+	        	System.out.println("원하시는 장르를 입력해주세요.(이전으로 돌아가시려면 'exit'를 입력해주세요.)");
+				  System.out.print(">>> ");
+				  str = true;
+			      while(str) {
+				       String genre = br.readLine();
+				       if(genre.equals("exit")) {
+					   this.usersystem();
+				        }
+				       
+				       DBA = new DBAcc();
+				       where = String.format("장르 = '%s'",genre);
+				       ResultSet rs = DBA.selectwhere("테마_후기", "*",where);
+				       if(!rs.next()) {
+				    	   DBA.close();
+				    	   System.out.println("같은 장르의 후기가 없습니다.");
+					       System.out.print(">>> ");
+					    
+				    	}
+				       else {
+				     DBA.close();
+				    	  DBT = new DBTemaview();
+						  DBT.viewreview("장르",genre);
+				    	   
+				       }
+			       }	
+		
+			    break;
+	        case "6" :
+	        	this.usersystem();
+	        	break;
+	        	
+			 default :
+				System.out.println("잘못 입력하였습니다. 다시 입력해주세요.");
+				System.out.print(">>> ");
+	        }
+	         
 	        
 	    	case "5" :
+	        this.writereview();
+	        
+	    	case "6" :
 	        //this.dropuser();
 	        
-	    	case "6" : 
+	    	case "7" : 
 	        this.userrogin();
 	        
 	        default :
@@ -176,66 +446,12 @@ public class DBView {
 	    	
 		}
   }
-   
-	 public void viewtema() throws Exception {
-		  
-		    DBA = new DBAcc();
-		     ResultSet rs = DBA.select("테마정보", "*");
-				System.out.println("지역  지점명        테마명   장르   난이도   평점    최소인원    최대인원    1인가    2인가    3인가    4인가    5인가    6인가    운영여부");
-			while(rs.next()) {
-				  System.out.print(rs.getString(1)+"\t");
-				  System.out.print(rs.getString(2)+"\t");
-				  System.out.print(rs.getString(3)+"\t");
-				  System.out.print(rs.getString(4)+"\t");
-				  System.out.print(rs.getString(5)+"\t");
-				  ResultSet rs2 = DBA.select2(String.format("테마_후기  WHERE 지역 = '%s' and 지점명 = '%s' and 테마명= '%s' GROUP BY(지역,지점명,테마명) ",rs.getString(1),rs.getString(2),rs.getString(3)),
-						  "AVG(평점) AS 평점");
-				  double avg = 0;
-				  while(rs2.next()) {
-					  avg += rs2.getDouble("평점");
-				  }
-				  System.out.printf("%.1f\t",avg );
-				  System.out.print(rs.getString(7)+"\t");
-				  System.out.print(rs.getString(8)+"\t");
-				  System.out.print(rs.getString(9)+"\t");
-				  System.out.print(rs.getString(10)+"\t");
-				  System.out.print(rs.getString(11)+"\t");
-				  System.out.print(rs.getString(12)+"\t");
-				  System.out.print(rs.getString(13)+"\t");
-				  System.out.print(rs.getString(14)+"\t");
-				  System.out.print(rs.getString(15)+"\n");
-		     }
-			DBA.close();
-			System.out.println("아무키나 입력하시면 이전으로 되돌아갑니다.");
-			System.out.print(">>> ");
-			br = new BufferedReader(new InputStreamReader(System.in));
-			br.readLine();
-		    this.usersystem();
-		  }
-	 public void rsviewtema() throws Exception {
-		  
-		    DBA = new DBAcc();
-		    DBR = new DBRes();
-		    String where = String.format("TO_NUMBER(REPLACE(REPLACE(REPLACE(일자,'년'),'월',''),'일',''))>=%d",DBR.gettoday());	    
-		     ResultSet rs = DBA.selectwhereorderby("테마_예약현황", "일자,시간,지역,지점명,테마명,장르,예약가능_여부",where,"일자,시간,지역,테마명");
-				System.out.println("일자   시간  지역  지점명   테마명  장르 ");
-
-			while(rs.next()) {
-				  System.out.print(rs.getString(1)+"\t");
-				  System.out.print(rs.getString(2)+"\t");
-				  System.out.print(rs.getString(3)+"\t");
-				  System.out.print(rs.getString(4)+"\t");
-				  System.out.print(rs.getString(5)+"\t");
-				  System.out.print(rs.getString(6)+"\t");
-				  System.out.print(rs.getString(7)+"\t");
-				  System.out.print("\n");
-		     }
-			System.out.print("\n");
-			DBA.close();
-		  }
+  
+	
 	 
 	public void reservationtema() throws Exception{
-		this.rsviewtema();
+		DBT = new DBTemaview();
+		DBT.rsviewtema();
 		System.out.println("예약을 원하는 일자,시간,지역, 지점명, 테마명을 정확히 입력해주세요.");
 		System.out.println("띄어쓰기로 구분해주세요.");
 		System.out.println("ex) 2022년01월04일 10시30분 강남 룸즈에이 필활");
@@ -295,16 +511,18 @@ public class DBView {
 						DBA.close();
 						DBA = new DBAcc();
 						int ok = DBA.update("테마_예약현황",set,where);
+						System.out.println(ok);
 						      if(ok==1) {
 							    DBA = new DBAcc();
 						        ResultSet rs3 = DBA.selectwhere("테마_예약현황", "일자,시간,지역,지점명,테마명,예약번호,예약가격", where);
-					   
+						        
 						        while(rs3.next()) {
-						        String ans = String.format("일자: %s 시간: %s 지역: %s 매장명: %s 테마명: %s 예약번호 :%s 금액 :%s", rs3.getString(1),rs3.getString(2),rs3.getString(3),rs3.getString(4),rs3.getString(5),reservationNum,money);	
+						        String ans = String.format("일자: %s 시간: %s 지역: %s 지점명: %s 테마명: %s 예약번호 :%s 금액 :%s", rs3.getString(1),rs3.getString(2),rs3.getString(3),rs3.getString(4),rs3.getString(5),reservationNum,money);	
 						        System.out.println("예약에 성공하였습니다!");
 						        System.out.println(ans);
 						        System.out.println("아무키나 입력하시면 이전으로 돌아갑니다.");
 						        System.out.print(">>> ");
+						        DBA.commit();
 						        DBA.close();
 						        br.read();
 						        this.usersystem();
@@ -343,6 +561,125 @@ public class DBView {
 		}
         		
 		
+	}
+	public void writereview() throws Exception{
+		System.out.println("후기작성을 원하는 지역, 지점명, 테마명을 정확히 입력해주세요.");
+		System.out.println("띄어쓰기로 구분해주세요.");
+		System.out.println("ex)강남 넥스트에디션 메모리 ");
+		System.out.println("(후기는 한번 작성하면 수정할 수 없으니 신중한 작성 부탁드립니다.)");
+		System.out.println("이전으로 돌아가시고 싶으시면 'exit'를 입력해주세요.");
+	    System.out.print(">>> ");
+	    boolean str = true;
+		while(str){
+			
+		br = new BufferedReader(new InputStreamReader(System.in));
+		String[] review = br.readLine().split(" ");
+		
+		if(review.length==1 && review[0].equals("exit")) {
+		 this.usersystem();
+		}
+		
+		else if(review.length!=3) {
+			System.out.println("잘못된 형식입니다.다시 입력해주세요.");
+			System.out.println(">>> ");
+		}
+		DBA = new DBAcc();
+		String where1 = String.format("지역 = '%s' AND 지점명 = '%s' AND 테마명 = '%s' AND 아이디 = '%s'", review[0],review[1],review[2],this.userid);
+		ResultSet rs2 =DBA.selectwhere("테마_후기","*",where1);
+		if(rs2.next()) {
+			System.out.println("이미 작성한 후기입니다.");
+			System.out.println("아무키나 입력하시면 이전으로 돌아갑니다.");
+	        System.out.print(">>> ");
+	        DBA.commit();
+	        DBA.close();
+	        br.read();
+	        this.usersystem();
+			
+		}
+		DBA.close();
+		String genre = "";
+		DBA = new DBAcc();
+		String where = String.format("지역 = '%s' AND 지점명 = '%s' AND  테마명 = '%s'",review[0],review[1],review[2]);
+		ResultSet rs = DBA.selectwhere("테마정보", "*",where);
+		if(rs.next()) {
+			genre = rs.getString("장르");
+			DBA.close();
+			double point = 0;
+			String reviewstr = "";
+			boolean stt = true;
+			
+			
+			
+			   System.out.println("평점을 적어주세요.(범위는 0~5이며 소수점 첫째 자리까지 반영됩니다.)");
+			   System.out.println("이전으로 돌아가고 싶으시다면 'exit'를 적어주세요.");
+			   System.out.print(">>> ");
+     while(stt) {
+			   String input = br.readLine();
+			   if(input.equals("exit")) {
+				   this.usersystem();
+			   }
+			   point = Double.parseDouble(input);
+			
+			     if(point<0 || point>5) {
+		                 System.out.println("범위를 벗어났습니다.다시 입력해주세요.");
+		                 System.out.println(">>> ");
+			      }
+			   else {
+				stt = false;
+			   }
+		    }
+			    stt= true;
+			
+			
+				System.out.println("후기를 적어주세요.(최대 100자까지가능.)");
+				System.out.println("이전으로 돌아가고 싶으시다면 'exit'를 적어주세요.");
+				 System.out.print(">>> ");
+		while(stt) {
+				reviewstr = br.readLine();
+				if(reviewstr.equals("exit")) {
+					this.usersystem();
+				}
+				if(reviewstr.length()>100) {
+			    System.out.println("범위를 벗어났습니다.다시 입력해주세요.");
+			    System.out.println(">>> ");
+				 }
+				else {
+					stt = false;
+				}
+		     }
+			DBA = new DBAcc();
+			String columns = "지역,지점명,테마명,평점,후기,장르,아이디";
+			String values = String.format("'%s','%s','%s',%.1f,'%s','%s','%s'",review[0],review[1],review[2],point,reviewstr,genre,userid);
+			int x = DBA.insert("테마_후기", columns, values);
+			if(x==1) {
+		        System.out.println("후기가 작성되었습니다.");
+		        System.out.println("아무키나 입력하시면 이전으로 돌아갑니다.");
+		        System.out.print(">>> ");
+		        DBA.commit();
+		        DBA.close();
+		        br.read();
+		        this.usersystem();
+				
+			}
+			else {
+		    System.out.println("후기가 작성에 실패하였습니다. 저는 똥멍청이인가 봅니다.");
+	        System.out.println("아무키나 입력하시면 이전으로 돌아갑니다.ㅠㅠ");
+	        System.out.print(">>> ");
+	        DBA.rollback();
+	        DBA.close();
+	        br.read();
+	        this.usersystem();
+		    }
+		}
+		
+		else {
+			System.out.println("존재하지 않는 테마입니다. 다시 입력해주세요.");
+			System.out.println(">>> ");
+		}
+	 
+	
+		
+	 }
 	}
  
  }
