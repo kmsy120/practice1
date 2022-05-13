@@ -20,4 +20,11 @@ public class DBRes {
         return sdf.format(now).toString();
 		
 	}
+	public String gettodaymin() {
+	       Date now = new Date();
+	       SimpleDateFormat sdf = new SimpleDateFormat("YYYY년MM월dd일hh시mm분");
+	       String nowTime = now.toString();
+     return sdf.format(now).toString();
+		
+	}
 }

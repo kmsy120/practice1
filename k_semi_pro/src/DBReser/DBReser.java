@@ -21,9 +21,9 @@ public class DBReser {
                     
 			        dbr = new DBRes();
 			       String can ="";
-			       int minday=0;
+			       int minday=dbr.gettoday();
 		           int maxday=99999999;
-		           int mintime= dbr.gettoday();
+		           int mintime= 0;
 		           int maxtime=99999;
 		           String region ="";
 		           String store ="";
@@ -438,7 +438,7 @@ public class DBReser {
 
 			       
 			       ResultSet rs = DBA.selectwhere("테마_예약현황","일자,시간,지역,지점명,테마명,장르,예약가능_여부" , where);
-		           
+			       System.out.println("일자   시간   지역   지점명  테마명   장르   예약가능_여부");
 			       while(rs.next()) {
 			    	   for(int i=1;i<8;i++) {
 			    		   System.out.print(rs.getString(i)+"\t");
@@ -451,7 +451,8 @@ public class DBReser {
 			       System.out.print(">>> ");
 				   br= new BufferedReader(new InputStreamReader(System.in));
 				   br.read();
-				   dv.usersystem();   
+				   dv = new DBView();
+				   dv.usersystem();
 		    }
 
 }

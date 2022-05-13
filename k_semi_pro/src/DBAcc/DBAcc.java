@@ -32,27 +32,40 @@ import DBcon.DBCon;
 		 String query = String.format("SELECT %s FROM %s", columns, table);
 		 return DB.select(query);
      }
+	 
 	 public ResultSet select2(String table,String columns) throws Exception {
 		 String query = String.format("SELECT %s FROM %s", columns, table);
 		 return DB.select2(query);
      }
+	 
 	 public ResultSet selectwhere(String table,String columns,String where) throws Exception {
+		 String query = String.format("SELECT %s FROM %s WHERE %s", columns, table,where);
+		 //System.out.print(query);
+		 return DB.select2(query);
+     }
+	 
+	 public ResultSet selectwhereorderby(String table,String columns,String where,String order) throws Exception {
 		 
-		 String query = String.format("SELECT %s FROM %s where %s", columns, table,where);
-		 System.out.print(query);
+		 String query = String.format("SELECT %s FROM %s WHERE %s ORDER BY %s", columns, table,where,order);
+		 //System.out.print(query);
          return DB.select2(query);
      }
+	 
      public void close() throws Exception{
     	 DB.close();
      }
+     
     public int insert(String table,String value) throws Exception{
     	String query = String.format("INSERT INTO %s VALUES(%s)", table, value);
     	return DB.update(query);
     }
+    
     public int update(String table,String set,String where) throws Exception{
-    	String query = String.format("UPDATE %s SET %s WHERE %s", table,set,where);
+     	String query = String.format("UPDATE %s SET %s WHERE %s", table, set, where);   
+        System.out.println(query);
     	return DB.update(query);
     }
+
 }
     
 
