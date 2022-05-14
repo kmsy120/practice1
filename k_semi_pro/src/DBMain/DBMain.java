@@ -11,7 +11,6 @@ import DBView.DBView;
 public class DBMain {
 
 	public static void main(String[] args) throws Exception {
-
 	 DBView DV = new DBView();
 	 DV.start();
 	 
