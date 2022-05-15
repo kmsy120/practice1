@@ -335,8 +335,20 @@ public class DBSel {
 		   	   System.out.print(">>> ");
 			 while(str) {
 		   	   br = new BufferedReader(new InputStreamReader(System.in));
-		   	     String x = br.readLine();		  
-		   	      if(Integer.parseInt(x)>99999999 
+		   	     String x = br.readLine();
+		   	     
+		   	     boolean daynum = false;
+		       
+			     for(int i=0;i<x.length();i++) {
+					   if(x.charAt(i)<48||x.charAt(i)>57) {
+						daynum = true;
+					   }
+				 }
+		         if(daynum) {
+		    	   System.out.println("숫자이외의 문자를 입력하셨습니다. 다시 입력해주세요.");
+		         }
+		       
+		         else if(Integer.parseInt(x)>99999999 
 		   	       || x.length()!=8) 
 		   	       {
 		   		   System.out.println("잘못된 형식을 입력했습니다. 다시입력해주세요.");
@@ -369,13 +381,26 @@ public class DBSel {
 			  while(str) {
 		   	      br = new BufferedReader(new InputStreamReader(System.in));
 		   	      String y = br.readLine();
-		   	      if(Integer.parseInt(y)>99999999
+		   	     
+		   	      boolean timenum = false;
+			       
+			      for(int i=0;i<y.length();i++) {
+					   if(y.charAt(i)<48||y.charAt(i)>57) {
+						timenum = true;
+					   }
+				 }
+			     
+		         if(timenum) {
+		    	   System.out.println("숫자이외의 문자를 입력하셨습니다. 다시 입력해주세요.");
+		         }
+		   	      
+		         else if(Integer.parseInt(y)>99999999
 		   	      || y.length()!=8) 
 		   	      {
 		   		   System.out.println("잘못된 형식을 입력했습니다. 다시입력해주세요.");
 		   		   System.out.print(">>> ");
 		   	      }
-			   	   else if (Integer.parseInt(y.substring(4,6))>12 ||Integer.parseInt(y.substring(6,8))>31
+			   	  else if (Integer.parseInt(y.substring(4,6))>12 ||Integer.parseInt(y.substring(6,8))>31
 			   			     ||(Integer.parseInt(y.substring(4,6))==2 && Integer.parseInt(y.substring(6,8))>29)
 			   			     ||(Integer.parseInt(y.substring(4,6))==4 && Integer.parseInt(y.substring(6,8))>30)
 			   			     ||(Integer.parseInt(y.substring(4,6))==9 && Integer.parseInt(y.substring(6,8))>30)
@@ -391,12 +416,12 @@ public class DBSel {
 
 		   	      else {
 		   	    	  maxday = Integer.parseInt(y);
-		   		      System.out.println("\n"+Integer.toString(minday).substring(0,4)+"년"
-	    	                    +Integer.toString(minday).substring(4,6)+"월"
+		   		      System.out.println("\n"+Integer.toString(minday).substring(0,4)+"년 "
+	    	                    +Integer.toString(minday).substring(4,6)+"월 "
 	    	                    +Integer.toString(minday).substring(6,8)+"일"
 		    		            +"부터 "
-		    		            +Integer.toString(maxday).substring(0,4)+"년"
-	    	                    +Integer.toString(maxday).substring(4,6)+"월"
+		    		            +Integer.toString(maxday).substring(0,4)+"년 "
+	    	                    +Integer.toString(maxday).substring(4,6)+"월 "
 	    	                    +Integer.toString(maxday).substring(6,8)+"일" 
 		    		             +"까지 시간이 설정되었습니다."+"\n");
 		   	    	  str=false;
@@ -472,10 +497,10 @@ public class DBSel {
 
 		   	      else {
 		   	    	  maxtime = Integer.parseInt(z2);
-		   		      System.out.println("\n"+Integer.toString(mintime).substring(0,2)+"시"
+		   		      System.out.println("\n"+Integer.toString(mintime).substring(0,2)+"시 "
 		   	    	                    +Integer.toString(mintime).substring(2,4)+"분"
 		   		    		            +"부터 "
-		   	    	                    +Integer.toString(maxtime).substring(0,2)+"시"
+		   	    	                    +Integer.toString(maxtime).substring(0,2)+"시 "
 		   	    	                    +Integer.toString(maxtime).substring(2,4)+"분" 
 		   		    		             +"까지 시간이 설정되었습니다."+"\n");
 		   	    	  str=false;
@@ -707,10 +732,10 @@ public class DBSel {
          } }
 			  str=true;
 			  
-	       String where = String.format("TO_NUMBER(REPLACE(REPLACE(REPLACE(일자,'년'),'월',''),'일',''))>=%d ",minday)
-	                    + String.format("AND TO_NUMBER(REPLACE(REPLACE(REPLACE(일자,'년'),'월',''),'일',''))<=%d ",maxday)
-	                    + String.format("AND TO_NUMBER(REPLACE(REPLACE(시간,'시',''),'분',''))>=%d ",mintime)
-	                    + String.format("AND TO_NUMBER(REPLACE(REPLACE(시간,'시',''),'분',''))<=%d ",maxtime)
+	       String where = String.format("TO_NUMBER(REPLACE(REPLACE(REPLACE(일자,'년 '),'월 ',''),'일',''))>=%d ",minday)
+	                    + String.format("AND TO_NUMBER(REPLACE(REPLACE(REPLACE(일자,'년 '),'월 ',''),'일',''))<=%d ",maxday)
+	                    + String.format("AND TO_NUMBER(REPLACE(REPLACE(시간,'시 ',''),'분',''))>=%d ",mintime)
+	                    + String.format("AND TO_NUMBER(REPLACE(REPLACE(시간,'시 ',''),'분',''))<=%d ",maxtime)
 	                    + String.format("AND 지역 %s ", region)
 	                    + String.format("AND 지점명 %s ",store)
 	                    + String.format("AND 테마명 %s ", tema)
@@ -3286,8 +3311,10 @@ public void updateuserinfo() throws Exception{
 		 DBV.temainfo();
 	 }
  }
+
  
- public void registreservationselect() throws Exception{
+public void registreservationselect() throws Exception{
+ while(true) {
 	 DBA = new DBAcc();
 	 where = String.format("지역 ='%s' AND 지점명 = '%s' ", DBR.getRegion(),DBR.getStore());
 	 ResultSet tema = DBA.selectwhere("테마_정보", "*", where);
@@ -3309,69 +3336,183 @@ public void updateuserinfo() throws Exception{
 		 DBA.close();
         System.out.println("예약현황에 올리고 싶은 테마를 선택해주세요.이전으로 돌아가길 원하시면 'exit'를 입력해주세요.");
         boolean rsv = true;
+        boolean sametema = true;
         String temaselect="";
-       while(rsv) { 
-        System.out.print(">>> ");
-        temaselect = br.readLine();
-        if(temaselect.equals("exit")) {
-         DBV.reservationinfo();        	
-        }
+        String genreselect = "";
+ 
+
+	    
+	    while(rsv) { 
+          System.out.print(">>> ");
+          temaselect = br.readLine();
+          if(temaselect.equals("exit")) {
+          DBV.reservationinfo();        	
+         }
         
         DBA = new DBAcc();
         
         where = String.format("지역 ='%s'AND 지점명 ='%s'AND 테마명 = '%s'", DBR.getRegion(),DBR.getStore(),temaselect);
         ResultSet temaexist = DBA.selectwhere("테마_정보","*",where);
-        String genreselect = "";
+ 
         
         if(temaexist.next()) {
-        	genreselect = temaexist.getString("장르");
+        	if(!temaexist.getString("운영여부").equals("O")) {
+            	System.out.println("해당 테마는 운영하고 있지 않습니다.다시 입력해주세요.");
+            	DBA.close();
+            }
+        	else {		genreselect = temaexist.getString("장르");
         	rsv=false;
+        	DBA.close();
+        	}
          }
         else {
         	System.out.println("매장에 해당하는 테마가 없습니다.다시 입력해주세요.");
+        	DBA.close();
          }
         }
        
        boolean rsvdaytime =true;
        boolean rsvday =true;
        boolean rsvtime = true;
+       
        String day =" ";
        String time = "";
+       
      while(rsvdaytime){
-      while(rsvday) {
+      
+
        System.out.printf("%s테마의 예약현황을 등록하실 하실 날짜를 입력해주세요.\n", temaselect);
        System.out.println("날짜는 연,월,일 순서대로 숫자만 입력해주세요.");
        System.out.println("ex)2022년 05월 16일 -> 202201516");
+       System.out.println("이전으로 돌아가길 원한다면 'exit'를 입력해주세요.");
+
+  	 
+     while(rsvday) {
+       System.out.print(">>> ");
        day = br.readLine();
        
-       if(Integer.parseInt(day)>99999999 || day.length()!=8)	    {
-	   		   System.out.println("잘못된 형식을 입력했습니다. 다시입력해주세요.");
-	   		   System.out.print(">>> ");
-	   	       }
-	     	   else if (Integer.parseInt(day.substring(4,6))>12 ||Integer.parseInt(day.substring(6,8))>31
-		   			     ||(Integer.parseInt(day.substring(4,6))==2 && Integer.parseInt(day.substring(6,8))>29)
-		   			     ||(Integer.parseInt(day.substring(4,6))==4 && Integer.parseInt(day.substring(6,8))>30)
-		   			     ||(Integer.parseInt(day.substring(4,6))==9 && Integer.parseInt(day.substring(6,8))>30)
-		   			     ||(Integer.parseInt(day.substring(4,6))==11 && Integer.parseInt(day.substring(6,8))>30)
-		   			  ) {
-		   	    	System.out.println("날짜형식이 올바르지 않습니다. 다시 입력해주세요.");
-		   	    	System.out.print(">>> ");
-		   	      }
-	   	      else if (Integer.parseInt(x)<DBR.gettoday()) {
-	   	    	System.out.println("오늘보다 빠른날은 시작일로 선택할 수 없습니다. 다시입력해주세요.");
-	   	    	System.out.print(">>> ");
-	   	      }
-	 
-	   	      else {
-	   	    	  minday = Integer.parseInt(x);
-	   	    	  str=false;
-	   	      }
+       if(day.equals("exit")){
+       	DBV.reservationinfo();
+  	    }
+       
+       boolean daynum = false;
+       
+	   for(int i=0;i<day.length();i++) {
+			   if(day.charAt(i)<48||day.charAt(i)>57) {
+				daynum = true;
+			   }
 		   }
-		   str=true;
+       if(daynum) {
+    	   System.out.println("숫자이외의 문자를 입력하셨습니다. 다시 입력해주세요.");
+       }
+	   
+       else if(Integer.parseInt(day)>99999999 || day.length()!=8)	    {
+	   		   System.out.println("잘못된 형식을 입력했습니다. 다시입력해주세요.");
+	   }
+	   else if (Integer.parseInt(day.substring(4,6))>12 ||Integer.parseInt(day.substring(6,8))>31
+		     ||(Integer.parseInt(day.substring(4,6))==2 && Integer.parseInt(day.substring(6,8))>29)
+		     ||(Integer.parseInt(day.substring(4,6))==4 && Integer.parseInt(day.substring(6,8))>30)
+		     ||(Integer.parseInt(day.substring(4,6))==9 && Integer.parseInt(day.substring(6,8))>30)
+		     ||(Integer.parseInt(day.substring(4,6))==11 && Integer.parseInt(day.substring(6,8))>30)
+		   			  ) 
+	   {
+		   	    	System.out.println("날짜형식이 올바르지 않습니다. 다시 입력해주세요.");
+	   }
+	   	
+	   else if (Integer.parseInt(day)<DBR.gettoday()) {
+	   	    	System.out.println("오늘보다 빠른날은 시작일로 선택할 수 없습니다. 다시입력해주세요.");
+	   	}
+	 
+	   else { 
+		   day = day.substring(0,4) +"년 " +day.substring(4,6)+"월 "+day.substring(6,8)+"일";
+		   rsvday=false;
+	    }
+     }//여기까지가 day
+     System.out.printf("%s테마의 예약현황을 등록하실 하실 시간를 입력해주세요.\n", temaselect);
+     System.out.println("날짜는 시,분 순서대로 숫자만 입력해주세요.");
+     System.out.println("ex)10시10분 -> 202201516");
+     System.out.println("이전으로 돌아가길 원한다면 'exit'를 입력해주세요.");
+
+    	 
+     while(rsvtime) {
+          System.out.print(">>> ");
+	   	  
+          time = br.readLine();
+	   	  
+	       boolean timenum = false;
+	       
+		   for(int i=0;i<time.length();i++) {
+				   if(time.charAt(i)<48||time.charAt(i)>57) {
+					timenum = true;
+				   }
+			   }
+	       if(timenum) {
+	    	   System.out.println("숫자이외의 문자를 입력하셨습니다. 다시 입력해주세요.");
+	       }
+	       
+	       else if(Integer.parseInt(time)>9999 
+	   	   || Integer.parseInt(time)<0 
+	   	   || time.length()!=4) 
+	   	   {
+	   		System.out.println("잘못된 형식을 입력했습니다. 다시입력해주세요.");
+	   		}
+	   	  else if (Integer.parseInt(time.substring(0,2))>24 ||Integer.parseInt(time.substring(2,4))>59
+	   			   || (Integer.parseInt(time.substring(0,2))==24 &&Integer.parseInt(time.substring(2,4))>0)) {
+	   	    	   System.out.println("시간형식이 올바르지 않습니다. 다시 입력해주세요.");
+	   	   }
+	   	  else {
+	   	    	  time = time.substring(0,2) + "시 " + time.substring(2,4) +"분";
+                  rsvtime = false;
+	   	   }
+    		 
+    	 }//여기까지가 time while
+     DBA = new DBAcc();
+     where = String.format("일자 = '%s' AND 시간 = '%s' AND 지역 = '%s' AND 지점명 = '%s' AND 테마명 = '%s'", day,time,DBR.getRegion(),DBR.getStore(),temaselect);
+     ResultSet rs = DBA.selectwhere("테마_예약현황", "*",where);
+     
+     if(rs.next()) {
+    	 System.out.println("동일한 예약현황이 존재합니다. 다시 입력해주세요.");
+    	 DBA.close();
      }
-     }
-     }
-	 else {
+     
+     else {
+    	 DBA = new DBAcc();
+    	 String values = String.format("'%s','%s','%s','%s','%s','%s','O',' ',' ',' ',' ',' ',' ',' ','X'",day,time,DBR.getRegion(),DBR.getStore(),temaselect,genreselect);
+         int check =DBA.insert("테마_예약현황",values);
+         if(check==1) {
+        	 DBA.commit();
+        	 DBA.close();
+        	 System.out.println("예약현황 등록이 완료되었습니다.");
+        	 System.out.println("1.같은테마 더 등록하기");
+        	 System.out.println("2.다른테마 더 등록하기");
+        	 System.out.println("3.이전으로");
+        	 
+        	 boolean last = true;
+        	while(last) { 
+        	    System.out.println(">>> ");
+        	    switch(br.readLine()) {
+        	    case "1" :  break;
+        	    case "2" : rsvdaytime = false; break;
+        	    case "3" : DBV.temainfo(); break;
+        	    default : System.out.println("잘못된 값을 입력했습니다. 다시 입력해주세요.");
+        	 }
+           }
+        }
+         else {
+        	System.out.println("난 여기서 빠져나가야겠어...");
+        	System.out.println(">>> ");
+        	br.readLine();
+        	DBA.rollback();
+        	DBA.close();
+        	DBV.temainfo();
+         }
+      }
+     
+     }//여기까지가 day time while
+
+  }//여기까지가 테마존재 if
+   
+    else {
 		 DBA.close();
 		 System.out.println("보유한 테마가 없어 예약현황을 등록할 수 없습니다. 아무키나 입력하시면 이전으로 돌아갑니다.");
 		 System.out.print(">>> ");
@@ -3379,7 +3520,7 @@ public void updateuserinfo() throws Exception{
 		 DBV.temainfo();
 	 }
 	 
-	 
+}//all while 
 	 
  }
  public void ceologoutselect() throws Exception{
