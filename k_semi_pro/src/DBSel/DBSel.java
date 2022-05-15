@@ -8,6 +8,7 @@ import DBAcc.DBAcc;
 import DBRes.DBRes;
 import DBTemaview.DBTemaview;
 import DBView.DBView;
+import DBcon.DBCon;
 
 public class DBSel {
 	
@@ -19,11 +20,11 @@ public class DBSel {
 	public static boolean str = true;
 	public static String where = "";
 	
-    public void userrogin() throws Exception {
+    public void userlogin() throws Exception {
 			DBV = new DBView();
 			DBR = new DBRes();
 			
-	 	   System.out.println("            아이디를 입력해주세요.(이전으로 돌아가길 원하시면 exit를 입력해주세요.)               ");
+	 	   System.out.println("  아이디를 입력해주세요.(이전으로 돌아가길 원하시면 exit를 입력해주세요.)               ");
 	 	   System.out.print(">>> ");
 	 	   
 	        br = new BufferedReader(new InputStreamReader(System.in));
@@ -33,7 +34,7 @@ public class DBSel {
 	     	   DBV.rogin();
 	        }
 	 		
-	 	   System.out.println("            비밀번호를 입력해주세요.(이전으로 돌아가길 원하시면 exit를 입력해주세요.)              ");
+	 	   System.out.println("  비밀번호를 입력해주세요.(이전으로 돌아가길 원하시면 exit를 입력해주세요.)              ");
 	 	   System.out.print(">>> ");
 	 	   
 	        br = new BufferedReader(new InputStreamReader(System.in));
@@ -68,10 +69,67 @@ public class DBSel {
 	        }
 	        else {
 	        System.out.println ("아이디 또는 비밀번호가 다릅니다.");
-	        this.userrogin();
+	        this.userlogin();
 	        }
 	 }
-    public void viewteamslect() throws Exception{
+    
+    public void ceorogin() throws Exception{
+    	DBV = new DBView();
+		DBR = new DBRes();
+		
+ 	   System.out.println("  아이디를 입력해주세요.(이전으로 돌아가길 원하시면 exit를 입력해주세요.)               ");
+ 	   System.out.print(">>> ");
+ 	   
+        br = new BufferedReader(new InputStreamReader(System.in));
+        String ceoid = br.readLine();
+        
+        if(ceoid.equals("exit")) {
+     	   DBV.rogin();
+        }
+ 		
+ 	   System.out.println("  비밀번호를 입력해주세요.(이전으로 돌아가길 원하시면 exit를 입력해주세요.)              ");
+ 	   System.out.print(">>> ");
+ 	   
+        br = new BufferedReader(new InputStreamReader(System.in));
+        String ceopw = br.readLine();
+        
+        if(ceopw.equals("exit")) {
+     	   DBV.rogin();
+        }
+        
+        DBA = new DBAcc();
+        
+        boolean check = DBA.usercheck(ceoid, ceopw);
+        
+        DBA.close();
+        
+        if(check) {
+        System.out.println ("로그인에 성공하였습니다.");
+         DBR.setCeoid(ceoid);;
+         DBR.setCeopw(ceopw);
+         
+ 		String whereid = String.format("아이디 = '%s'", ceoid);
+ 		DBA = new DBAcc();
+ 		ResultSet rs2 = DBA.selectwhere("방탈출_사장_계정", "이름,개인_전화번호,지점_전화번호,지역,지점명,지점주소",whereid);
+ 		while(rs2.next()) {
+ 			DBR.setCeoname(rs2.getString("이름"));
+ 			DBR.setCeophone(rs2.getString("개인_전화번호"));
+ 			DBR.setStorenum(rs2.getString("지점_전화번호"));
+ 			DBR.setRegion(rs2.getString("지역"));
+ 			DBR.setStore(rs2.getString("지점명"));
+ 			DBR.setAdress(rs2.getString("지점주소"));
+ 		}
+        
+ 		DBA.close();
+        DBV.ceosystem();
+        }
+        else {
+        System.out.println ("아이디 또는 비밀번호가 다릅니다.");
+        this.userlogin();
+        }
+    	
+    }
+    public void viewtemaaselect() throws Exception{
     	DBV = new DBView();
     	
         System.out.println("           테마보기            ");
@@ -100,7 +158,7 @@ public class DBSel {
     		       
     		       DBA = new DBAcc();
     		       where = String.format("테마명 = '%s'",tema);
-    		       ResultSet rs = DBA.selectwhere("테마정보", "*",where);
+    		       ResultSet rs = DBA.selectwhere("테마_정보", "*",where);
     		       if(!rs.next()) {
     		    	   DBA.close();
     		    	   System.out.println("같은 테마명의 테마가 없습니다.");
@@ -126,12 +184,14 @@ public class DBSel {
     		       
     		       DBA = new DBAcc();
     		       where = String.format("지점명 = '%s'",store);
-    		       ResultSet rs = DBA.selectwhere("테마정보", "*",where);
+    		       ResultSet rs = DBA.selectwhere("테마_정보", "*",where);
     		       if(!rs.next()) {
     		    	   DBA.close();
     		    	   System.out.println("같은 지점명의 테마가 없습니다.");
     			       System.out.print(">>> ");
     			    
+    			       
+    			       
     		    	}
     		       else {
     		     DBA.close();
@@ -155,7 +215,7 @@ public class DBSel {
     		       
     		       DBA = new DBAcc();
     		       where = String.format("지역 = '%s'",region);
-    		       ResultSet rs = DBA.selectwhere("테마정보", "*",where);
+    		       ResultSet rs = DBA.selectwhere("테마_정보", "*",where);
     		       if(!rs.next()) {
     		    	   DBA.close();
     		    	   System.out.println("같은 지역의 테마가 없습니다.");
@@ -184,7 +244,7 @@ public class DBSel {
     		       
     		       DBA = new DBAcc();
     		       where = String.format("장르 = '%s'",genre);
-    		       ResultSet rs = DBA.selectwhere("테마정보", "*",where);
+    		       ResultSet rs = DBA.selectwhere("테마_정보", "*",where);
     		       if(!rs.next()) {
     		    	   DBA.close();
     		    	   System.out.println("같은 장르의 테마가 없습니다.");
@@ -666,7 +726,7 @@ public class DBSel {
 	 DBA = new DBAcc();
 	 DBV = new DBView();
 	 
-	 ResultSet rs = DBA.selectorder("방탈출_지점", "*","지역");
+	 ResultSet rs = DBA.selectorder("방탈출_지점", "지역,지점명,주소,전화번호","지역");
 	 System.out.println("지역    지점명    주소     전화번호");
 	 while(rs.next()) {
 		 System.out.print(rs.getString(1)+"\t");
@@ -676,7 +736,7 @@ public class DBSel {
 	 }
 	 DBA.close();
 	 System.out.println("지점을 확인했습니다. 아무키나 입력하시면 이전으로 돌아갑니다.");
-	 System.out.println(">>> .");
+	 System.out.println(">>> ");
 	 br.readLine();
 	 DBV.usersystem();
  }
@@ -765,19 +825,22 @@ public void reservationtemaselect() throws Exception{
 				DBA.close();
 				DBA = new DBAcc();
 				String where2 = String.format("지역 = '%s' AND 지점명 = '%s' AND 테마명 = '%s' ",reservation[2],reservation[3],reservation[4]);
-				ResultSet rs4 = DBA.selectwhere("테마정보", "최소인원,최대인원",where2);
+				ResultSet rs4 = DBA.selectwhere("테마_정보", "최소인원,최대인원",where2);
 				String min = "";
 			    String max = "";
 				while(rs4.next()) { 
 			    min = rs4.getString("최소인원");
 				max = rs4.getString("최대인원");}
 				String question = String.format("최소인원 : %s 최대인원 : %s",min,max);
-				System.out.println("예약이 가능합니다. 몇명 예약하시겠습니까? ");
+				System.out.println("예약이 가능합니다. 몇명 예약하시겠습니까? (이전으로 돌아가시고 싶으시면 'exit'를 입력해주세요.)");
 				System.out.println(question);
 				System.out.println(">>> ");
 				
 				while(true) {
 				  String numstr =br.readLine();
+				  if(numstr.equals("exit")) {
+					  DBV.usersystem();
+				  }
 				  
 				  boolean peoplenum = false;
 				  boolean peoplenum2 = false;
@@ -807,7 +870,7 @@ public void reservationtemaselect() throws Exception{
 					DBA = new DBAcc();
 					String price = String.format("가격%s", numstr);
 					String pricewhere = String.format("지역 = '%s'AND 지점명 ='%s'AND 테마명='%s'", reservation[2],reservation[3],reservation[4]);
-					ResultSet rs2 = DBA.selectwhere("테마정보",price,pricewhere);
+					ResultSet rs2 = DBA.selectwhere("테마_정보",price,pricewhere);
 					String money="";
 					
 					while(rs2.next()) {
@@ -815,12 +878,18 @@ public void reservationtemaselect() throws Exception{
 					}
 					DBR = new DBRes();
 					String reservationNum = DBR.gettodaysec();
-					String set = String.format("예약번호 = '%s',예약자명 = '%s',예약자_아이디 = '%s',예약자_전화번호='%s',예약인원 = %d , 예약가격 = '%s', 예약시간= '%s',예약가능_여부 = 'X'",reservationNum,DBR.getUsername(),DBR.getUserid(),DBR.getUserphone(),numstr,money,DBR.gettodaymin());
+					String set = String.format("예약번호 = '%s',예약자명 = '%s',예약자_아이디 = '%s',예약자_전화번호='%s',예약인원 = %s , 예약가격 = '%s', 예약시간= '%s',예약가능_여부 = 'X',예약여부 ='O'",reservationNum,DBR.getUsername(),DBR.getUserid(),DBR.getUserphone(),numstr,money,DBR.gettodaymin());
 					DBA.close();
 					DBA = new DBAcc();
-					int ok = DBA.update("테마_예약현황",set,where);
-					//System.out.println(ok);
-					      if(ok==1) {
+					
+					////////////////////////////////////////////////////
+				      int ok = DBA.update("테마_예약현황",set,where);/////
+					/////////////////////////////////////////////////
+					System.out.println(ok);//////////////////////////
+					//아니 업데이트가 됐으니까 예약성공문이나오는건데 도대체 뭐가문제지..///////
+					/////////////////////////////////////////////////
+					
+					if(ok==1) {
 						    DBA = new DBAcc();
 					        ResultSet rs3 = DBA.selectwhere("테마_예약현황", "일자,시간,지역,지점명,테마명,예약번호,예약가격", where);
 					        
@@ -898,7 +967,7 @@ public void canclereservationselect() throws Exception{
 		 rs2.close();
 		 System.out.printf("%s님의 예약현황을 확인했습니다.\n",DBR.getUsername());
 		 
-	System.out.println("예약 취소를 원하시는 테마의 일자,시간,지역,지점명,테마명과 본인의 이름,예약번호를 띄어쓰기 기준으로 입력해주세요.");
+	System.out.println("예약 취소를 원하시는 테마의 일자,시간,지역,지점명,테마명,예약번호를 띄어쓰기 기준으로 입력해주세요.");
 	System.out.println("---------------------------------------------------------"); 
 	System.out.println("|ex)2022년05월15일 20시20분 강남 넥스트에디션 메모리 20220514065211|");
 	System.out.println("----------------------------------------------------------"); 
@@ -931,7 +1000,7 @@ public void canclereservationselect() throws Exception{
 				
 				if(input2.equals("Y")) {
 				DBA = new DBAcc();
-				String set ="예약가능_여부='O',예약번호=' ',예약자명=' ',예약자_아이디 = ' ',예약자_전화번호 = ' ',예약인원= ' ' ,예약가격=' ',예약시간=' '";
+				String set ="예약가능_여부='O',예약번호=' ',예약자명=' ',예약자_아이디 = ' ',예약자_전화번호 = ' ',예약인원= ' ' ,예약가격=' ',예약시간=' ',예약여부='X'";
 				int result = DBA.update("테마_예약현황", set, where);
 				DBA.close();
 				    if(result==1) {
@@ -967,6 +1036,13 @@ public void canclereservationselect() throws Exception{
 		
 	}
 	}
+	 else {
+		 System.out.printf("현재 %s님이 예약하신 테마는 없습니다.\n",DBR.getUsername());
+		 System.out.println("아무키나 입력하시면 이전으로 돌아갑니다.");
+		 System.out.println(">>> ");
+		 br.readLine();
+		 DBV.usersystem();
+	 }
    
 }
     public void reviewselect() throws Exception{
@@ -978,8 +1054,9 @@ public void canclereservationselect() throws Exception{
               System.out.println("2.특정테마만보기                 ");
               System.out.println("3.특정지점만보기                 ");
               System.out.println("4.특정지역만보기                 ");
-              System.out.println("5.특정장르만보기                  ");
-              System.out.println("6.돌아가기                  ");
+              System.out.println("5.특정장르만보기                 ");
+              System.out.println("6.내후기만보기                 ");
+              System.out.println("7.돌아가기                  ");
               System.out.print(">>> ");
               
                br = new BufferedReader(new InputStreamReader(System.in));
@@ -1100,8 +1177,31 @@ public void canclereservationselect() throws Exception{
 	    	         }
                  }	
                 break;
-
-                case "6" :
+                 
+             case "6" :
+            	 DBA = new DBAcc();
+            	 DBR = new DBRes();
+                 where = String.format("닉네임 = '%s'",DBR.getUsernickname());
+                 ResultSet rs = DBA.selectwhere("테마_후기", "*",where);
+      
+                 if(!rs.next()) {
+    	             DBA.close();
+    	             System.out.println("작성하신 후기가 없습니다.");
+    	             System.out.println("아무키나 입력하시면 이전으로 돌아갑니다.");
+	                 System.out.print(">>> ");
+	                 br.readLine();
+	                 DBV.review();
+	             }
+                 
+                 else {
+                  DBA.close();
+    	          DBT = new DBTemaview();
+		          DBT.viewreview("닉네임",DBR.getUsernickname());
+    	         }
+            	 
+            	 break;
+            	 
+                case "7" :
                 	DBV.review();
 	            break;
 	
@@ -1157,7 +1257,7 @@ public void canclereservationselect() throws Exception{
 			String genre = "";
 			DBA = new DBAcc();
 			String where = String.format("지역 = '%s' AND 지점명 = '%s' AND  테마명 = '%s'",review[0],review[1],review[2]);
-			ResultSet rs = DBA.selectwhere("테마정보", "*",where);
+			ResultSet rs = DBA.selectwhere("테마_정보", "*",where);
 			if(rs.next()) {
 				genre = rs.getString("장르");
 				DBA.close();
@@ -1722,7 +1822,7 @@ public void updateuserinfo() throws Exception{
 					String input = br.readLine();
 					
 					if(input.equals("exit")) {
-						 DBV.start();
+						 DBV.userinfo();
 					     }
 					
 					boolean st2 = false;
@@ -1768,7 +1868,7 @@ public void updateuserinfo() throws Exception{
 				 		       DBA.close();
 				 		       
 				 		       DBR.setUserphone(input);
-				 		       System.out.printf("전화번호가 변경되었습니다.%s개의 예약현황 전화번호 정보가 변경되었습니다.+\n",temareser);
+				 		       System.out.printf("전화번호가 변경되었습니다.%s개의 예약현황 전화번호 정보가 변경되었습니다.\n",temareser);
 				 		       System.out.println("아무키나 입력하시면 이전으로 이동합니다.");
 				 	 		   System.out.print(">>> ");
 				               br.readLine();
@@ -1829,7 +1929,7 @@ public void updateuserinfo() throws Exception{
 			 		       DBA.close();
 			 		       
 			 		       DBR.setUsernickname(input);
-			 		       System.out.printf("닉네임이 변경되었습니다.%s개의 테마후기 닉네임정보가 변경되었습니다.+\n",temareview);
+			 		       System.out.printf("닉네임이 변경되었습니다.%s개의 테마후기 닉네임정보가 변경되었습니다.\n",temareview);
 			 		       System.out.println("아무키나 입력하시면 이전으로 이동합니다.");
 			 	 		   System.out.print(">>> ");
 			               br.readLine();
@@ -1947,6 +2047,1353 @@ public void updateuserinfo() throws Exception{
 	 DBR.setUsernickname("");
 	 DBR.setUserphone("");
 	 DBR.setUserpw("");
+	 
+	 DBV.start();
+ }
+ 
+ public void registstoreselect() throws Exception{
+	 DBA = new DBAcc();
+	 where = String.format("사장_아이디 = '%s'",DBR.getCeoid()); 
+	 ResultSet store = DBA.selectwhere("방탈출_지점", "*",where);
+	 if(store.next()) {
+		 DBA.close();
+		 System.out.println("이미 매장을 등록하셨습니다.(1계정당 최대 1개의 매장)");
+		 System.out.println("아무키나 입력하시면 이전으로 돌아갑니다.");
+		 System.out.print(">>> ");
+		 br.readLine();
+		 DBV.storeinfo();
+	 }
+	 else {
+		 DBA.close();
+		 System.out.println("매장 등록이 가능합니다.");
+		 System.out.println("매장을 등록하시면 테마 등록이 가능합니다.");
+		 System.out.println("매장 등록은 회원가입 하신 정보로 자동으로 등록됩니다.");
+		 System.out.println("매장을 등록을 원하시면 'Y'를, 원하시지 않으시면 이외의 다른키를 입력해주세요.");
+		 System.out.print(">>> ");
+		 String input = br.readLine();
+		 if(input.equals("Y")) {
+			 DBA = new DBAcc();
+			 String values = String.format("'%s','%s','%s','%s','%s'",DBR.getRegion(),DBR.getStore(),DBR.getAdress(),DBR.getStorenum(),DBR.getCeoid());
+			 int result = DBA.insert("방탈출_지점","지역,지점명,주소,전화번호,사장_아이디", values);
+			 if(result==1) {
+				 System.out.println("매장이 등록되었습니다.");
+				 System.out.println("매장을 수정을 원하시면 회원정보를 변경하시고 등록매장 삭제 후 재등록 부탁드립니다.");
+				 System.out.println("아무키나 누르시면 이전으로 돌아갑니다.");
+				 System.out.print(">>> ");
+				 DBA.commit();
+				 DBA.close();
+				 br.readLine();
+				 DBV.storeinfo();
+			 }
+		  }
+		 else {
+			 System.out.println("매장 등록을 취소하셨습니다. 이전으로 돌아갑니다.");
+			 DBV.storeinfo();
+		 }
+		 
+	 }
+ }
+ public void checkstoreselect() throws Exception{
+	 DBA = new DBAcc();
+	 where = String.format("사장_아이디 = '%s'", DBR.getCeoid());
+	 ResultSet store = DBA.selectwhere("방탈출_지점", "*", where);
+	 if(store.next()) {
+		 System.out.println("지역  지점명  주소   전화번호  사장_아이디");
+		 System.out.print(store.getString(1)+"\t"); 
+		 System.out.print(store.getString(2)+"\t") ;
+		 System.out.print(store.getString(3)+"\t");
+		 System.out.print(store.getString(4)+"\t"); 
+		 System.out.print(store.getString(5)+"\n"); 
+		 System.out.println("매장을 확인했습니다.");
+		 System.out.println("아무키나 누르시면 이전으로 돌아갑니다.");
+		 System.out.print(">>> ");
+		 DBA.commit();
+		 DBA.close();
+		 br.readLine();
+		 DBV.storeinfo();
+	 }
+	 else {
+		 System.out.println("매장이 존재하지 않습니다.");
+		 System.out.println("아무키나 누르시면 이전으로 돌아갑니다.");
+		 System.out.print(">>> ");
+		 DBA.rollback();
+		 DBA.close();
+		 br.readLine();
+		 DBV.storeinfo();
+	   }
+		
+ }
+ 
+ public void dropstoreslect() throws Exception{
+	 DBA = new DBAcc();
+	 where = String.format("사장_아이디 = '%s'", DBR.getCeoid());
+	 ResultSet store = DBA.selectwhere("방탈출_지점", "*", where);
+	 if(store.next()) { 
+		 System.out.println("지역  지점명  주소   전화번호  사장_아이디");
+		 System.out.print(store.getString(1)+"\t"); 
+		 System.out.print(store.getString(2)+"\t") ;
+		 System.out.print(store.getString(3)+"\t");
+		 System.out.print(store.getString(4)+"\t"); 
+		 System.out.print(store.getString(5)+"\n"); 
+		 System.out.println("등록하신 매장을 삭제하겠습니까?");
+		 System.out.println("삭제를 원하시면 'Y'를 눌러주세요. 이전으로 돌아가시려면 'Y'이외의 아무키나 입력해주세요.");
+		 System.out.print(">>> ");
+		 DBA.close();
+		 
+		 if(br.readLine().equals("Y")) {
+            DBA = new DBAcc();
+            int check = DBA.delete("방탈출_지점", where);
+            if(check==1) { 
+            	System.out.println("등록하신 매장이 삭제되었습니다.");
+            	
+            	DBA.commit();
+            	DBA.close();
+            	
+            	DBA = new DBAcc();
+            	where = String.format("지역 = '%s' AND 지점명 = '%s'",DBR.getRegion(),DBR.getStore());
+            	int reservation = DBA.delete("테마_예약현황", where);
+            	DBA.commit();
+            	DBA.close();
+            	
+            	DBA = new DBAcc();
+            	int temainfochange = DBA.update("테마_정보", "운영여부 = 'X'", where);
+            	DBA.commit();
+            	System.out.printf("%s개의 테마예약현황이 삭제되었으며 %s개의 테마의 운영여부가 'X'로 바뀌었습니다.",reservation,temainfochange);
+   		        System.out.println("아무키나 누르시면 이전으로 돌아갑니다.");
+   		        System.out.print(">>> ");
+   		        DBA.commit();
+   		        DBA.close();
+   		        br.readLine();
+   		        DBV.storeinfo();
+              }
+            else {
+            	System.out.println("매장 삭제에 실패하였습니다.");
+   		        System.out.println("아무키나 누르시면 이전으로 돌아갑니다.");
+   		        System.out.print(">>> ");
+   		        DBA.rollback();
+   		        DBA.close();
+   		        br.readLine();
+   		        DBV.storeinfo();
+            }
+		}
+		 else {
+		        DBV.storeinfo();
+         }
+		 
+	 }
+	 else {
+		 System.out.println("매장이 존재하지 않습니다.");
+		 System.out.println("아무키나 누르시면 이전으로 돌아갑니다.");
+		 System.out.print(">>> ");
+		 DBA.rollback();
+		 DBA.close();
+		 br.readLine();
+		 DBV.storeinfo();
+	   }
+	 
+ }
+ 
+ public void registtemaselect() throws Exception{
+	 
+	 DBA = new DBAcc();
+	 where = String.format("사장_아이디 = '%s'", DBR.getCeoid());
+	 ResultSet store = DBA.selectwhere("방탈출_지점", "*", where);
+	 
+	 if(store.next()) {
+		 DBA.close();
+		 
+		 System.out.println("등록하실 테마명을 입력해주세요.(최대30자)");
+		 System.out.println("이전으로 돌아가고 싶다면 'exit'를 입력해주세요.");
+		 
+		 boolean registtrue = true;
+		
+		 String temaname= " ";
+		 
+		 while(registtrue) {
+		   System.out.print(">>> ");
+		   temaname = br.readLine();
+		   
+		   if (temaname.equals("exit")) {
+			   DBV.temainfo();
+			    }
+		   
+		   if(temaname.length()>30 || temaname.length()==0) {
+			 System.out.println("테마명의 길이가 올바르지 않습니다. 다시 입력해주세요.");
+	       }
+		   
+		   
+	        else {
+	           DBA = new DBAcc();
+			   where = String.format("지역 = '%s' AND 지점명 = '%s' AND 테마명='%s'", DBR.getRegion(),DBR.getStore(),temaname);
+			   ResultSet temars =DBA.selectwhere("테마_정보","*", where);
+	           
+			   if(temars.next()) {
+			   System.out.println("같은 지역,매장에 이미 존재하는 테마명입니다.");
+			   }
+		         
+		       else {
+		         registtrue = false;
+		       }
+	          }
+		   }
+		 
+		 registtrue = true;
+		 
+		 System.out.println("등록하실 테마의 장르를 입력해주세요.(최대10자)");
+		 System.out.println("이전으로 돌아가고 싶다면 'exit'를 입력해주세요.");
+		 
+		 String genre = " ";
+		 while(registtrue) {
+		   System.out.print(">>> ");
+		   genre = br.readLine();
+		   
+		   if (genre.equals("exit")) {
+			   DBV.temainfo();
+			    }
+
+		   if(genre.length()>10 || genre.length()==0) {
+			 System.out.println("장르의 길이가 올바르지 않습니다. 다시 입력해주세요.");
+	       }
+		   
+		   else if (genre.equals("exit")) {
+			   DBV.temainfo();
+		    }
+		   
+		   
+	        else {
+		         registtrue = false;
+		       }
+	        
+		 }
+		 
+		 
+		 registtrue = true;
+		 
+		 System.out.println("테마의 난이도를 입력해주세요.(범위 0~5,숫자와 '.'만 입력해주세요.소수점 첫째자리까지 반올림하여 반영됩니다.)");
+		 System.out.println("이전으로 돌아가고 싶다면 'exit'를 입력해주세요.");
+	     
+		 String def= " ";
+		 
+		 while(registtrue) {
+		   System.out.print(">>> ");
+		   def = br.readLine();
+		  
+		   if(def.equals("exit")) {
+			   DBV.temainfo();
+		   }
+		   
+		   boolean numpoint = false;
+		   boolean numpoint2 = true;
+		   boolean numpoint3 = false;
+		   
+		   for(int i=0;i<def.length();i++) {
+			   if((def.charAt(i)<48||def.charAt(i)>57)&&def.charAt(i)!=46) {
+				   numpoint = true;
+			   }
+		   }
+		   
+		   for(int i=0;i<def.length();i++) {
+			   if(def.charAt(i)!=46){
+				   numpoint2 = false;
+			   }
+		   }
+		   
+		   if(def.charAt(0)=='.') {
+			   numpoint3 = true;
+		   }
+		   
+		   if(numpoint) {
+		   System.out.println("숫자와 '.'이외의 문자를 입력하셨습니다. 다시 입력해주세요.");
+			   
+		   }
+		   else if(numpoint2) {
+		   System.out.println("'.'만 입력하신건 난이도에 반영할 수 없습니다. 숫자형태로 입력해주세요.");
+			   
+		   }
+		   else if(numpoint3) {
+		   System.out.println("'.'으로 시작하는 형태는 난이도에 반영 할 수 없습니다 숫자형태로 입력해주세요.");
+		   }
+		   
+		   else {
+		     Double point = Double.parseDouble(def);
+		
+		      if(point<0 || point>5) {
+	                  System.out.println("범위를 벗어났습니다.다시 입력해주세요.");
+		       }  
+		      else {
+		       def = String.format("%.1f", point);
+			   registtrue = false;
+		       }
+		   
+	       }
+		 }
+		 
+		 registtrue = true;
+		 
+		 
+
+		 System.out.println("테마의 최소인원을 입력해주세요.(범위 1~6숫자만 입력해주세요.)");
+		 System.out.println("이전으로 돌아가고 싶다면 'exit'를 입력해주세요.");
+		 
+		 String peoplemin = " ";
+		 
+		 while(registtrue) {
+	     System.out.print(">>> ");
+	     peoplemin = br.readLine();
+	     
+	     if(peoplemin.equals("exit")) {
+	    	 DBV.temainfo();
+		   }
+	     
+	     boolean peoplenum = false;
+		 boolean peoplenum2 = false;
+		  
+		 for(int i=0;i<peoplemin.length();i++) {
+			   if(peoplemin.charAt(i)<48||peoplemin.charAt(i)>57) {
+				   peoplenum = true;
+			   }
+		 }
+		 
+		 if(peoplemin.length()!=1) {
+			   peoplenum2 = true;
+		 }
+		 
+		 if(peoplenum) {   
+			   System.out.println("숫자만 입력가능합니다.다시 입력해주세요.");
+		 }
+		   
+		 else if(peoplenum2) {
+			   System.out.println("글자수가 맞지 않습니다.다시 입력해주세요.");
+		  }
+		 
+		 else if(Integer.parseInt(peoplemin)<1 || Integer.parseInt(peoplemin)>6){
+			   System.out.println("인원이 올바르지 않습니다.다시 입력해주세요.");
+		 }
+		 else {
+			 registtrue = false;
+		 }
+        }
+		 registtrue = true;
+
+		 
+		 System.out.printf("테마의 최대인원을 입력해주세요.(범위 %s~6숫자만 입력해주세요.)\n",peoplemin);
+		 System.out.println("이전으로 돌아가고 싶다면 'exit'를 입력해주세요.");
+		 
+		 String peoplemax = "";
+		 
+		 while(registtrue) {
+	     
+	     System.out.print(">>> ");
+	     
+	     peoplemax = br.readLine();
+	     
+	     if(peoplemax.equals("exit")) {
+	    	 DBV.temainfo();
+		   }
+	     
+	     boolean peoplenum = false;
+		 boolean peoplenum2 = false;
+		  
+		 for(int i=0;i<peoplemax.length();i++) {
+			   if(peoplemin.charAt(i)<48||peoplemin.charAt(i)>57) {
+				   peoplenum = true;
+			   }
+		 }
+		 
+		 if(peoplemax.length()!=1) {
+			   peoplenum2 = true;
+		 }
+		 
+		 if(peoplenum) {   
+			   System.out.println("숫자만 입력가능합니다.다시 입력해주세요.");
+		 }
+		   
+		 else if(peoplenum2) {
+			   System.out.println("글자수가 맞지 않습니다.다시 입력해주세요.");
+		  }
+		 
+		 else if(Integer.parseInt(peoplemax)<Integer.parseInt(peoplemin) || Integer.parseInt(peoplemin)>6){
+			   System.out.println("인원이 올바르지 않습니다.다시 입력해주세요.");
+		 }
+		 else {
+			 registtrue = false;
+		 }
+      }
+		 
+     registtrue = true;
+     
+    
+	 
+	 String[] price = {" ","불가능","불가능","불가능","불가능","불가능","불가능"};
+	 
+	 for(int i=Integer.parseInt(peoplemin);i<=Integer.parseInt(peoplemax);i++) {
+		 System.out.printf("%s인가의 가격을 입력해주세요.(숫자만 입력해주세요.)\n",i);
+		 System.out.println("이전으로 돌아가고 싶다면 'exit'를 입력해주세요.");
+	 while(registtrue) {
+        System.out.print(">>> ");
+        price[i] = br.readLine();
+	     
+        if(price[i].equals("exit")) {
+        	DBV.temainfo();
+		 }
+     
+       boolean pricetrue = false;
+     
+       for(int j=0;j<price[i].length();j++) {
+		   if(price[i].charAt(j)<48||price[i].charAt(j)>57) {
+			   pricetrue = true;
+		   }
+	    }
+       
+       if(pricetrue) {
+    	   System.out.println("가격에 숫자 이외의 문자가 올 수 없습니다.다시 입력해주세요.");
+       }
+     
+    
+	 else {
+		 String priceprime = price[i];
+		 price[i] = priceprime + "원";
+		 registtrue = false;
+	  }
+	 }
+	 registtrue = true;
+    }
+	 
+     registtrue = true;
+	 System.out.println("테마 운영여부를 입력해주세요.(운영하신다면 'O',운영하지 않으신다면 'X' 를 한글자만 입력해주세요.");
+	 System.out.println("이전으로 돌아가고 싶다면 'exit'를 입력해주세요.");
+     
+	 String open = "";
+	 
+	 while(registtrue) {
+	        System.out.print(">>> ");
+	        open= br.readLine();
+		     
+	        if(open.equals("exit")) {
+	        	DBV.temainfo();
+			 }
+	        
+	         if(open.length()!=1) {
+	        	 System.out.println("글자의 길이를 초과하셨습니다. 다시 입력해주세요.");
+	         }
+	         
+	         else if(!(open.equals("X")||open.equals("O"))) {
+	       	 System.out.println("'O'또는 'X'이외의 값을 입력하셨습니다.");	
+	         }
+	         
+	         else {
+			 registtrue = false;
+		    }
+		 }
+     
+	
+     DBA = new DBAcc();
+     
+     String values = String.format("'%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s'",DBR.getRegion(),DBR.getStore(),temaname,genre,def,peoplemin,peoplemax,price[1],price[2],price[3],price[4],price[5],price[6],open);
+     int result = DBA.insert("테마_정보",values);
+     
+     if(result==1) {
+    	 System.out.printf("%s 테마등록에 성공했습니다.\n",temaname);
+    	 System.out.println("아무키나 입력하시면 이전으로 돌아갑니다.");
+    	 System.out.println(">>> ");
+    	 DBA.commit();
+    	 DBA.close();
+    	 br.readLine();
+    	 DBV.temainfo();
+      }
+     
+     else {
+    	 System.out.println("테마등록에 실패했습니다.이 메서드만 2시간을 짰는데 ㅎ...");
+    	 System.out.println("아무키나 입력하시면 이전으로 돌아갑니다.");
+    	 System.out.println(">>> ");
+    	 DBA.rollback();
+    	 DBA.close();
+    	 br.readLine();
+    	 DBV.temainfo();
+     }
+  }
+	 else {
+		 System.out.println("매장을 등록해야 테마를 등록할 수 있습니다.");
+		 System.out.println("아무키나 누르시면 이전으로 돌아갑니다.");
+		 System.out.print(">>> ");
+		 DBA.rollback();
+		 DBA.close();
+		 br.readLine();
+		 DBV.temainfo();
+	   }
+		
+	 
+ }
+ 
+ public void updatetemaselect() throws Exception{
+	 DBA = new DBAcc();
+	 where = String.format("지역 ='%s' AND 지점명 = '%s' ", DBR.getRegion(),DBR.getStore());
+	 ResultSet tema = DBA.selectwhere("테마_정보", "*", where);
+	 if(tema.next()) {
+		 System.out.println("                                                          보유한 테마  정보                                                                        ");
+		 System.out.println("지역     지점명           테마명    장르     난이도  최소인원   최대인원     1인가     2인가    3인가   4인가    5인가     6인가  운영여부");
+		 for(int i=1;i<15;i++) {
+		 System.out.print(tema.getString(i)+"\t");
+		 }
+		 System.out.print("\n");
+		 
+		 while(tema.next()) {
+			 for(int i=1;i<15;i++) {
+				 System.out.print(tema.getString(i)+"\t");
+				 }
+			System.out.print("\n");
+		 }
+		 
+		 DBA.close();
+		 
+		 System.out.println("수정하실 테마명을 입력해주세요.이전으로 돌아가시려면 exit를 입력해주세요.");
+        
+		 boolean uptematrue = true;
+		 
+         String updatetema = "";
+         
+         while(uptematrue) {
+	       System.out.print(">>> ");
+		   updatetema = br.readLine();
+		   
+		   if(updatetema.equals("exit")) {
+				 DBV.temainfo();
+		   }
+		   
+		   DBA = new DBAcc();
+		   where = String.format("지역 ='%s' AND 지점명 ='%s' AND 테마명 ='%s'", DBR.getRegion(),DBR.getStore(),updatetema);
+		   ResultSet updatetemars = DBA.selectwhere("테마_정보", "*", where);
+		   if(updatetemars.next()) {
+				 System.out.println("지역     지점명           테마명    장르     난이도  최소인원   최대인원     1인가     2인가    3인가   4인가    5인가     6인가  운영여부");
+			          for(int i=1;i<15;i++) {
+					 System.out.print(updatetemars.getString(i)+"\t");
+					 }
+					 System.out.print("\n");
+					 DBA.close();
+					 uptematrue=false;
+			}
+		   else {
+			   System.out.println("매장 내 존재하지 않는 테마입니다.");
+			   DBA.close();
+		    }
+		 }
+         
+         
+         System.out.println("수정을 원하시는 부분을 선택해주세요.");
+         System.out.print("1.테마명   ");
+         System.out.print("2.장르   ");
+         System.out.print("3.난이도   ");
+         System.out.print("4.최소인원   ");
+         System.out.print("5.최대인원   ");
+         System.out.print("6.가격   ");
+         System.out.print("7.운영여부   ");
+         System.out.print("8.이전으로\n");
+         System.out.print(">>> ");
+         String menu = br.readLine();
+         
+         switch(menu){
+         
+         case "1" :
+         System.out.println("새로운 테마명을 입력해주세요.(최대 30자) 이전으로 돌아가고 싶으시면 'exit'를 입력해주세요.");
+
+        while(true){ 
+          System.out.print(">>> ");
+          
+          String newtema = br.readLine();
+           if (newtema.equals("exit")) {
+			   DBV.temainfo();
+			    }
+		   
+		   if(newtema.length()>30 || newtema.length()==0) {
+			 System.out.println("테마명의 길이가 올바르지 않습니다. 다시 입력해주세요.");
+	       }
+		   
+		   
+	       else {
+            DBA = new DBAcc();
+		    String where2 = String.format("지역 ='%s' AND 지점명 ='%s' AND 테마명 ='%s'", DBR.getRegion(),DBR.getStore(),newtema);
+	        ResultSet newtemars = DBA.selectwhere("테마_정보", "*", where2);
+	           if(newtemars.next()) {
+	        	   System.out.println("이미 매장내 존재하는 테마명입니다.");
+	        	   DBA.close();
+	           }
+	           else {
+	        	   DBA = new DBAcc();
+	        	   String set1 = String.format("테마명 = '%s'", newtema);
+	        	   int check1 = DBA.update("테마_정보", set1, where);
+	        	   if(check1==1) {
+	        		   System.out.println("테마명이 수정 되었습니다. 아무키나 입력하시면 이전으로 돌아갑니다.");
+	        		   System.out.print(">>> ");
+	        		   DBA.commit();
+	        		   DBA.close();
+	        		   br.readLine();
+	        		   DBV.temainfo();
+	        		}
+	        	   else {
+	        		   System.out.println("테마명이 수정 되지 않았습니다.나는 개발도 못하는 돼지.이전으로 돌아가려면 입력해주십시오~");
+	        		   System.out.print(">>> ");
+	        		   DBA.rollback();
+	        		   DBA.close();
+	        		   br.readLine();
+	        		   DBV.temainfo();
+	        	   }
+	        	   
+	          }
+           }
+        }
+
+         case "2" :
+        	 System.out.println("새로운 장르를 입력해주세요.(최대 10자) 이전으로 돌아가고 싶으시면 'exit'를 입력해주세요.");
+        	 
+        	 String newgenre = " ";
+    		 while(true) {
+    		   System.out.print(">>> ");
+    		   newgenre = br.readLine();
+    		   
+    		   if (newgenre.equals("exit")) {
+    			   DBV.temainfo();
+    			    }
+
+    		   if(newgenre.length()>10 || newgenre.length()==0) {
+    			 System.out.println("장르의 길이가 올바르지 않습니다. 다시 입력해주세요.");
+    	       }
+    		   
+    		    
+    	        else {
+    	        	
+    		         DBA = new DBAcc();
+    		         String set2 = String.format("장르 = '%s'", newgenre);
+    		         int check2 = DBA.update("테마_정보",set2, where);
+    		          
+    		         if(check2==1) {
+    		           System.out.println("장르가 수정 되었습니다. 아무키나 입력하시면 이전으로 돌아갑니다.");
+   	        		   System.out.print(">>> ");
+   	        		   DBA.commit();
+   	        		   DBA.close();
+   	        		   br.readLine();
+   	        		   DBV.temainfo();
+    		          }
+    		         else{
+    		           System.out.println("안됐어요.아무키나 눌러 돌아가주세요.혼자있고 싶네요.");
+ 	        		   System.out.print(">>> ");
+ 	        		   DBA.rollback();
+ 	        		   DBA.close();
+ 	        		   br.readLine();
+ 	        		   DBV.temainfo();
+                       }
+    		       }
+    	        
+    		 }
+        	 
+         case "3" :
+        	 System.out.println("새로운 테마의 난이도를 입력해주세요.(범위 0~5,숫자와 '.'만 입력해주세요.소수점 첫째자리까지 반올림하여 반영됩니다.)");
+    		 System.out.println("이전으로 돌아가고 싶다면 'exit'를 입력해주세요.");
+    	     
+    		 String newdef= " ";
+    		 
+    		 while(true) {
+    		   System.out.print(">>> ");
+    		   newdef = br.readLine();
+    		  
+    		   if(newdef.equals("exit")) {
+    			   DBV.temainfo();
+    		   }
+    		   
+    		   boolean numpoint = false;
+    		   boolean numpoint2 = true;
+    		   boolean numpoint3 = false;
+    		   
+    		   for(int i=0;i<newdef.length();i++) {
+    			   if((newdef.charAt(i)<48||newdef.charAt(i)>57)&&newdef.charAt(i)!=46) {
+    				   numpoint = true;
+    			   }
+    		   }
+    		   
+    		   for(int i=0;i<newdef.length();i++) {
+    			   if(newdef.charAt(i)!=46){
+    				   numpoint2 = false;
+    			   }
+    		   }
+    		   
+    		   if(newdef.charAt(0)=='.') {
+    			   numpoint3 = true;
+    		   }
+    		   
+    		   if(numpoint) {
+    		   System.out.println("숫자와 '.'이외의 문자를 입력하셨습니다. 다시 입력해주세요.");
+    			   
+    		   }
+    		   else if(numpoint2) {
+    		   System.out.println("'.'만 입력하신건 난이도에 반영할 수 없습니다. 숫자형태로 입력해주세요.");
+    			   
+    		   }
+    		   else if(numpoint3) {
+    		   System.out.println("'.'으로 시작하는 형태는 난이도에 반영 할 수 없습니다 숫자형태로 입력해주세요.");
+    		   }
+    		   
+    		   else {
+    		     Double point = Double.parseDouble(newdef);
+    		
+    		      if(point<0 || point>5) {
+    	                  System.out.println("범위를 벗어났습니다.다시 입력해주세요.");
+    		       }  
+    		      else {
+    		       newdef = String.format("%.1f", point);
+    			   DBA = new DBAcc();
+    			   String set3 = String.format("난이도 = '%s'", newdef);
+    			   int check3 = DBA.update("테마_정보", set3, where);
+    			    
+    			   if(check3==1) {
+    		           System.out.println("난이도가 수정 되었습니다. 아무키나 입력하시면 이전으로 돌아갑니다.");
+   	        		   System.out.print(">>> ");
+   	        		   DBA.commit();
+   	        		   DBA.close();
+   	        		   br.readLine();
+   	        		   DBV.temainfo();
+    		          }
+    		         else{
+    		           System.out.println("개발난이도가 참 높은것 같아요.네.안됐습니다...");
+ 	        		   System.out.print(">>> ");
+ 	        		   DBA.rollback();
+ 	        		   DBA.close();
+ 	        		   br.readLine();
+ 	        		   DBV.temainfo();
+                       }
+    			   }
+    		   
+    	       }
+    		 }
+        	 
+         case "4" :
+        	 DBA = new DBAcc();
+        	 ResultSet min = DBA.selectwhere("테마_정보", "최소인원,최대인원", where);
+        	 String minpeo ="";
+        	 String maxpeo ="";
+        	 
+        	 if(min.next()) {
+        		 minpeo = min.getString("최소인원");
+        		 maxpeo = min.getString("최대인원");
+        		 DBA.close();
+             }
+        	 else {
+        		 System.out.println("설정이 잘못되었다! 돔황챠!!");
+        		 System.out.println("설정이 잘못되었다! 돔황챠!!");
+        		 System.out.println("설정이 잘못되었다! 돔황챠!!");
+        		 DBA.close();
+        		 DBV.temainfo();
+        	 }
+        	 
+        	 System.out.printf("테마의 최소인원을 입력해주세요.(범위 1~%s숫자만 입력해주세요.)",maxpeo);
+    		 System.out.println("이전으로 돌아가고 싶다면 'exit'를 입력해주세요.");
+    		 
+    		 String newpeoplemin = " ";
+    		 
+    		 while(true) {
+    	     System.out.print(">>> ");
+    	     newpeoplemin = br.readLine();
+    	     
+    	     if(newpeoplemin.equals("exit")) {
+    	    	 DBV.temainfo();
+    		   }
+    	     
+    	     boolean peoplenum = false;
+    		 boolean peoplenum2 = false;
+    		  
+    		 for(int i=0;i<newpeoplemin.length();i++) {
+    			   if(newpeoplemin.charAt(i)<48||newpeoplemin.charAt(i)>57) {
+    				   peoplenum = true;
+    			   }
+    		 }
+    		 
+    		 if(newpeoplemin.length()!=1) {
+    			   peoplenum2 = true;
+    		 }
+    		 
+    		 if(peoplenum) {   
+    			   System.out.println("숫자만 입력가능합니다.다시 입력해주세요.");
+    		 }
+    		   
+    		 else if(peoplenum2) {
+    			   System.out.println("글자수가 맞지 않습니다.다시 입력해주세요.");
+    		  }
+    		 
+    		 else if(Integer.parseInt(newpeoplemin)<1 || Integer.parseInt(newpeoplemin)>Integer.parseInt(maxpeo)){
+    			   System.out.println("인원이 올바르지 않습니다.다시 입력해주세요.");
+    		 }
+    		 else {
+    			 DBA = new DBAcc();
+    			 String set4 = String.format("최소인원 = '%s'", newpeoplemin);
+    			 int check4 = DBA.update("테마_정보", set4, where);
+    			  if(check4==1) {
+    				  DBA.commit();
+    				  DBA.close();
+    				  String column =" ";
+    				  ResultSet minpeors;
+    				  String preprice=" ";
+    				  String newpricemin=" ";
+    				  String setminprice = "";
+    				  boolean priceoff = true;
+    				  boolean pricetrue = false;
+    				  
+    				  
+    				  for(int i = Integer.parseInt(newpeoplemin);i<=Integer.parseInt(maxpeo);i++) {
+    				  
+    				  DBA = new DBAcc();
+    				  column = String.format("가격%s", i);
+    				  minpeors = DBA.selectwhere("테마_정보",column,where);
+    				  while(minpeors.next()) {
+    					    preprice=minpeors.getString(column);
+    				  }
+    				  DBA.close();
+    				 if(preprice.equals("불가능")) {
+    				   System.out.printf("새로운 %s인가를 설정해 주셔야 합니다.(숫자만 입력가능합니다.)\n", i);
+    				   
+    				   while(priceoff) {
+    					   System.out.print(">>> ");
+    				  
+    				    newpricemin = br.readLine();
+    				    for(int j=0;j<newpricemin.length();j++) {
+    				        if(newpricemin.charAt(j)<48||newpricemin.charAt(j)>57) {
+    					     pricetrue = true;
+    				         }
+    			         }
+    		       
+    		             if(pricetrue) {
+    		    	        System.out.println("가격에 숫자 이외의 문자가 올 수 없습니다.다시 입력해주세요.");
+    		    	        pricetrue = false;
+    		               }
+    		             else {
+    		            	 DBA = new DBAcc();
+    		            	 setminprice = String.format("가격%s='%s원'",i,newpricemin);
+    		            	 int x = DBA.update("테마_정보", setminprice, where);
+    		            	  if(x==1) {
+    		            		  System.out.printf("%s인가가 설정이 되었습니다.\n", i);
+    		            		  DBA.commit();
+    		            		  DBA.close();
+    		            		  priceoff = false;
+    		            	  }
+    		            	  else {
+    		            		  System.out.printf("가격설정 박살났다 돔황챠!!!!");
+    		            		  DBA.rollback();
+    		            		  DBA.close();
+    		            		  DBV.temainfo();
+    		            	   }
+                          }
+    			      }
+    				   
+    				  priceoff = true;
+    				  
+    				  }
+    				  }
+    			 System.out.println("최소인원 설정이 완료되었습니다. 이전으로 돌아가시려면 아무키나 입력해주세요.");
+    			 System.out.print(">>> ");
+    			 br.readLine();
+    			 DBV.temainfo();
+    			 }
+    			  
+  		         else{
+  		               System.out.println("이분 최소 인원. 돌아가려면 아무키나 눌러주세요.");
+	        		   System.out.print(">>> ");
+	        		   DBA.rollback();
+	        		   DBA.close();
+	        		   br.readLine();
+	        		   DBV.temainfo();
+                     }
+    		    }
+            }
+        	
+        	 
+        	
+         case "5" :
+        	 DBA = new DBAcc();
+        	 ResultSet max = DBA.selectwhere("테마_정보", "최소인원,최대인원", where);
+        	 String minpeo2 ="";
+        	 String maxpeo2 ="";
+        	 
+        	 if(max.next()) {
+        		 minpeo2 = max.getString("최소인원");
+        		 maxpeo2 = max.getString("최대인원");
+        		 DBA.close();
+             }
+        	 else {
+        		 System.out.println("설정이 잘못되었다! 돔황챠!!");
+        		 System.out.println("설정이 잘못되었다! 돔황챠!!");
+        		 System.out.println("설정이 잘못되었다! 돔황챠!!");
+        		 DBA.close();
+        		 DBV.temainfo();
+        	 }
+        	 
+        	 System.out.printf("테마의 최대인원을 입력해주세요.(범위 %s~6숫자만 입력해주세요.)",minpeo2);
+    		 System.out.println("이전으로 돌아가고 싶다면 'exit'를 입력해주세요.");
+    		 
+    		 String newpeoplemax = " ";
+    		 
+    		 while(true) {
+    	     System.out.print(">>> ");
+    	     newpeoplemax = br.readLine();
+    	     
+    	     if(newpeoplemax.equals("exit")) {
+    	    	 DBV.temainfo();
+    		   }
+    	     
+    	     boolean peoplenum = false;
+    		 boolean peoplenum2 = false;
+    		  
+    		 for(int i=0;i<newpeoplemax.length();i++) {
+    			   if(newpeoplemax.charAt(i)<48||newpeoplemax.charAt(i)>57) {
+    				   peoplenum = true;
+    			   }
+    		 }
+    		 
+    		 if(newpeoplemax.length()!=1) {
+    			   peoplenum2 = true;
+    		 }
+    		 
+    		 if(peoplenum) {   
+    			   System.out.println("숫자만 입력가능합니다.다시 입력해주세요.");
+    		 }
+    		   
+    		 else if(peoplenum2) {
+    			   System.out.println("글자수가 맞지 않습니다.다시 입력해주세요.");
+    		  }
+    		 
+    		 else if(Integer.parseInt(newpeoplemax)<Integer.parseInt(minpeo2) || Integer.parseInt(newpeoplemax)>6){
+    			   System.out.println("인원이 올바르지 않습니다.다시 입력해주세요.");
+    		 }
+    		 else {
+    			 DBA = new DBAcc();
+    			 String set4 = String.format("최대인원 = '%s'", newpeoplemax);
+    			 int check5 = DBA.update("테마_정보", set4, where);
+    			  if(check5==1) {
+    				  DBA.commit();
+    				  DBA.close();
+    				  String column =" ";
+    				  ResultSet minpeors;
+    				  String preprice=" ";
+    				  String newpricemin=" ";
+    				  String setminprice = "";
+    				  boolean priceoff = true;
+    				  boolean pricetrue = false;
+    				  
+    				  
+    				  for(int i = Integer.parseInt(minpeo2);i<=Integer.parseInt(newpeoplemax);i++) {
+    				  
+    				  DBA = new DBAcc();
+    				  column = String.format("가격%s", i);
+    				  minpeors = DBA.selectwhere("테마_정보",column,where);
+    				  while(minpeors.next()) {
+    					    preprice=minpeors.getString(column);
+    				  }
+    				  DBA.close();
+    				 if(preprice.equals("불가능")) {
+    				   System.out.printf("새로운 %s인가를 설정해 주셔야 합니다.(숫자만 입력가능합니다.)\n", i);
+    				   
+    				   while(priceoff) {
+    					   System.out.print(">>> ");
+    				  
+    				    newpricemin = br.readLine();
+    				    for(int j=0;j<newpricemin.length();j++) {
+    				        if(newpricemin.charAt(j)<48||newpricemin.charAt(j)>57) {
+    					     pricetrue = true;
+    				         }
+    			         }
+    		       
+    		             if(pricetrue) {
+    		    	        System.out.println("가격에 숫자 이외의 문자가 올 수 없습니다.다시 입력해주세요.");
+    		    	        pricetrue = false;
+    		               }
+    		             else {
+    		            	 DBA = new DBAcc();
+    		            	 setminprice = String.format("가격%s='%s원'",i,newpricemin);
+    		            	 int x = DBA.update("테마_정보", setminprice, where);
+    		            	  if(x==1) {
+    		            		  System.out.printf("%s인가가 설정이 되었습니다.\n", i);
+    		            		  DBA.commit();
+    		            		  DBA.close();
+    		            		  priceoff = false;
+    		            	  }
+    		            	  else {
+    		            		  System.out.printf("가격설정 박살났다 돔황챠!!!!");
+    		            		  DBA.rollback();
+    		            		  DBA.close();
+    		            		  DBV.temainfo();
+    		            	   }
+                          }
+    			      }
+    				   
+    				  priceoff = true;
+    				  
+    				  }
+    				  }
+    			 System.out.println("최대인원 설정이 완료되었습니다. 이전으로 돌아가시려면 아무키나 입력해주세요.");
+    			 System.out.print(">>> ");
+    			 br.readLine();
+    			 DBV.temainfo();
+    			 }
+    			  
+  		         else{
+  		               System.out.println("도망치는 속도 최대로!!!!!!!!!!!!");
+	        		   System.out.print(">>> ");
+	        		   DBA.rollback();
+	        		   DBA.close();
+	        		   br.readLine();
+	        		   DBV.temainfo();
+                     }
+    		    }
+            }
+        	
+         case "6" :
+        	 DBA = new DBAcc();
+        	 ResultSet peoprice = DBA.selectwhere("테마_정보", "최소인원,최대인원", where);
+        	 String minpeo3 ="";
+        	 String maxpeo3 ="";
+        	 
+        	 if(peoprice.next()) {
+        		 minpeo3 = peoprice.getString("최소인원");
+        		 maxpeo3 = peoprice.getString("최대인원");
+        		 DBA.close();
+             }
+        	 else {
+        		 System.out.println("설정이 잘못되었다! 돔황챠!!");
+        		 System.out.println("설정이 잘못되었다! 돔황챠!!");
+        		 System.out.println("설정이 잘못되었다! 돔황챠!!");
+        		 DBA.close();
+        		 DBV.temainfo();
+        	 }
+        	 
+        	 System.out.printf("몇인가를 재설정 하시겠습니까? 변경가능 : %s인가~%s인가 \n",minpeo3,maxpeo3);
+        	 String peoselect = "";
+        	 while(true) {
+        	     System.out.print(">>> ");
+        	     peoselect = br.readLine();
+        	     
+        	     if(peoselect.equals("exit")) {
+        	    	 DBV.temainfo();
+        		   }
+        	     
+        	     boolean peoplenum = false;
+        		 boolean peoplenum2 = false;
+        		  
+        		 for(int i=0;i<peoselect.length();i++) {
+        			   if(peoselect.charAt(i)<48||peoselect.charAt(i)>57) {
+        				   peoplenum = true;
+        			   }
+        		 }
+        		 
+        		 if(peoselect.length()!=1) {
+        			   peoplenum2 = true;
+        		 }
+        		 
+        		 if(peoplenum) {   
+        			   System.out.println("숫자만 입력가능합니다.다시 입력해주세요.");
+        		 }
+        		   
+        		 else if(peoplenum2) {
+        			   System.out.println("글자수가 맞지 않습니다.다시 입력해주세요.");
+        		  }
+        		 
+        		 else if(Integer.parseInt(peoselect)<Integer.parseInt(minpeo3) || Integer.parseInt(peoselect)>Integer.parseInt(maxpeo3)){
+        			   System.out.println("인원이 올바르지 않습니다.다시 입력해주세요.");
+        		 }
+        		 else {
+        			 System.out.println("새로운 가격을 입력해주세요(숫자만 입력 가능)");
+        			 System.out.println("이전으로 돌아가고 싶으시면 'exit'를 입력해주세요.");
+        			 String newprice = "";
+        			 while(true) {
+        			        System.out.print(">>> ");
+        			         newprice = br.readLine();
+        				     
+        			        if(newprice.equals("exit")) {
+        			        	DBV.temainfo();
+        					 }
+        			     
+        			       boolean pricetrue = false;
+        			     
+        			       for(int j=0;j<newprice.length();j++) {
+        					   if(newprice.charAt(j)<48||newprice.charAt(j)>57) {
+        						   pricetrue = true;
+        					   }
+        				    }
+        			       
+        			       if(pricetrue) {
+        			    	   System.out.println("가격에 숫자 이외의 문자가 올 수 없습니다.다시 입력해주세요.");
+        			       }
+        			     
+        			    
+        				  else {
+        					 DBA = new DBAcc();
+        					 String set = String.format("가격%s='%s원'", peoselect,newprice);
+        					 int check6 = DBA.update("테마_정보", set, where);
+        					 if(check6==1) {
+        	    		           System.out.printf("%s인가 수정 되었습니다. 아무키나 입력하시면 이전으로 돌아갑니다.\n",peoselect);
+        	   	        		   System.out.print(">>> ");
+        	   	        		   DBA.commit();
+        	   	        		   DBA.close();
+        	   	        		   br.readLine();
+        	   	        		   DBV.temainfo();
+        	    		          }
+        	    		         else{
+        	    		           System.out.println("개발난이도가 참 높은것 같아요.네.안됐습니다...");
+        	 	        		   System.out.print(">>> ");
+        	 	        		   DBA.rollback();
+        	 	        		   DBA.close();
+        	 	        		   br.readLine();
+        	 	        		   DBV.temainfo();
+        	                       }
+        						 
+        					 }
+        				  }
+        		 }
+        			 
+        		 }
+        
+        
+
+        	 
+  
+         case "7" :
+        	 DBA = new DBAcc();
+        	 ResultSet open = DBA.selectwhere("테마_정보", "운영여부",where);
+        	 String preopen = "";
+        	 
+        	 if(open.next()) {
+        		 preopen = open.getString("운영여부");
+        	 }
+        	 else {
+        		 System.out.println("이건 삑나면 진짜 말도 안돼");
+        	 }
+        	 
+        	 DBA.close();
+        	 
+             if(preopen.equals("O")) {
+        	   System.out.println("현재 오픈상태입니다. 닫힘 상태로 바꾸시려면 'Y'를 입력해주세요. 취소를 원하시면 'Y'이외의 키를 눌러주세요.");
+        	   System.out.print(">>> ");
+        	   String ok = br.readLine();
+        	   
+        	     if(ok.equals("Y")) {
+        		   DBA =new DBAcc();
+        		   int check7 = DBA.update("테마_정보", "운영여부 = 'X'", where);
+        		   if(check7==1) {
+        			 System.out.println("운영여부가 변경되었습니다.");
+        			 System.out.println("이전으로 돌아가시려면 아무키나 눌러주세요.");
+        			 System.out.print(">>> ");
+        			 DBA.commit();
+        			 DBA.close();
+        			 br.readLine();
+        			 DBV.temainfo();
+        		   }
+        		   else {
+        			   System.out.println("콘솔창에서 이 문구를 보는 사람이 있다면 경명우는 똥멍청이다!!");
+        			   System.out.print(">>> ");
+        			   DBA.rollback();
+        			   DBA.close();
+        			   br.readLine();
+        			   DBV.temainfo();
+        		   }   
+        	   }
+        	   else {
+        		   DBV.temainfo();
+        	   }
+             }
+             
+             if(preopen.equals("X")) {
+          	   System.out.println("현재 닫힘상태입니다. 열림 상태로 바꾸시려면 'Y'를 입력해주세요. 취소를 원하시면 'Y'이외의 키를 눌러주세요.");
+          	   System.out.print(">>> ");
+          	   String ok = br.readLine();
+          	   
+          	   if(ok.equals("Y")) {
+          		   DBA =new DBAcc();
+          		   int check7 = DBA.update("테마_정보", "운영여부 = 'O'", where);
+          		   if(check7==1) {
+          			 System.out.println("운영여부가 변경되었습니다.");
+          			 System.out.println("이전으로 돌아가시려면 아무키나 눌러주세요.");
+          			 System.out.print(">>> ");
+          			 DBA.commit();
+          			 DBA.close();
+          			 br.readLine();
+          			 DBV.temainfo();
+          		   }
+          		   else {
+          			   System.out.println("콘솔창에서 이 문구를 보는 사람이 있다면 경명우는 똥멍청이다!!");
+          			   System.out.print(">>> ");
+          			   DBA.rollback();
+          			   DBA.close();
+          			   br.readLine();
+          			   DBV.temainfo();
+          		   }   
+          	   }
+          	   else {
+          		   DBV.temainfo();
+          	   }
+               }
+        	   
+        	  
+       
+        	 
+
+         case "8" :
+        	 DBV.temainfo();
+        	 break;
+        	 
+         
+         }
+		
+	 }
+	 else {
+		 System.out.println("보유하신 테마가 존재하지 않습니다.");
+		 System.out.println("아무키나 누르시면 이전으로 돌아갑니다.");
+		 System.out.print(">>> ");
+		 DBA.rollback();
+		 DBA.close();
+		 br.readLine();
+		 DBV.temainfo();
+	   }
+	 
+ }
+ 
+ public void  storetemaselect() throws Exception{
+	 DBA = new DBAcc();
+	 where = String.format("지역 ='%s' AND 지점명 = '%s' ", DBR.getRegion(),DBR.getStore());
+	 ResultSet tema = DBA.selectwhere("테마_정보", "*", where);
+	 if(tema.next()) {
+		 System.out.println("                                                          보유한 테마  정보                                                                        ");
+		 System.out.println("지역     지점명           테마명    장르     난이도  최소인원   최대인원     1인가     2인가    3인가   4인가    5인가     6인가  운영여부");
+		 for(int i=1;i<15;i++) {
+		 System.out.print(tema.getString(i)+"\t");
+		 }
+		 System.out.print("\n");
+		 
+		 while(tema.next()) {
+			 for(int i=1;i<15;i++) {
+				 System.out.print(tema.getString(i)+"\t");
+				 }
+			System.out.print("\n");
+		 }
+		 
+		 DBA.close();
+		 System.out.println("테마를 출력했습니다. 아무키나 입력하시면 이전으로 돌아갑니다");
+		 System.out.print(">>> ");
+		 br.readLine();
+		 DBV.temainfo();
+		 
+	 
+     }
+	 else {
+		 DBA.close();
+		 System.out.println("보유한 테마가 없습니다. 아무키나 입력하시면 이전으로 돌아갑니다.");
+		 System.out.print(">>> ");
+		 br.readLine();
+		 DBV.temainfo();
+	 }
+ }
+ 
+ public void registreservationselect() throws Exception{
+	 DBA = new DBAcc();
+	 where = String.format("지역 ='%s' AND 지점명 = '%s' ", DBR.getRegion(),DBR.getStore());
+	 ResultSet tema = DBA.selectwhere("테마_정보", "*", where);
+	 if(tema.next()) {
+		 System.out.println("                                                          보유한 테마  정보                                                                        ");
+		 System.out.println("지역     지점명           테마명    장르     난이도  최소인원   최대인원     1인가     2인가    3인가   4인가    5인가     6인가  운영여부");
+		 for(int i=1;i<15;i++) {
+		 System.out.print(tema.getString(i)+"\t");
+		 }
+		 System.out.print("\n");
+		 
+		 while(tema.next()) {
+			 for(int i=1;i<15;i++) {
+				 System.out.print(tema.getString(i)+"\t");
+				 }
+			System.out.print("\n");
+		 }
+		 
+		 DBA.close();
+        System.out.println("예약현황에 올리고 싶은 테마를 선택해주세요.이전으로 돌아가길 원하시면 'exit'를 입력해주세요.");
+        boolean rsv = true;
+        String temaselect="";
+       while(rsv) { 
+        System.out.print(">>> ");
+        temaselect = br.readLine();
+        if(temaselect.equals("exit")) {
+         DBV.reservationinfo();        	
+        }
+        
+        DBA = new DBAcc();
+        
+        where = String.format("지역 ='%s'AND 지점명 ='%s'AND 테마명 = '%s'", DBR.getRegion(),DBR.getStore(),temaselect);
+        ResultSet temaexist = DBA.selectwhere("테마_정보","*",where);
+        String genreselect = "";
+        
+        if(temaexist.next()) {
+        	genreselect = temaexist.getString("장르");
+        	rsv=false;
+         }
+        else {
+        	System.out.println("매장에 해당하는 테마가 없습니다.다시 입력해주세요.");
+         }
+        }
+       
+       boolean rsvdaytime =true;
+       boolean rsvday =true;
+       boolean rsvtime = true;
+       String day =" ";
+       String time = "";
+     while(rsvdaytime){
+      while(rsvday) {
+       System.out.printf("%s테마의 예약현황을 등록하실 하실 날짜를 입력해주세요.\n", temaselect);
+       System.out.println("날짜는 연,월,일 순서대로 숫자만 입력해주세요.");
+       System.out.println("ex)2022년 05월 16일 -> 202201516");
+       day = br.readLine();
+       
+       if(Integer.parseInt(day)>99999999 || day.length()!=8)	    {
+	   		   System.out.println("잘못된 형식을 입력했습니다. 다시입력해주세요.");
+	   		   System.out.print(">>> ");
+	   	       }
+	     	   else if (Integer.parseInt(day.substring(4,6))>12 ||Integer.parseInt(day.substring(6,8))>31
+		   			     ||(Integer.parseInt(day.substring(4,6))==2 && Integer.parseInt(day.substring(6,8))>29)
+		   			     ||(Integer.parseInt(day.substring(4,6))==4 && Integer.parseInt(day.substring(6,8))>30)
+		   			     ||(Integer.parseInt(day.substring(4,6))==9 && Integer.parseInt(day.substring(6,8))>30)
+		   			     ||(Integer.parseInt(day.substring(4,6))==11 && Integer.parseInt(day.substring(6,8))>30)
+		   			  ) {
+		   	    	System.out.println("날짜형식이 올바르지 않습니다. 다시 입력해주세요.");
+		   	    	System.out.print(">>> ");
+		   	      }
+	   	      else if (Integer.parseInt(x)<DBR.gettoday()) {
+	   	    	System.out.println("오늘보다 빠른날은 시작일로 선택할 수 없습니다. 다시입력해주세요.");
+	   	    	System.out.print(">>> ");
+	   	      }
+	 
+	   	      else {
+	   	    	  minday = Integer.parseInt(x);
+	   	    	  str=false;
+	   	      }
+		   }
+		   str=true;
+     }
+     }
+     }
+	 else {
+		 DBA.close();
+		 System.out.println("보유한 테마가 없어 예약현황을 등록할 수 없습니다. 아무키나 입력하시면 이전으로 돌아갑니다.");
+		 System.out.print(">>> ");
+		 br.readLine();
+		 DBV.temainfo();
+	 }
+	 
+	 
+	 
+ }
+ public void ceologoutselect() throws Exception{
+	 DBR = new DBRes();
+	 DBV = new DBView();
+	 
+	DBR.setCeoid("");
+	DBR.setCeopw("");
+	DBR.setCeoname("");
+	DBR.setCeophone("");
+	DBR.setStorenum("");
+	DBR.setRegion("");
+	DBR.setStore("");
+	DBR.setAdress("");
 	 
 	 DBV.start();
  }
@@ -2077,7 +3524,8 @@ public void updateuserinfo() throws Exception{
 							 }
 							 else
 							 {DBR.setUserphone(input);
-							st1=false;}
+							st1=false;
+							}
 						}
 					}
 				 
@@ -2176,7 +3624,8 @@ public void updateuserinfo() throws Exception{
 			  if(input.equals("exit")) {
 				 DBV.start();
 			     }
-			  System.out.println("비밀번호를 한번 더 입력해주세요.(이전으로 가시고싶으시면 'exit'를 입력해주세요.)");
+			  System.out.println("비밀번호를 한번 더 입력해주세요.(최대30자)");
+			  System.out.println("이전으로 가시고싶으시면 'exit'를 입력해주세요.");
 				 System.out.print(">>> ");
 		      String input2 = br.readLine();
 		      if (input.equals(input2)) {
@@ -2242,10 +3691,19 @@ public void updateuserinfo() throws Exception{
 						    System.out.print(">>> ");
 						}
 						else {
-							DBR.setCeophone(input);
+							DBA = new DBAcc();
+							 where = String.format("개인_전화번호 = '%s'", input);
+							 ResultSet rs = DBA.selectwhere("방탈출_사장_계정", "*",where);
+							 if(rs.next()) {
+								 System.out.println("중복된 개인 전화번호입니다.다시 입력해주세요.");
+								 System.out.print(">>> ");
+							 }
+							 else{
+						    DBR.setCeophone(input);
 							st1=false;
-						}
+						     }
 					}
+				   }
 				 
 				  st1 = true;
 				  
@@ -2279,14 +3737,25 @@ public void updateuserinfo() throws Exception{
 							    System.out.print(">>> ");
 							}
 							else {
-								DBR.setStorenum(input);
+								DBA = new DBAcc();
+								 where = String.format("지점_전화번호 = '%s'", input);
+								 ResultSet rs = DBA.selectwhere("방탈출_사장_계정", "*",where);
+								 if(rs.next()) {
+									 System.out.println("중복된 매장 전화번호입니다.다시 입력해주세요.");
+									 System.out.print(">>> ");
+								 }
+								 else{
+									 DBR.setStorenum(input);
 								st1=false;
+							     }
 							}
 						}
 					 
 					  st1 = true;
-				  
-				  
+				
+    boolean regionstore = true;
+    
+	while(regionstore) {  
 				  System.out.println("설정할 지역을 입력해주세요.(최대20자)");
 				  System.out.println("이전으로 가시고싶으시면 'exit'를 입력해주세요.");
 				  System.out.print(">>> ");
@@ -2323,8 +3792,20 @@ public void updateuserinfo() throws Exception{
 						  st1 =false;
 						  }
 						 }
-			st1 = true;
 			
+		    DBA = new DBAcc();
+		    where = String.format("지역 ='%s' AND 지점명 = '%s'",DBR.getRegion(),DBR.getStore());
+		    ResultSet regsto = DBA.selectwhere("방탈출_사장_계정","*",where );
+		    
+		    if(regsto.next()) {
+		    	System.out.println("지역,지점명이 겹칩니다. 다시 입력해주시길 바랍니다.");
+		    }
+		    else {
+		    	regionstore = false;
+		    }
+		    
+			}
+	         st1 = true;	
 			System.out.println("설정할 지점주소를 입력해주세요.(최대50자)");
 		    System.out.println("이전으로 가시고싶으시면 'exit'를 입력해주세요.");
 			System.out.print(">>> ");
@@ -2338,8 +3819,17 @@ public void updateuserinfo() throws Exception{
 					    DBV.start();
 						}
 					    else {
-						   DBR.setAdress(input);
-						  st1 =false;
+					    	 DBA = new DBAcc();
+							 where = String.format("지점주소 = '%s'", input);
+							 ResultSet rs = DBA.selectwhere("방탈출_사장_계정", "*",where);
+							 if(rs.next()) {
+								 System.out.println("중복된 주소입니다.다시 입력해주세요.");
+								 System.out.print(">>> ");
+							 }
+							 else{
+								 DBR.setAdress(input);
+							st1=false;
+						     }
 						}
 					   }
 			st1 = true;

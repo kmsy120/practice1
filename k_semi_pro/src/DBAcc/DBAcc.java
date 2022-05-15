@@ -26,6 +26,21 @@ import DBcon.DBCon;
 		 }
 		 return false;
 	 }
+	 public boolean ceocheck(String ceoid,String ceopw) throws Exception{
+		 String query = String.format("SELECT * FROM 방탈출_사장_계정 WHERE 아이디='%s'",ceoid);
+		 ResultSet rs = DB.select(query);
+		 if(rs.next()) {
+			 if(rs.getString("비밀번호").equals(ceopw)){
+			  DB.close();
+              return true;				 
+			 }
+		 }
+		 else {
+			 DB.close();
+			 return false;
+		 }
+		 return false;
+	 }
 	 
 	 
 	 public ResultSet select (String table,String columns) throws Exception {
@@ -60,7 +75,7 @@ import DBcon.DBCon;
     
     public int update(String table,String set,String where) throws Exception{
      	String query = String.format("UPDATE %s SET %s WHERE %s", table, set, where); 
-     	//System.out.print(query);
+     	//System.out.println(query);
     	return DB.update(query);
     }
     public void commit() throws Exception {
@@ -71,7 +86,8 @@ import DBcon.DBCon;
     }
     public int insert(String table,String columns,String values) throws Exception{
      	String query = String.format("INSERT INTO %s(%s) VALUES(%s)", table, columns, values);   
-    	return DB.update(query);
+    	//System.out.println(query);
+     	return DB.update(query);
     }
     
     public int insert(String table,String values) throws Exception{

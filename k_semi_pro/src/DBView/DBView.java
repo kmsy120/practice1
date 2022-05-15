@@ -67,11 +67,11 @@ public class DBView {
     	switch(br.readLine()){
      	
     	case "1" : 
-        DBS.userrogin();
+        DBS.userlogin();
         break;
 	    
     	case "2" : 
-        this.ceorogin();
+        DBS.ceorogin();
         break;
      	
     	case "3" :
@@ -97,7 +97,7 @@ public class DBView {
 		System.out.println("          5. 방탈출 예약하기                  ");
 		System.out.println("          6. 방탈출 예약 취소하기              ");
 		System.out.println("          7. 후기                          ");
-		System.out.println("          8. 회원정보                       ");
+		System.out.println("          8. 계정정보                       ");
 		System.out.println("          9. 로그아웃                       ");	
 		System.out.print(">>> ");
 
@@ -109,7 +109,7 @@ public class DBView {
 	    	switch(br.readLine()){
 	   
 	    	case "1" : 
-	        DBS.viewteamslect();
+	        DBS.viewtemaaselect();
 	    	break;
 	    	
 	    	case "2" :
@@ -190,7 +190,8 @@ public class DBView {
    
    public void userinfo() throws Exception {
 	   while(true) {
-		    System.out.println("              회원정보                  ");
+		   
+		    System.out.println("              계정정보                  ");
 			System.out.println("          1. 회원정보 확인               ");
 			System.out.println("          2. 회원정보 수정               ");
 			System.out.println("          3. 회원탈퇴                   ");
@@ -225,19 +226,15 @@ public class DBView {
 	   
  
    
-   public void ceorogin() throws Exception{
+   public void ceosystem() throws Exception{
 	    
-	    System.out.println("              사장 시스템                  ");
-		System.out.println("          1. 매장등록하기                   ");
-		System.out.println("          2. 테마정보 등록하기               ");
-		System.out.println("          3. 테마정보 수정하기               ");
-		System.out.println("          4. 예약현황  등록하기               ");
-		System.out.println("          5. 예약현황  수정하기               ");
-		System.out.println("          6. 본인의 매장 예약현황보기            ");
-		System.out.println("          6. 본인의 매장 후기보기              ");
-		System.out.println("          7. 후기수정                       ");
-		System.out.println("          8. 회원탈퇴하기                   ");	
-		System.out.println("          9. 로그아웃                      ");
+	    System.out.println("              사장 시스템                     ");
+		System.out.println("          1. 매장 관리                       ");
+		System.out.println("          2. 테마 관리                       ");
+		System.out.println("          3. 예약현황 관리                     ");
+		System.out.println("          4. 본인의 매장 후기보기                ");
+		System.out.println("          5. 계정정보                         ");	
+		System.out.println("          6. 로그아웃                         ");
 		System.out.print(">>> ");
 		
 		while(true) {
@@ -245,39 +242,28 @@ public class DBView {
 	    	switch(br.readLine()){
 	     	
 	    	case "1" : 
-	        DBS.viewteamslect();
+	        this.storeinfo();
 	    	break;
 	    	
 	    	case "2" :
-		    DBS.reservationselect();
+	        this.temainfo();
 		    break;
 		    
 	    	case "3" : 
-	        DBS.reservationtemaselect();
+	        this.reservationinfo();
 	        break;
 	        
 	    	case "4" : 
-		    DBS.canclereservationselect();
+		   // DBS.storereivewselect();
 		    break;
 	     	
 	    	case "5" :
-	        DBS.reviewselect();
-           break;
+	        this.ceoaccount();
+            break;
 	         
 	        
 	    	case "6" :
-	        DBS.writereviewselect();
-	        break;
-	        
-	    	case "7" :
-	        DBS.updatereviewselect();
-	        
-	    	case "8" :
-	        DBS.dropuserselect();
-	        break;
-	        
-	    	case "9" :
-	        DBS.userlogoutselect();
+		    DBS.ceologoutselect();
 	        break;
 	        
 	        default :
@@ -287,6 +273,156 @@ public class DBView {
        }
 	   
    }
+   public void storeinfo() throws Exception{
+	    System.out.println("             매장 관리                    ");
+		System.out.println("          1. 매장 등록하기                ");
+		System.out.println("          2. 매장 확인하기                ");
+		System.out.println("          3. 매장 삭제하기                ");	
+		System.out.println("          4. 이전으로                       ");
+		System.out.print(">>> ");
+		
+		while(true) {
+
+	    	switch(br.readLine()){
+	     	
+	    	case "1" : 
+	        DBS.registstoreselect();
+	    	break;
+	    	
+	    	case "2" :
+		    DBS.checkstoreselect();
+		    break;
+		  
+	    	case "3" : 
+		    DBS.dropstoreslect();
+		    break;
+	     	
+	    	case "4" :
+	        this.ceosystem();
+            break;
+	         
+	        
+	   
+	        default :
+	        System.out.println("잘못된 값을 입력하셨습니다.다시 입력해주세요.");
+			System.out.print(">>> ");
+	        }
+      }
+	   
+   }
+   
+   public void temainfo() throws Exception {
+	   
+	    System.out.println("                테마 관리                  ");
+		System.out.println("          1. 테마 등록하기                  ");
+		System.out.println("          2. 테마 수정하기                  ");
+		System.out.println("          3. 매장 내 테마 확인하기           ");	
+		System.out.println("          4. 이전으로                     ");
+		System.out.print(">>> ");
+		
+		while(true) {
+
+	    	switch(br.readLine()){
+	     	
+	    	case "1" : 
+	    	DBS.registtemaselect();
+	    	break;
+	    	
+	    	case "2" :
+		    DBS.updatetemaselect();
+		    break;
+		  
+	    	case "3" : 
+		    DBS.storetemaselect();
+		    break;
+	     	
+	    	case "4" :
+	        this.ceosystem();
+           break;
+	         
+	        
+	   
+	        default :
+	        System.out.println("잘못된 값을 입력하셨습니다.다시 입력해주세요.");
+			System.out.print(">>> ");
+	        }
+     }
+
+   }
+   
+   public void reservationinfo() throws Exception{
+	   
+	   System.out.println("                예약현황 관리                  ");
+		System.out.println("          1. 예약현황 등록하기                 ");
+		System.out.println("          2. 예약현황 수정하기                 ");
+		System.out.println("          3. 예약현황 삭제하기                 ");
+		System.out.println("          3. 본인 매장 예약현황 확인하기         ");
+		System.out.println("          4. 이전으로                       ");
+		System.out.print(">>> ");
+		
+		while(true) {
+
+	    	switch(br.readLine()){
+	     	
+	    	case "1" : 
+	    	DBS.registreservationselect();
+	    	break;
+	    	
+	    	case "2" :
+		    //DBS.updatereservaitonselect();
+		    break;
+		  
+	    	case "3" : 
+		    //DBS.dropreservationselect();
+		    break;
+	     	
+	    	case "4" :
+	        this.ceosystem();
+          break;
+	         
+	        
+	   
+	        default :
+	        System.out.println("잘못된 값을 입력하셨습니다.다시 입력해주세요.");
+			System.out.print(">>> ");
+	        }
+    }
+	   
+   }
+   
+   public void ceoaccount() throws Exception {
+	            System.out.println("              계정정보                  ");
+				System.out.println("          1. 회원정보 확인               ");
+				System.out.println("          2. 회원정보 수정               ");
+				System.out.println("          3. 회원탈퇴                   ");
+				System.out.println("          4. 이전으로                   ");
+				System.out.print(">>> ");
+
+		    	switch(br.readLine()){
+		   
+		    	case "1" : 
+	            //DBS.ceoinfoselect();
+		    	break;
+		    	
+		    	case "2" :
+		        //DBS.updateceoinfo();
+			    break;
+			    
+		    	case "3" : 
+		        //DBS.dropceoselect();	
+		        break;
+		        
+		    	case "4" : 
+		        this.ceosystem();
+			    break;
+		        
+		        default :
+		        System.out.println("잘못된 값을 입력하셨습니다.다시 입력해주세요.");
+				System.out.print(">>> ");
+		        }
+	       }
+	   
+ 
    public void register() throws Exception {
 
 	   System.out.println("              회원가입                  ");

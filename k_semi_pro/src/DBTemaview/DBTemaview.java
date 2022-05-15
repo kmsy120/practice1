@@ -79,25 +79,25 @@ public class DBTemaview {
 			  
 			    DBA = new DBAcc();
 			    
-			    String select = "테마정보.지역"
-			    		+ ", 테마정보.지점명"
-			    		+ ", 테마정보.테마명"
-			    		+ ", 테마정보.장르"
-			    		+ ", 테마정보.난이도"
+			    String select = "테마_정보.지역"
+			    		+ ", 테마_정보.지점명"
+			    		+ ", 테마_정보.테마명"
+			    		+ ", 테마_정보.장르"
+			    		+ ", 테마_정보.난이도"
 			    		+ ", NVL(테마평점.평점,0) AS 평점"
-			    		+ ", 테마정보.최소인원"
-			    		+ ", 테마정보.최대인원"
-			    		+ ", 테마정보.가격1"
-			    		+ ", 테마정보.가격2"
-			    		+ ", 테마정보.가격3"
-			    		+ ", 테마정보.가격4"
-			    		+ ", 테마정보.가격5"
-			    		+ ", 테마정보.가격6"
-			            + ", 테마정보.운영여부";
-			    String table = "테마정보 "
+			    		+ ", 테마_정보.최소인원"
+			    		+ ", 테마_정보.최대인원"
+			    		+ ", 테마_정보.가격1"
+			    		+ ", 테마_정보.가격2"
+			    		+ ", 테마_정보.가격3"
+			    		+ ", 테마_정보.가격4"
+			    		+ ", 테마_정보.가격5"
+			    		+ ", 테마_정보.가격6"
+			            + ", 테마_정보.운영여부";
+			    String table = "테마_정보 "
 			    		+ "  LEFT JOIN 테마평점"
-			    		+ " ON 테마정보.지역 = 테마평점.지역 AND 테마정보.지점명 = 테마평점.지점명"
-			    		+ " AND 테마정보.테마명 = 테마평점.테마명";
+			    		+ " ON 테마_정보.지역 = 테마평점.지역 AND 테마_정보.지점명 = 테마평점.지점명"
+			    		+ " AND 테마_정보.테마명 = 테마평점.테마명";
 
 			   ResultSet rs = DBA.selectorder(table, select ,"평점 DESC");
 					System.out.println("지역  지점명        테마명   장르   난이도   평점    최소인원    최대인원    1인가    2인가    3인가    4인가    5인가    6인가    운영여부");
@@ -131,28 +131,28 @@ public class DBTemaview {
 			  
 			    DBA = new DBAcc();
 			    
-			    String select = "테마정보.지역"
-			    		+ ", 테마정보.지점명"
-			    		+ ", 테마정보.테마명"
-			    		+ ", 테마정보.장르"
-			    		+ ", 테마정보.난이도"
+			    String select = "테마_정보.지역"
+			    		+ ", 테마_정보.지점명"
+			    		+ ", 테마_정보.테마명"
+			    		+ ", 테마_정보.장르"
+			    		+ ", 테마_정보.난이도"
 			    		+ ", NVL(테마평점.평점,0) AS 평점"
-			    		+ ", 테마정보.최소인원"
-			    		+ ", 테마정보.최대인원"
-			    		+ ", 테마정보.가격1"
-			    		+ ", 테마정보.가격2"
-			    		+ ", 테마정보.가격3"
-			    		+ ", 테마정보.가격4"
-			    		+ ", 테마정보.가격5"
-			    		+ ", 테마정보.가격6"
-			            + ", 테마정보.운영여부";
-			    String table = "테마정보 "
+			    		+ ", 테마_정보.최소인원"
+			    		+ ", 테마_정보.최대인원"
+			    		+ ", 테마_정보.가격1"
+			    		+ ", 테마_정보.가격2"
+			    		+ ", 테마_정보.가격3"
+			    		+ ", 테마_정보.가격4"
+			    		+ ", 테마_정보.가격5"
+			    		+ ", 테마_정보.가격6"
+			            + ", 테마_정보.운영여부";
+			    String table = "테마_정보 "
 			    		+ "  LEFT JOIN 테마평점"
-			    		+ " ON 테마정보.지역 = 테마평점.지역 AND 테마정보.지점명 = 테마평점.지점명"
-			    		+ " AND 테마정보.테마명 = 테마평점.테마명";
+			    		+ " ON 테마_정보.지역 = 테마평점.지역 AND 테마_정보.지점명 = 테마평점.지점명"
+			    		+ " AND 테마_정보.테마명 = 테마평점.테마명";
 			    
 			    
-			    String where = String.format("테마정보.%s = '%s'", columns,name);
+			    String where = String.format("테마_정보.%s = '%s'", columns,name);
 			     ResultSet rs = DBA.selectwhereorderby(table, select ,where,"평점 DESC");
 					System.out.println("지역  지점명        테마명   장르   난이도   평점    최소인원    최대인원    1인가    2인가    3인가    4인가    5인가    6인가    운영여부");
 				while(rs.next()) {
@@ -206,7 +206,7 @@ public class DBTemaview {
      public void viewreview(String coulumns,String name) throws Exception{
     	 DBA = new DBAcc();
     	 String where = String.format("%s = '%s'", coulumns,name);
-    	 ResultSet rs = DBA.selectwhereorderby("테마_후기", "닉네임 지역,지점명,테마명,장르,평점,후기,작성일",where,"작성일 DESC");
+    	 ResultSet rs = DBA.selectwhereorderby("테마_후기", "닉네임,지역,지점명,테마명,장르,평점,후기,작성일",where,"작성일 DESC");
     	 System.out.println("닉네임  지역   지점명    테마명   장르   평점    후기   작성일");
     	 while(rs.next()) {
     		 for(int i=1;i<9;i++) {
