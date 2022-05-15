@@ -92,9 +92,9 @@ public class DBView {
 	    System.out.println("             회원 시스템                     ");
 		System.out.println("          1. 방탈출 테마 보기                 ");
 		System.out.println("          2. 방탈출 매장 보기                 ");
-		System.out.println("          3. 방탈출 예약표 보기                ");
-		System.out.println("          4. 내가 예약한 방탈출 보기            ");
-		System.out.println("          5. 방탈출 예약하기                  ");
+		System.out.println("          3. 방탈출 예약현황표 보기               ");
+		System.out.println("          4. 방탈출 예약하기                  ");
+		System.out.println("          5. 내가 예약한 방탈출 보기           ");
 		System.out.println("          6. 방탈출 예약 취소하기              ");
 		System.out.println("          7. 후기                          ");
 		System.out.println("          8. 계정정보                       ");
@@ -121,11 +121,11 @@ public class DBView {
 	        break;
 	        
 	    	case "4" : 
-	        DBS.myreservation();
+	    	DBS.reservationtemaselect();
 		    break;
 		    
 	    	case "5" :
-	    	DBS.reservationtemaselect();
+	    	DBS.myreservation();
             break;
 	         
 	        
@@ -369,7 +369,7 @@ public class DBView {
 	    	break;
 	    	
 	    	case "2" :
-		    //DBS.updatereservaitonselect();
+		    DBS.updatereservaitonselect();
 		    break;
 		  
 	    	case "3" : 

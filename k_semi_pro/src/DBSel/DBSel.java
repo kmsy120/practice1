@@ -24,7 +24,7 @@ public class DBSel {
 			DBV = new DBView();
 			DBR = new DBRes();
 			
-	 	   System.out.println("  아이디를 입력해주세요.(이전으로 돌아가길 원하시면 exit를 입력해주세요.)               ");
+	 	   System.out.println("아이디를 입력해주세요.(이전으로 돌아가길 원하시면 exit를 입력해주세요.)               ");
 	 	   System.out.print(">>> ");
 	 	   
 	        br = new BufferedReader(new InputStreamReader(System.in));
@@ -34,7 +34,7 @@ public class DBSel {
 	     	   DBV.rogin();
 	        }
 	 		
-	 	   System.out.println("  비밀번호를 입력해주세요.(이전으로 돌아가길 원하시면 exit를 입력해주세요.)              ");
+	 	   System.out.println("비밀번호를 입력해주세요.(이전으로 돌아가길 원하시면 exit를 입력해주세요.)              ");
 	 	   System.out.print(">>> ");
 	 	   
 	        br = new BufferedReader(new InputStreamReader(System.in));
@@ -77,7 +77,7 @@ public class DBSel {
     	DBV = new DBView();
 		DBR = new DBRes();
 		
- 	   System.out.println("  아이디를 입력해주세요.(이전으로 돌아가길 원하시면 exit를 입력해주세요.)               ");
+ 	   System.out.println("아이디를 입력해주세요.(이전으로 돌아가길 원하시면 exit를 입력해주세요.)               ");
  	   System.out.print(">>> ");
  	   
         br = new BufferedReader(new InputStreamReader(System.in));
@@ -288,9 +288,9 @@ public class DBSel {
 	       
         /////////////////////////////////////예약가능여부///////////////////////////////////////////////
         
-        System.out.println("                 예약확인 시스템                   ");
-	       System.out.println("           예약가능만 보기를 지정하시겠습니까?                  ");
-	       System.out.println("         1.무관             2.지정              ");
+        System.out.println("                 예약현황표 시스템                   ");
+	       System.out.println("예약가능만 보기를 지정하시겠습니까?                  ");
+	       System.out.println("1.무관              2.지정              ");
 		   System.out.print(">>> ");
 	   	 
 		  str = true;
@@ -317,8 +317,8 @@ public class DBSel {
 		   str=true;
         
 	       /////////////////////////////////////////날짜/////////////////////////////////////////////////
-        System.out.println("             날짜를 지정하시겠습니까?                 ");
-	       System.out.println("           1.무관             2.지정              ");
+           System.out.println("날짜를 지정하시겠습니까?                 ");
+	       System.out.println("1.무관       2.지정              ");
 	   	   while(str) {
 	       System.out.print(">>> ");
 	       br = new BufferedReader(new InputStreamReader(System.in));
@@ -344,16 +344,16 @@ public class DBSel {
 						daynum = true;
 					   }
 				 }
-		         if(daynum) {
+			     if(x.length()!=8){
+			   		   System.out.println("잘못된 형식을 입력했습니다. 다시입력해주세요.");
+			   		   System.out.print(">>> ");
+			   	       }
+			     
+			     else if(daynum) {
 		    	   System.out.println("숫자이외의 문자를 입력하셨습니다. 다시 입력해주세요.");
 		         }
 		       
-		         else if(Integer.parseInt(x)>99999999 
-		   	       || x.length()!=8) 
-		   	       {
-		   		   System.out.println("잘못된 형식을 입력했습니다. 다시입력해주세요.");
-		   		   System.out.print(">>> ");
-		   	       }
+		         
 		     	   else if (Integer.parseInt(x.substring(4,6))>12 ||Integer.parseInt(x.substring(6,8))>31
 			   			     ||(Integer.parseInt(x.substring(4,6))==2 && Integer.parseInt(x.substring(6,8))>29)
 			   			     ||(Integer.parseInt(x.substring(4,6))==4 && Integer.parseInt(x.substring(6,8))>30)
@@ -390,16 +390,16 @@ public class DBSel {
 					   }
 				 }
 			     
-		         if(timenum) {
-		    	   System.out.println("숫자이외의 문자를 입력하셨습니다. 다시 입력해주세요.");
-		         }
-		   	      
-		         else if(Integer.parseInt(y)>99999999
-		   	      || y.length()!=8) 
-		   	      {
+			      if(y.length()!=8){
 		   		   System.out.println("잘못된 형식을 입력했습니다. 다시입력해주세요.");
 		   		   System.out.print(">>> ");
 		   	      }
+			      
+			      else if(timenum) {
+		    	   System.out.println("숫자이외의 문자를 입력하셨습니다. 다시 입력해주세요.");
+		         }
+		   	      
+		         
 			   	  else if (Integer.parseInt(y.substring(4,6))>12 ||Integer.parseInt(y.substring(6,8))>31
 			   			     ||(Integer.parseInt(y.substring(4,6))==2 && Integer.parseInt(y.substring(6,8))>29)
 			   			     ||(Integer.parseInt(y.substring(4,6))==4 && Integer.parseInt(y.substring(6,8))>30)
@@ -435,8 +435,8 @@ public class DBSel {
 		    str=true;
 		   
      //////////////////////////////시간//////////////////////////////////////////////////
-	       System.out.println("           시간를 지정하시겠습니까?                  ");
-	       System.out.println("         1.무관             2.지정              ");
+	       System.out.println("시간를 지정하시겠습니까?                  ");
+	       System.out.println("1.무관       2.지정                   ");
 	   	   while(str) {
 	       System.out.print(">>> ");
 	       br = new BufferedReader(new InputStreamReader(System.in));
@@ -454,13 +454,25 @@ public class DBSel {
 			 while(str) {
 		   	   br = new BufferedReader(new InputStreamReader(System.in));
 		   	   String z = br.readLine();
-		   	      if(Integer.parseInt(z)>9999 
-		   	       || Integer.parseInt(z)<0 
-		   	       || z.length()!=4) 
+		   	   
+		   	   boolean timenum = false;
+		   	   
+		      	for(int i=0;i<z.length();i++) {
+				   if(z.charAt(i)<48||z.charAt(i)>57) {
+					timenum = true;
+				}
+			   }
+		     
+               if(z.length()!=4) 
 		   	       {
 		   		   System.out.println("잘못된 형식을 입력했습니다. 다시입력해주세요.");
 		   		   System.out.print(">>> ");
 		   	       }
+               else if(timenum) {
+	    	   System.out.println("숫자이외의 문자를 입력하셨습니다. 다시 입력해주세요.");
+	         }
+	         
+	        
 		   	   else if (Integer.parseInt(z.substring(0,2))>24 ||Integer.parseInt(z.substring(2,4))>59
 		   			   || (Integer.parseInt(z.substring(0,2))==24 &&Integer.parseInt(z.substring(2,4))>0)) {
 		   	    	System.out.println("시간형식이 올바르지 않습니다. 다시 입력해주세요.");
@@ -479,12 +491,24 @@ public class DBSel {
 			  while(str) {
 		   	      br = new BufferedReader(new InputStreamReader(System.in));
 		   	      String z2 = br.readLine();
-		   	      if(Integer.parseInt(z2)>9999
-		   	      || z2.length()!=4) 
-		   	      {
-		   		   System.out.println("잘못된 형식을 입력했습니다. 다시입력해주세요.");
-		   		   System.out.print(">>> ");
-		   	      }
+		   	      
+			   	   boolean timenum = false;
+			   	   
+			      for(int i=0;i<z2.length();i++) {
+					   if(z2.charAt(i)<48||z2.charAt(i)>57) {
+						timenum = true;
+					}
+				   }
+			     
+			      if(z2.length()!=4) {
+			   		   System.out.println("잘못된 형식을 입력했습니다. 다시입력해주세요.");
+			   		   System.out.print(">>> ");
+			   	      }
+			      else if(timenum) {
+		    	   System.out.println("숫자이외의 문자를 입력하셨습니다. 다시 입력해주세요.");
+		         }
+		         
+		    
 			   	   else if (Integer.parseInt(z2.substring(0,2))>24 ||Integer.parseInt(z2.substring(2,4))>60
 			   			|| (Integer.parseInt(z2.substring(0,2))==24 &&Integer.parseInt(z2.substring(2,4))>0)) {
 			   	    	System.out.println("시간형식이 올바르지 않습니다. 다시 입력해주세요.");
@@ -516,8 +540,8 @@ public class DBSel {
 		   /////////////////////////////////////지역///////////////////////////////////////////////////
 		   
 		   
-	       System.out.println("           지역을 지정하시겠습니까?                  ");
-	       System.out.println("         1.무관             2.지정              ");
+	       System.out.println("지역을 지정하시겠습니까?                  ");
+	       System.out.println("1.무관       2.지정              ");
 		   System.out.print(">>> ");
 	   	   br = new BufferedReader(new InputStreamReader(System.in));
 		   check = br.readLine();
@@ -528,7 +552,8 @@ public class DBSel {
 			   str=false;
 			break;
 		   case "2" :
-		       System.out.println("원하는 지역을 입력해주세요. 무관으로 선택하길 원하시면 '무관' 이라고 입력하세요.");
+		       System.out.println("원하는 지역을 입력해주세요.");
+		       System.out.println("다시 무관으로 선택하길 원하시면 '무관' 이라고 입력해주세요.");
 	   		   System.out.print(">>> ");
 			   while(str) {   
 		   	   
@@ -543,7 +568,7 @@ public class DBSel {
 		   	   
 		   	      else {
 		   		      DBA = new DBAcc();
-		   	          ResultSet rs = DBA.selectwhere("테마_예약현황", "*", "지역 = '"+inputRegion+"'");
+		   	          ResultSet rs = DBA.selectwhere("테마예약현황", "*", "지역 = '"+inputRegion+"'");
 		   	          if(rs.next()) {
 		   		      region = String.format("='%s'",inputRegion);
 		   		      System.out.println("\n"+String.format("지역이 '%s'(으)로 설정되었습니다.", inputRegion)+"\n");
@@ -553,7 +578,7 @@ public class DBSel {
 		   	          }  
 		   	          else {
 		   	           DBA.close();
-		   	          System.out.print("예약테이블에 존재하지 않는 지역입니다. 재입력해주세요.");
+		   	          System.out.println("예약테이블에 존재하지 않는 지역입니다. 재입력해주세요.");
 	   		          System.out.print(">>> ");
 		   	           }
 
@@ -568,8 +593,8 @@ public class DBSel {
 /////////////////////////////////////지점명///////////////////////////////////////////////////
 		   
 		   
-	       System.out.println("           지점명을 지정하시겠습니까?                  ");
-	       System.out.println("         1.무관             2.지정              ");
+	       System.out.println("지점명을 지정하시겠습니까?                  ");
+	       System.out.println("1.무관        2.지정              ");
 		   System.out.print(">>> ");
 	   	  while(str) {
 		   br = new BufferedReader(new InputStreamReader(System.in));
@@ -583,7 +608,8 @@ public class DBSel {
 			
 		   case "2" :
 
-		       System.out.println("원하는 지점명을 입력해주세요. 무관으로 선택하길 원하시면 '무관' 이라고 입력하세요.");
+		       System.out.println("원하는 지점명을 입력해주세요.");
+		       System.out.println("다시 무관으로 선택하길 원하시면 '무관' 이라고 입력해주세요.");
 	   		   System.out.print(">>> ");
 			   while(str) {   
 		   	   
@@ -598,7 +624,7 @@ public class DBSel {
 		   	   
 		   	      else {
 		   		      DBA = new DBAcc();
-		   	          ResultSet rs = DBA.selectwhere("테마_예약현황", "*", "지점명 = '"+inputStore+"'");
+		   	          ResultSet rs = DBA.selectwhere("테마예약현황", "*", "지점명 = '"+inputStore+"'");
 		   	          if(rs.next()) {
 		   		      store = String.format("='%s'",inputStore);
 		   		      System.out.println("\n"+String.format("지점명이 '%s'(으)로 설정되었습니다.", inputStore)+"\n");
@@ -607,7 +633,7 @@ public class DBSel {
 		   	          }  
 		   	          else {
 		   	       	  DBA.close();
-		   	          System.out.print("예약테이블에 존재하지 않는 지점명입니다. 재입력해주세요.");
+		   	          System.out.println("예약테이블에 존재하지 않는 지점명입니다. 재입력해주세요.");
 	   		          System.out.print(">>> ");
 		   	           }
 
@@ -622,8 +648,8 @@ public class DBSel {
 /////////////////////////////////////테마명///////////////////////////////////////////////////
 		   
 		   
-	       System.out.println("           테마명을 지정하시겠습니까?                  ");
-	       System.out.println("         1.무관             2.지정              ");
+	       System.out.println("테마명을 지정하시겠습니까?                  ");
+	       System.out.println("1.무관        2.지정              ");
 		   System.out.print(">>> ");
 	   	 
 		  while(str) { 
@@ -638,7 +664,8 @@ public class DBSel {
 			
 		   case "2" :
 
-		       System.out.println("원하는 테마명을 입력해주세요. 무관으로 선택하길 원하시면 '무관' 이라고 입력하세요.");
+		       System.out.println("원하는 테마명을 입력해주세요.");
+		       System.out.println("다시 무관으로 선택하길 원하시면 '무관' 이라고 입력해주세요.");
 	   		   System.out.print(">>> ");
 			   while(str) {   
 		   	   
@@ -653,7 +680,7 @@ public class DBSel {
 		   	   
 		   	      else {
 		   		      DBA = new DBAcc();
-		   	          ResultSet rs = DBA.selectwhere("테마_예약현황", "*", "테마명 = '"+inputTema+"'");
+		   	          ResultSet rs = DBA.selectwhere("테마예약현황", "*", "테마명 = '"+inputTema+"'");
 		   	          if(rs.next()) {
 		   		      tema = String.format("='%s'",inputTema);
 		   		      System.out.println("\n"+String.format("테마명이 '%s'(으)로 설정되었습니다.", inputTema)+"\n");
@@ -662,7 +689,7 @@ public class DBSel {
 		   	          }  
 		   	          else {
 		   	       	  DBA.close();
-		   	          System.out.print("예약테이블에 존재하지 않는 테마명입니다. 재입력해주세요.");
+		   	          System.out.println("예약테이블에 존재하지 않는 테마명입니다. 재입력해주세요.");
 	   		          System.out.print(">>> ");
 		   	           }
 
@@ -678,8 +705,8 @@ public class DBSel {
 /////////////////////////////////////장르///////////////////////////////////////////////////
 		   
 		   
-	       System.out.println("            장르를 지정하시겠습니까?                  ");
-	       System.out.println("         1.무관             2.지정              ");
+	       System.out.println("장르를 지정하시겠습니까?                  ");
+	       System.out.println("1.무관       2.지정              ");
 		   System.out.print(">>> ");
 		   
 		 while(str) {
@@ -694,7 +721,8 @@ public class DBSel {
 			
 		   case "2" :
 
-		       System.out.println("원하는 장르를 입력해주세요. 무관으로 선택하길 원하시면 '무관' 이라고 입력하세요.");
+		       System.out.println("원하는 장르를 입력해주세요.");
+		       System.out.println("다시 무관으로 선택하길 원하시면 '무관' 이라고 입력해주세요.");
 	   		   System.out.print(">>> ");
 			   while(str) {   
 		   	   
@@ -709,7 +737,7 @@ public class DBSel {
 		   	   
 		   	      else {
 		   		      DBA = new DBAcc();
-		   	          ResultSet rs = DBA.selectwhere("테마_예약현황", "*", "장르 = '"+inputGenre+"'");
+		   	          ResultSet rs = DBA.selectwhere("테마예약현황", "*", "장르 = '"+inputGenre+"'");
 		   	          if(rs.next()) {
 		   		      genre = String.format("='%s'",inputGenre);
 		   		      System.out.println("\n"+String.format("장르가 '%s'(으)로 설정되었습니다.", genre)+"\n");
@@ -718,7 +746,7 @@ public class DBSel {
 		   	          }  
 		   	          else {
 		   	          DBA.close();
-		   	          System.out.print("예약테이블에 존재하지 않는 테마명입니다. 재입력해주세요.");
+		   	          System.out.println("예약테이블에 존재하지 않는 테마명입니다. 재입력해주세요.");
 	   		          System.out.print(">>> ");
 		   	           }
 
@@ -732,10 +760,10 @@ public class DBSel {
          } }
 			  str=true;
 			  
-	       String where = String.format("TO_NUMBER(REPLACE(REPLACE(REPLACE(일자,'년 '),'월 ',''),'일',''))>=%d ",minday)
-	                    + String.format("AND TO_NUMBER(REPLACE(REPLACE(REPLACE(일자,'년 '),'월 ',''),'일',''))<=%d ",maxday)
-	                    + String.format("AND TO_NUMBER(REPLACE(REPLACE(시간,'시 ',''),'분',''))>=%d ",mintime)
-	                    + String.format("AND TO_NUMBER(REPLACE(REPLACE(시간,'시 ',''),'분',''))<=%d ",maxtime)
+	       String where = String.format("TO_NUMBER(REPLACE(REPLACE(REPLACE(일자,'년'),'월',''),'일',''))>=%d ",minday)
+	                    + String.format("AND TO_NUMBER(REPLACE(REPLACE(REPLACE(일자,'년'),'월',''),'일',''))<=%d ",maxday)
+	                    + String.format("AND TO_NUMBER(REPLACE(REPLACE(시간,'시',''),'분',''))>=%d ",mintime)
+	                    + String.format("AND TO_NUMBER(REPLACE(REPLACE(시간,'시',''),'분',''))<=%d ",maxtime)
 	                    + String.format("AND 지역 %s ", region)
 	                    + String.format("AND 지점명 %s ",store)
 	                    + String.format("AND 테마명 %s ", tema)
@@ -771,14 +799,15 @@ public class DBSel {
 	 DBV = new DBView();
 	 DBR = new DBRes();
 	 where = String.format("예약자명 = '%s' AND 예약자_전화번호 = '%s' ",DBR.getUsername(),DBR.getUserphone());
-	 ResultSet rs = DBA.selectwhereorderby("테마_예약현황", "일자,시간,지역,지점명,테마명,장르,예약인원,예약가격,예약번호",where,"일자,시간");
+	 ResultSet rs = DBA.selectwhereorderby("테마예약현황", "일자,시간,지역,지점명,테마명,장르,예약인원,예약가격,예약번호",where,"일자,시간");
 
 	 if(rs.next()) {
 		 DBA.close();
 		 rs.close();
 		 DBA = new DBAcc();
-		 ResultSet rs2 = DBA.selectwhereorderby("테마_예약현황", "일자,시간,지역,지점명,테마명,장르,예약인원,예약가격,예약번호",where,"일자,시간");
-		 while(rs2.next()) {System.out.println("일자   시간   지역   지점명   테마명   장르   예약인원   예약가격   예약번호");
+		 ResultSet rs2 = DBA.selectwhereorderby("테마예약현황", "일자,시간,지역,지점명,테마명,장르,예약인원,예약가격,예약번호",where,"일자,시간");
+		 System.out.println("일자   시간   지역   지점명   테마명   장르   예약인원   예약가격   예약번호");
+		 while(rs2.next()) {
 		 System.out.print(rs2.getString(1)+"\t");
 		 System.out.print(rs2.getString(2)+"\t");
 		 System.out.print(rs2.getString(3)+"\t");
@@ -843,10 +872,15 @@ public void reservationtemaselect() throws Exception{
 	}
 	else{
 		DBA = new DBAcc();
+		
 		String where = String.format("일자 ='%s' AND 시간 ='%s' AND 지역 = '%s' AND 지점명 = '%s' AND 테마명 = '%s' ", reservation[0],reservation[1],reservation[2],reservation[3],reservation[4]);
-		ResultSet rs = DBA.selectwhere("테마_예약현황", "예약가능_여부",where);
+		
+		ResultSet rs = DBA.selectwhere("테마예약현황", "예약가능_여부",where);
+		
 		if(rs.next()) {
+			
 			if(rs.getString("예약가능_여부").equals("O")) {
+				
 				DBA.close();
 				DBA = new DBAcc();
 				String where2 = String.format("지역 = '%s' AND 지점명 = '%s' AND 테마명 = '%s' ",reservation[2],reservation[3],reservation[4]);
@@ -856,6 +890,7 @@ public void reservationtemaselect() throws Exception{
 				while(rs4.next()) { 
 			    min = rs4.getString("최소인원");
 				max = rs4.getString("최대인원");}
+				DBA.close();
 				String question = String.format("최소인원 : %s 최대인원 : %s",min,max);
 				System.out.println("예약이 가능합니다. 몇명 예약하시겠습니까? (이전으로 돌아가시고 싶으시면 'exit'를 입력해주세요.)");
 				System.out.println(question);
@@ -885,13 +920,14 @@ public void reservationtemaselect() throws Exception{
 				   else if(peoplenum2) {
 					   System.out.println("글자수가 맞지 않습니다.다시 입력해주세요.");
 					   System.out.print(">>> ");
+					   
 				   }
 				   
 				  else {
+					DBA.close();
 				   int num = Integer.parseInt(numstr);
 				   if(num<= Integer.parseInt(max) && num>=Integer.parseInt(min)) {
-					DBA.close();
-					DBR = new DBRes();
+					
 					DBA = new DBAcc();
 					String price = String.format("가격%s", numstr);
 					String pricewhere = String.format("지역 = '%s'AND 지점명 ='%s'AND 테마명='%s'", reservation[2],reservation[3],reservation[4]);
@@ -901,22 +937,21 @@ public void reservationtemaselect() throws Exception{
 					while(rs2.next()) {
 						money = rs2.getString(price);
 					}
+					DBA.close();
 					DBR = new DBRes();
 					String reservationNum = DBR.gettodaysec();
 					String set = String.format("예약번호 = '%s',예약자명 = '%s',예약자_아이디 = '%s',예약자_전화번호='%s',예약인원 = %s , 예약가격 = '%s', 예약시간= '%s',예약가능_여부 = 'X',예약여부 ='O'",reservationNum,DBR.getUsername(),DBR.getUserid(),DBR.getUserphone(),numstr,money,DBR.gettodaymin());
-					DBA.close();
 					DBA = new DBAcc();
 					
-					////////////////////////////////////////////////////
-				      int ok = DBA.update("테마_예약현황",set,where);/////
-					/////////////////////////////////////////////////
-					System.out.println(ok);//////////////////////////
-					//아니 업데이트가 됐으니까 예약성공문이나오는건데 도대체 뭐가문제지..///////
-					/////////////////////////////////////////////////
+
+				     int check = DBA.update("테마예약현황",set,where);
+
+				    DBA.commit();
+				    DBA.close();
 					
-					if(ok==1) {
+					if(check==1) {
 						    DBA = new DBAcc();
-					        ResultSet rs3 = DBA.selectwhere("테마_예약현황", "일자,시간,지역,지점명,테마명,예약번호,예약가격", where);
+					        ResultSet rs3 = DBA.selectwhere("테마예약현황", "일자,시간,지역,지점명,테마명,예약번호,예약가격", where);
 					        
 					        while(rs3.next()) {
 					        String ans = String.format("일자: %s 시간: %s 지역: %s 지점명: %s 테마명: %s 예약번호 :%s 금액 :%s", rs3.getString(1),rs3.getString(2),rs3.getString(3),rs3.getString(4),rs3.getString(5),reservationNum,money);	
@@ -970,14 +1005,15 @@ public void canclereservationselect() throws Exception{
 	 DBV = new DBView();
 	 DBR = new DBRes();
 	 where = String.format("예약자명 = '%s' AND 예약자_전화번호 = '%s' ",DBR.getUsername(),DBR.getUserphone());
-	 ResultSet rs10 = DBA.selectwhereorderby("테마_예약현황", "일자,시간,지역,지점명,테마명,장르,예약인원,예약가격,예약번호",where,"일자,시간");
+	 ResultSet rs10 = DBA.selectwhereorderby("테마예약현황", "일자,시간,지역,지점명,테마명,장르,예약인원,예약가격,예약번호",where,"일자,시간");
 
 	 if(rs10.next()) {
 		 DBA.close();
 		 rs10.close();
 		 DBA = new DBAcc();
-		 ResultSet rs2 = DBA.selectwhereorderby("테마_예약현황", "일자,시간,지역,지점명,테마명,장르,예약인원,예약가격,예약번호",where,"일자,시간");
-		 while(rs2.next()) {System.out.println("일자   시간   지역   지점명   테마명   장르   예약인원   예약가격   예약번호");
+		 ResultSet rs2 = DBA.selectwhereorderby("테마예약현황", "일자,시간,지역,지점명,테마명,장르,예약인원,예약가격,예약번호",where,"일자,시간");
+		 System.out.println("일자   시간   지역   지점명   테마명   장르   예약인원   예약가격   예약번호");
+		 while(rs2.next()) {
 		 System.out.print(rs2.getString(1)+"\t");
 		 System.out.print(rs2.getString(2)+"\t");
 		 System.out.print(rs2.getString(3)+"\t");
@@ -1015,18 +1051,28 @@ public void canclereservationselect() throws Exception{
 		DBA = new DBAcc();
 		DBV = new DBView();
 		String where = String.format("일자 ='%s' AND 시간 ='%s' AND 지역 = '%s' AND 지점명 = '%s' AND 테마명 = '%s' AND 예약번호 = '%s' ", reservation[0],reservation[1],reservation[2],reservation[3],reservation[4],reservation[5]);
-		ResultSet rs = DBA.selectwhere("테마_예약현황", "예약가능_여부",where);
+		ResultSet rs = DBA.selectwhere("테마예약현황", "예약가능_여부",where);
 		if(rs.next()) {
 			if(rs.getString("예약가능_여부").equals("X")) {
 				DBA.close();
 				System.out.println("예약이 확인되었습니다. 예약취소를 원하시면 'Y'를 눌러주세요.");
+				System.out.println("그 이외의 키를 누르시면 예약취소가 취소됩니다.");
 				System.out.print(">>> ");
 				String input2= br.readLine();
 				
 				if(input2.equals("Y")) {
+			    DBA = new DBAcc();
+			    String where2 = String.format("지역 ='%s'AND 지점명 ='%s' AND 테마명 = '%s'",reservation[2],reservation[3],reservation[4]);
+			    ResultSet opencheck = DBA.selectwhere("테마_정보","운영여부",where2);
+			    String open = "";
+			    while(opencheck.next()) {
+			    	open = opencheck.getString("운영여부");
+			    }
+			    DBA.close();
+			    if(open.equals("O")) {
 				DBA = new DBAcc();
 				String set ="예약가능_여부='O',예약번호=' ',예약자명=' ',예약자_아이디 = ' ',예약자_전화번호 = ' ',예약인원= ' ' ,예약가격=' ',예약시간=' ',예약여부='X'";
-				int result = DBA.update("테마_예약현황", set, where);
+				int result = DBA.update("테마예약현황", set, where);
 				DBA.close();
 				    if(result==1) {
 				     System.out.println("예약 취소가 완료되었습니다. 이전으로 돌아가시려면 아무키나 입력하세요.");
@@ -1040,6 +1086,26 @@ public void canclereservationselect() throws Exception{
 					 br.readLine();
 					 DBV.usersystem();
 				    }
+			     }
+			    else {
+					DBA = new DBAcc();
+					String set ="예약가능_여부='X',예약번호=' ',예약자명=' ',예약자_아이디 = ' ',예약자_전화번호 = ' ',예약인원= ' ' ,예약가격=' ',예약시간=' ',예약여부='X'";
+					int result = DBA.update("테마예약현황", set, where);
+					DBA.close();
+					    if(result==1) {
+					     System.out.println("예약 취소가 완료되었습니다. 이전으로 돌아가시려면 아무키나 입력하세요.");
+					     System.out.print(">>> ");
+						 br.readLine();
+						 DBV.usersystem();
+					     }
+					    else {
+					     System.out.println("예약취소에 문제가 생겼습니다. 왜지...이전으로 돌아가시려면 아무키나 입력하세요.ㅎ..");
+					     System.out.print(">>> ");
+						 br.readLine();
+						 DBV.usersystem();
+					    }
+			    	
+			    }
 				}
 				
 				else {
@@ -1811,7 +1877,7 @@ public void updateuserinfo() throws Exception{
 		 		       
 		 		       String set2 = String.format("예약자명 = '%s'", input);
 		 		       String where2 = String.format("예약자_아이디 = '%s'", userid);
-		 		       int temareser = DBA.update("테마_예약현황", set2, where2);
+		 		       int temareser = DBA.update("테마예약현황", set2, where2);
 		 		       DBA.commit();
 		 		       DBA.close();
 		 		       
@@ -1888,7 +1954,7 @@ public void updateuserinfo() throws Exception{
 				 		       
 				 		       String set2 = String.format("예약자_전화번호 = '%s'", input);
 				 		       String where2 = String.format("예약자_아이디 = '%s'", userid);
-				 		       int temareser = DBA.update("테마_예약현황", set2, where2);
+				 		       int temareser = DBA.update("테마예약현황", set2, where2);
 				 		       DBA.commit();
 				 		       DBA.close();
 				 		       
@@ -1995,7 +2061,7 @@ public void updateuserinfo() throws Exception{
 	           System.out.println("                계정삭제 프로그램입니다.                           ");
 	           System.out.println("      계정이 삭제되면 모든 정보(후기,예약)도 같이 삭제되며 복구 할 수 없습니다.       ");
 	 while(true) {
-			   System.out.println("  아이디를 입력해주세요.(이전으로 돌아가길 원하시면 exit를 입력해주세요.)      ");
+			   System.out.println("아이디를 입력해주세요.(이전으로 돌아가길 원하시면 exit를 입력해주세요.)      ");
 			   System.out.print(">>> ");
 			   
 		       br = new BufferedReader(new InputStreamReader(System.in));
@@ -2005,7 +2071,7 @@ public void updateuserinfo() throws Exception{
 		    	   DBV.usersystem();
 		    	   }
 				
-			   System.out.println("            비밀번호를 입력해주세요.(이전으로 돌아가길 원하시면 exit를 입력해주세요.)              ");
+			   System.out.println("비밀번호를 입력해주세요.(이전으로 돌아가길 원하시면 exit를 입력해주세요.)              ");
 			   System.out.print(">>> ");
 			   
 		       br = new BufferedReader(new InputStreamReader(System.in));
@@ -2036,12 +2102,17 @@ public void updateuserinfo() throws Exception{
 		            DBA.commit();
 		            DBA.close();
 		            DBA = new DBAcc();
-		            DBA.delete("테마_후기", "닉네임", DBR.getUsernickname());
+		            int x = DBA.delete("테마_후기", "닉네임", DBR.getUsernickname());
 		            DBA.commit();
 		            DBA.close();
+		            DBA = new DBAcc();
+		            String setreser = String.format("예약가능_여부='O',예약번호=' ',에약자명=' ',예약자_아이디=' ',예약자_전화번호=' ',예약인원=' ',예약가격=' ',예약시간=' ',예약여부='X'");
+		            String whereupdate= String.format("예약자_아이디 = '%s'",DBR.getUserid());
+		            int y = DBA.update("테마예약현황", setreser, whereupdate);
 
 		            
 		            System.out.println ("계정이 삭제되었습니다. 아무키나 누르시면 초기화면으로 돌아갑니다.");
+		            System.out.printf ("%s개의 후기와 %s개의 예약현황이 삭제되었습니다.\n",x,y);
 		            System.out.print(">>> ");
 		            br.read();
 		            
@@ -2176,7 +2247,7 @@ public void updateuserinfo() throws Exception{
             	
             	DBA = new DBAcc();
             	where = String.format("지역 = '%s' AND 지점명 = '%s'",DBR.getRegion(),DBR.getStore());
-            	int reservation = DBA.delete("테마_예약현황", where);
+            	int reservation = DBA.delete("테마예약현황", where);
             	DBA.commit();
             	DBA.close();
             	
@@ -3199,7 +3270,12 @@ public void updateuserinfo() throws Exception{
         		   DBA =new DBAcc();
         		   int check7 = DBA.update("테마_정보", "운영여부 = 'X'", where);
         		   if(check7==1) {
-        			 System.out.println("운영여부가 변경되었습니다.");
+                 	 DBA.commit();
+                  	 DBA.close();
+                  	 DBA = new DBAcc();
+              		 String where3 = String.format("지역 ='%s' AND 지점명 ='%s' AND 테마명 ='%s' AND 예약가능_여부 = 'O'", DBR.getRegion(),DBR.getStore(),updatetema);
+                  	 int reserup = DBA.update("테마예약현황", "예약가능_여부 = 'X'", where3);
+        			 System.out.printf("운영여부가 변경되었습니다.%s개의 예약현황이 예약가능으로 바뀌었습니다.\n",reserup);
         			 System.out.println("이전으로 돌아가시려면 아무키나 눌러주세요.");
         			 System.out.print(">>> ");
         			 DBA.commit();
@@ -3230,7 +3306,12 @@ public void updateuserinfo() throws Exception{
           		   DBA =new DBAcc();
           		   int check7 = DBA.update("테마_정보", "운영여부 = 'O'", where);
           		   if(check7==1) {
-          			 System.out.println("운영여부가 변경되었습니다.");
+            		 DBA.commit();
+              	     DBA.close();
+              	     DBA = new DBAcc();
+          		     String where3 = String.format("지역 ='%s' AND 지점명 ='%s' AND 테마명 ='%s' AND 예약가능_여부 = 'X'", DBR.getRegion(),DBR.getStore(),updatetema);
+              	     int reserup = DBA.update("테마예약현황", "예약가능_여부 = 'O'", where3);
+          			 System.out.printf("운영여부가 변경되었습니다.%s개의 예약현황이 예약가능으로 바뀌었습니다.\n",reserup);
           			 System.out.println("이전으로 돌아가시려면 아무키나 눌러주세요.");
           			 System.out.print(">>> ");
           			 DBA.commit();
@@ -3371,23 +3452,29 @@ public void registreservationselect() throws Exception{
          }
         }
        
-       boolean rsvdaytime =true;
+       boolean rsvsametema =true;
        boolean rsvday =true;
+       boolean rsvsameday =true;
        boolean rsvtime = true;
+
        
        String day =" ";
        String time = "";
        
-     while(rsvdaytime){
-      
+     while(rsvsametema){
+          rsvday =true;
+          rsvsameday =true;
+          rsvtime = true;
 
        System.out.printf("%s테마의 예약현황을 등록하실 하실 날짜를 입력해주세요.\n", temaselect);
        System.out.println("날짜는 연,월,일 순서대로 숫자만 입력해주세요.");
-       System.out.println("ex)2022년 05월 16일 -> 202201516");
+       System.out.println("ex)2022년05월16일 -> 20220516");
        System.out.println("이전으로 돌아가길 원한다면 'exit'를 입력해주세요.");
 
-  	 
+
      while(rsvday) {
+         rsvsameday =true;
+         rsvtime = true;
        System.out.print(">>> ");
        day = br.readLine();
        
@@ -3424,13 +3511,17 @@ public void registreservationselect() throws Exception{
 	   	}
 	 
 	   else { 
-		   day = day.substring(0,4) +"년 " +day.substring(4,6)+"월 "+day.substring(6,8)+"일";
+		   day = day.substring(0,4) +"년" +day.substring(4,6)+"월"+day.substring(6,8)+"일";
 		   rsvday=false;
 	    }
      }//여기까지가 day
+    while(rsvsameday) {
+    	
+    	rsvtime=true;
+    
      System.out.printf("%s테마의 예약현황을 등록하실 하실 시간를 입력해주세요.\n", temaselect);
      System.out.println("날짜는 시,분 순서대로 숫자만 입력해주세요.");
-     System.out.println("ex)10시10분 -> 202201516");
+     System.out.println("ex)10시10분 -> 1010");
      System.out.println("이전으로 돌아가길 원한다면 'exit'를 입력해주세요.");
 
     	 
@@ -3461,14 +3552,14 @@ public void registreservationselect() throws Exception{
 	   	    	   System.out.println("시간형식이 올바르지 않습니다. 다시 입력해주세요.");
 	   	   }
 	   	  else {
-	   	    	  time = time.substring(0,2) + "시 " + time.substring(2,4) +"분";
+	   	    	  time = time.substring(0,2) + "시" + time.substring(2,4) +"분";
                   rsvtime = false;
 	   	   }
     		 
     	 }//여기까지가 time while
      DBA = new DBAcc();
      where = String.format("일자 = '%s' AND 시간 = '%s' AND 지역 = '%s' AND 지점명 = '%s' AND 테마명 = '%s'", day,time,DBR.getRegion(),DBR.getStore(),temaselect);
-     ResultSet rs = DBA.selectwhere("테마_예약현황", "*",where);
+     ResultSet rs = DBA.selectwhere("테마예약현황", "*",where);
      
      if(rs.next()) {
     	 System.out.println("동일한 예약현황이 존재합니다. 다시 입력해주세요.");
@@ -3478,22 +3569,35 @@ public void registreservationselect() throws Exception{
      else {
     	 DBA = new DBAcc();
     	 String values = String.format("'%s','%s','%s','%s','%s','%s','O',' ',' ',' ',' ',' ',' ',' ','X'",day,time,DBR.getRegion(),DBR.getStore(),temaselect,genreselect);
-         int check =DBA.insert("테마_예약현황",values);
+         int check =DBA.insert("테마예약현황",values);
          if(check==1) {
         	 DBA.commit();
         	 DBA.close();
         	 System.out.println("예약현황 등록이 완료되었습니다.");
-        	 System.out.println("1.같은테마 더 등록하기");
-        	 System.out.println("2.다른테마 더 등록하기");
-        	 System.out.println("3.이전으로");
+        	 System.out.println("1.같은테마 같은 날짜 등록하기");
+        	 System.out.println("2.같은테마 다른 날짜 등록하기");
+        	 System.out.println("3.다른테마 더 등록하기");
+        	 System.out.println("4.이전으로");
         	 
         	 boolean last = true;
         	while(last) { 
         	    System.out.println(">>> ");
         	    switch(br.readLine()) {
-        	    case "1" :  break;
-        	    case "2" : rsvdaytime = false; break;
-        	    case "3" : DBV.temainfo(); break;
+        	    case "1" : 
+        	    	last = false;
+        	    	break;
+        	    case "2" :
+        	    	last = false;
+        	    	rsvsameday = false;
+        	        break;
+        	    case "3" :
+        	    	last = false;
+        	    	rsvsameday = false;
+        	        rsvsametema = false;
+        	        break;
+        	    case "4" :
+        	    	DBV.reservationinfo();
+        	         break;
         	    default : System.out.println("잘못된 값을 입력했습니다. 다시 입력해주세요.");
         	 }
            }
@@ -3507,7 +3611,7 @@ public void registreservationselect() throws Exception{
         	DBV.temainfo();
          }
       }
-     
+    }
      }//여기까지가 day time while
 
   }//여기까지가 테마존재 if
@@ -3523,6 +3627,225 @@ public void registreservationselect() throws Exception{
 }//all while 
 	 
  }
+
+public void updatereservaitonselect() throws Exception {
+	DBA = new DBAcc();
+	where = String.format("지역 = '%s' AND 지점명 ='%s' ",DBR.getRegion(),DBR.getStore());
+	ResultSet rs = DBA.selectwhereorderby("테마예약현황", "*",where,"일자,시간,테마명 ASC ");
+	if(rs.next()) {
+		System.out.println("일자 시간  지역  지점명  테마명  장르  예약가능여부  예약번호   예약자명   예약자아이디  예약자전화번호  예약인원  예약가격   예약시간   예약여부");
+		
+		for(int i=1;i<16;i++) {
+			System.out.print(rs.getString(i)+"\t");
+		}
+		System.out.print("\n");
+		
+		while(rs.next()) {
+			for(int i=1;i<16;i++) {
+				System.out.print(rs.getString(i)+"\t");
+			}
+			System.out.print("\n");
+	    }
+		
+		DBA.close();
+		
+		System.out.println("수정을 원하시는 예약현황의 일자,시간,지역,지점명,테마명을 띄어쓰기 기준으로 입력해주세요.");
+		System.out.println("--------------------------------------------"); 
+		System.out.println("|ex)2022년05월15일 20시20분 강남 넥스트에디션 메모리 |");
+		System.out.println("--------------------------------------------"); 
+		System.out.println("이전으로 돌아가시고 싶으시면 'exit'를 입력해주세요.");
+		boolean udr = true;
+	while(udr) {
+		System.out.print(">>> ");
+		String[] input = br.readLine().split(" ");
+	    
+		if(input.length==1 && input[0].equals("exit")) {
+			DBV.reservationinfo();
+		}
+		if(input.length!=5) {
+		 System.out.println("입력하신 형태가 올바르지 않습니다. 다시 입력해주세요..");
+		System.out.print(">>> ");
+		}
+		else if(!input[2].equals(DBR.getRegion())||!input[3].equals(DBR.getStore())) {
+			System.out.println("자신 매장의 예약현황만 수정할 수 있습니다. 다시입력부탁드립니다.");
+			System.out.print(">>> ");
+		}
+		else {
+			DBA = new DBAcc();
+			where = String.format("일자 = '%s' AND 시간= '%s' AND 지역 = '%s' AND 지점명 ='%s' AND 테마명 ='%s'",input[0],input[1],input[2],input[3],input[4]);
+			ResultSet check = DBA.selectwhere("테마예약현황","*", where);
+			
+			if(check.next()) {
+				
+				DBA.close();
+				
+				System.out.println("예약현황이 확인 되었습니다. 수정하실 부분을 선택해주세요.");
+				System.out.println("1.예약일자 및 시간");
+				System.out.println("2.예약가능여부");
+				System.out.println("3.예약취소");
+				System.out.println("4.이전으로");
+				
+				boolean udr2 = true;
+				while(udr2) {
+				System.out.print(">>> ");
+				switch(br.readLine()){
+				case "1" : 
+			    
+			     boolean udr3 = true;
+				while(udr3) {
+				
+				System.out.println("변경할 예약일자를 숫자로만 입력해주세요.");
+				System.out.println("ex)2022년05월16일 -> 20220516");
+				System.out.println("이전으로 돌아가고 싶다면 'exit'를 입력해주세요.");
+				
+				String day = "";
+				String time = "";
+				
+				while(str) {
+					System.out.print(">>> ");
+				   	String x = br.readLine();
+				   	if(x.equals("exit")) {
+				   		DBV.reservationinfo();
+				   	}
+				   	     
+				   	boolean daynum = false;
+				       
+					 for(int i=0;i<x.length();i++) {
+				      if(x.charAt(i)<48||x.charAt(i)>57) {
+								daynum = true;
+							   }
+					}
+					 if( x.length()!=8) 
+					   	       {
+					   		   System.out.println("잘못된 형식을 입력했습니다. 다시입력해주세요.");
+					   	       }
+					 
+					 else if(daynum) {
+				    	   System.out.println("숫자이외의 문자를 입력하셨습니다. 다시 입력해주세요.");
+				     }
+				       
+				    
+				    else if (Integer.parseInt(x.substring(4,6))>12 ||Integer.parseInt(x.substring(6,8))>31
+						     ||(Integer.parseInt(x.substring(4,6))==2 && Integer.parseInt(x.substring(6,8))>29)
+						     ||(Integer.parseInt(x.substring(4,6))==4 && Integer.parseInt(x.substring(6,8))>30)
+						     ||(Integer.parseInt(x.substring(4,6))==9 && Integer.parseInt(x.substring(6,8))>30)
+					         ||(Integer.parseInt(x.substring(4,6))==11 && Integer.parseInt(x.substring(6,8))>30)
+					   			  ) 
+				            {
+					   	    	System.out.println("날짜형식이 올바르지 않습니다. 다시 입력해주세요.");
+					   	    }
+				   	 else if (Integer.parseInt(x)<DBR.gettoday()) {
+				   	    	System.out.println("오늘보다 빠른날은 시작일로 선택할 수 없습니다. 다시입력해주세요.");
+				   	 }
+				 
+				   	 else {
+				   	    	  day = x.substring(0,4)+"년"+x.substring(4,6)+"월"+x.substring(6,8)+"일";
+				   	    	  str=false;
+				   	      }
+					
+
+					 
+					 
+					
+				      }//날짜입력 완료
+				
+				str=true;
+
+				
+				System.out.println("변경할 시간을 숫자로만 입력해주세요.");
+				System.out.println("ex)04시19분 -> 0419");
+				System.out.println("이전으로 돌아가고 싶다면 'exit'를 입력해주세요.");
+				  
+			   	  while(str) {
+			   		   System.out.print(">>> ");
+			   	   
+			   	   br = new BufferedReader(new InputStreamReader(System.in));
+			   	   String z = br.readLine();
+			   	   
+			   	   if(z.equals("exit")) {
+			   		   DBV.reservationinfo();
+			   	   }
+			   	   
+			   	   boolean timenum = false;
+			   	   
+			      	for(int i=0;i<z.length();i++) {
+					   if(z.charAt(i)<48||z.charAt(i)>57) {
+						timenum = true;
+					}
+				   }
+			     
+			        if( z.length()!=4) 
+					   	       {
+					   		   System.out.println("잘못된 형식을 입력했습니다. 다시입력해주세요.");
+					   	       }
+			        
+			        else if(timenum) {
+		    	   System.out.println("숫자이외의 문자를 입력하셨습니다. 다시 입력해주세요.");
+		         }
+		         
+
+			   	   else if (Integer.parseInt(z.substring(0,2))>24 ||Integer.parseInt(z.substring(2,4))>59
+			   			   || (Integer.parseInt(z.substring(0,2))==24 &&Integer.parseInt(z.substring(2,4))>0)) {
+			   	    	System.out.println("시간형식이 올바르지 않습니다. 다시 입력해주세요.");
+			   	      }
+			   	      else {
+			   	    	  time = z.substring(0,2)+"시"+z.substring(0,2)+"분";
+			   	    	  str=false;
+			   	      }
+				   }//시간입력 완료
+			   	  
+				   str=true;
+				   
+				   DBA = new DBAcc();
+				   where = String.format("일자 = '%s' AND 시간= '%s' AND 지역 = '%s' AND 지점명 ='%s' AND 테마명= '%s'",day,time,input[2],input[3],input[4]);
+				   ResultSet change = DBA.selectwhere("테마예약현황","*",where);
+				   if(change.next()) {
+					   DBA.close();
+					   System.out.println("중복된 시간대 입니다. 다시 입력해주세요.");
+				   }
+				   else {
+					 DBA = new DBAcc();
+					 String set = String.format("일자 ='%s',시간='%s'",day,time);
+					 where = String.format("일자 = '%s' AND 시간= '%s' AND 지역 = '%s' AND 지점명 ='%s' AND 테마명 ='%s'",input[0],input[1],input[2],input[3],input[4]);
+					 int check2 = DBA.update("테마예약현황", set, where);
+					 if(check2==1) {
+						 
+						 System.out.println("일자 및 시간을 변경하였습니다.");
+						 System.out.println("아무키나 입력하시면 이전으로 돌아갑니다.");
+						 System.out.print(">>> ");
+						 DBA.commit();
+						 DBA.close();
+						 br.readLine();
+						 DBV.reservationinfo();
+					}
+				   }	  
+				} 
+				case "2" :
+					
+				case "3" :
+					
+				case "4" :
+			    default :
+				}
+				}
+			}
+			
+			
+			else {
+			System.out.println("조건에 맞는 예약현황이 없습니다. 다시 입력해주세요.");	
+			}
+		 }
+	   }
+	}//이프문끝
+	
+	else{
+	 DBA.close();
+	 System.out.println("매장에서 등록한 예약현황이 없습니다.이전으로 돌아가려면 아무키나 눌러주세요.");
+	 System.out.print(">>> ");
+	 br.readLine();
+	 DBV.reservationinfo();
+	}
+}
  public void ceologoutselect() throws Exception{
 	 DBR = new DBRes();
 	 DBV = new DBView();

@@ -21,7 +21,7 @@ public class DBTemaview {
      
 			       
 			       DBA = new DBAcc();
-			       ResultSet rs = DBA.selectwhere("테마_예약현황","일자,시간,지역,지점명,테마명,장르,예약가능_여부" , where);
+			       ResultSet rs = DBA.selectwhere("테마예약현황","일자,시간,지역,지점명,테마명,장르,예약가능_여부" , where);
 	
 			       if(!rs.next()) {
 			    	   System.out.println("조건에 맞는 예약현황이 존재하지 않습니다.");
@@ -35,7 +35,7 @@ public class DBTemaview {
 			      
 			       else {
 				       DBA = new DBAcc();
-				       ResultSet rs1 = DBA.selectwhereorderby("테마_예약현황","일자,시간,지역,지점명,테마명,장르,예약가능_여부" , where,"일자,시간");
+				       ResultSet rs1 = DBA.selectwhereorderby("테마예약현황","일자,시간,지역,지점명,테마명,장르,예약가능_여부" , where,"일자,시간");
 				       System.out.println("일자   시간   지역   지점명  테마명   장르   예약가능_여부");
 			       while(rs1.next()) {
 			    	   for(int i=1;i<8;i++) {
@@ -57,9 +57,9 @@ public class DBTemaview {
 			  
 			    DBA = new DBAcc();
 			    DBR = new DBRes();
-			    String where = String.format("TO_NUMBER(REPLACE(REPLACE(REPLACE(일자,'년'),'월',''),'일',''))>=%d",DBR.gettoday());	    
-			     ResultSet rs = DBA.selectwhereorderby("테마_예약현황", "일자,시간,지역,지점명,테마명,장르,예약가능_여부",where,"일자,시간,지역,테마명");
-					System.out.println("일자   시간  지역  지점명   테마명  장르 ");
+			    String where = String.format("TO_NUMBER(REPLACE(REPLACE(REPLACE(일자,'년',''),'월',''),'일',''))>=%d",DBR.gettoday());	    
+			     ResultSet rs = DBA.selectwhereorderby("테마예약현황", "일자,시간,지역,지점명,테마명,장르,예약가능_여부",where,"일자,시간,지역,테마명");
+					System.out.println("일자   시간  지역  지점명   테마명  장르    예약가능여부 ");
 
 				while(rs.next()) {
 					  System.out.print(rs.getString(1)+"\t");
