@@ -27,7 +27,7 @@ import DBcon.DBCon;
 		 return false;
 	 }
 	 public boolean ceocheck(String ceoid,String ceopw) throws Exception{
-		 String query = String.format("SELECT * FROM 방탈출_사장_계정 WHERE 아이디='%s'",ceoid);
+		 String query = String.format("SELECT * FROM 방탈출사장_계정 WHERE 아이디='%s'",ceoid);
 		 ResultSet rs = DB.select(query);
 		 if(rs.next()) {
 			 if(rs.getString("비밀번호").equals(ceopw)){

@@ -1,6 +1,7 @@
 package com_conn_db;
 
 import java.io.File;
+
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
@@ -18,7 +19,7 @@ public class DBconn {
 	private String url_address;
     private Connection conn;
     private Statement stat;
-    private Statement stat2;
+
     
     //파일일때
     public DBconn(File config) throws Exception {
@@ -48,7 +49,7 @@ public class DBconn {
 				url_address = String.format("%s:%s/%s",map.get("host"),map.get("port"),map.get("service"));
 			}
 			else if(map.get("tns_alias")!=null) {
-				url_address =  	url_address = String.format("%s?TNS_ADMIN=%s",map.get("tns_alias"),map.get("wallet_path"));
+				url_address = String.format("%s?TNS_ADMIN=%s",map.get("tns_alias"),map.get("wallet_path"));
             }
 			else {
 				System.out.println("DB 연결 파일 구성이 잘못되었습니다.");
@@ -91,14 +92,9 @@ public class DBconn {
 		// 3. Statement 생성 
 		
 		stat = conn.createStatement();
-		stat2 = conn.createStatement();
-
     }
 		  
-    public ResultSet sendSelectQuery2(String sql) throws Exception{
-    	ResultSet rs = this.stat2.executeQuery(sql);
-    	return rs;	
-    }
+
 				
     public ResultSet sendSelectQuery(String sql) throws Exception{
     	ResultSet rs = this.stat.executeQuery(sql);

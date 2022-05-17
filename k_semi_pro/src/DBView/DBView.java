@@ -71,7 +71,7 @@ public class DBView {
         break;
 	    
     	case "2" : 
-        DBS.ceorogin();
+        DBS.ceologin();
         break;
      	
     	case "3" :
@@ -192,9 +192,9 @@ public class DBView {
 	   while(true) {
 		   
 		    System.out.println("              계정정보                  ");
-			System.out.println("          1. 회원정보 확인               ");
-			System.out.println("          2. 회원정보 수정               ");
-			System.out.println("          3. 회원탈퇴                   ");
+			System.out.println("          1. 계정정보 확인               ");
+			System.out.println("          2. 계정정보 수정               ");
+			System.out.println("          3. 계정탈퇴                   ");
 			System.out.println("          4. 이전으로                   ");
 			System.out.print(">>> ");
 
@@ -232,9 +232,10 @@ public class DBView {
 		System.out.println("          1. 매장 관리                       ");
 		System.out.println("          2. 테마 관리                       ");
 		System.out.println("          3. 예약현황 관리                     ");
-		System.out.println("          4. 본인의 매장 후기보기                ");
-		System.out.println("          5. 계정정보                         ");	
-		System.out.println("          6. 로그아웃                         ");
+		System.out.println("          4. 매장 후기보기                     ");
+		System.out.println("          5. 매출액 확인                       ");
+		System.out.println("          6. 계정정보                         ");	
+		System.out.println("          7. 로그아웃                         ");
 		System.out.print(">>> ");
 		
 		while(true) {
@@ -254,15 +255,21 @@ public class DBView {
 	        break;
 	        
 	    	case "4" : 
-		   // DBS.storereivewselect();
+	        this.storereview();
 		    break;
 	     	
+            
 	    	case "5" :
-	        this.ceoaccount();
-            break;
-	         
+		    DBS.moneyselect();
+	        break;
 	        
 	    	case "6" :
+	        this.ceoinfo();
+            break;
+
+	         
+	        
+	    	case "7" :
 		    DBS.ceologoutselect();
 	        break;
 	        
@@ -312,8 +319,8 @@ public class DBView {
    }
    
    public void temainfo() throws Exception {
-	   
-	    System.out.println("                테마 관리                  ");
+	    
+	    System.out.println("              테마 관리                   ");
 		System.out.println("          1. 테마 등록하기                  ");
 		System.out.println("          2. 테마 수정하기                  ");
 		System.out.println("          3. 매장 내 테마 확인하기           ");	
@@ -352,12 +359,12 @@ public class DBView {
    
    public void reservationinfo() throws Exception{
 	   
-	   System.out.println("                예약현황 관리                  ");
+	    System.out.println("              예약현황 관리                  ");
 		System.out.println("          1. 예약현황 등록하기                 ");
 		System.out.println("          2. 예약현황 수정하기                 ");
 		System.out.println("          3. 예약현황 삭제하기                 ");
-		System.out.println("          3. 본인 매장 예약현황 확인하기         ");
-		System.out.println("          4. 이전으로                       ");
+		System.out.println("          4. 본인 매장 예약현황 확인하기         ");
+		System.out.println("          5. 이전으로                       ");
 		System.out.print(">>> ");
 		
 		while(true) {
@@ -373,10 +380,13 @@ public class DBView {
 		    break;
 		  
 	    	case "3" : 
-		    //DBS.dropreservationselect();
+		    DBS.dropreservationselect();
 		    break;
 	     	
 	    	case "4" :
+	        DBS.mystorereservationselect();
+	    	
+	    	case "5" :
 	        this.ceosystem();
           break;
 	         
@@ -390,7 +400,38 @@ public class DBView {
 	   
    }
    
-   public void ceoaccount() throws Exception {
+   public void storereview() throws Exception{
+	   System.out.println("             매장 후기 보기                  ");
+		System.out.println("          1. 전체보기                        ");
+		System.out.println("          2. 특정 테마 보기                   ");
+		System.out.println("          3. 이전으로                       ");
+		while(true) {
+		System.out.print(">>> ");
+		
+
+
+	    	switch(br.readLine()){
+	     	
+	    	case "1" : 
+	    	DBS.storereviewallselect();
+	    	break;
+	    	
+	    	case "2" :
+		    DBS.storereviewtemaselect();
+		    break;
+		  
+	    	case "3" : 
+		     this.ceosystem();
+		    break;
+
+            default :
+            System.out.println("잘못된 값을 입력했습니다. 다시입력해주세요.");
+            break; 
+            }
+		}
+ }
+   
+   public void ceoinfo() throws Exception {
 	            System.out.println("              계정정보                  ");
 				System.out.println("          1. 회원정보 확인               ");
 				System.out.println("          2. 회원정보 수정               ");
@@ -401,15 +442,15 @@ public class DBView {
 		    	switch(br.readLine()){
 		   
 		    	case "1" : 
-	            //DBS.ceoinfoselect();
+	            DBS.ceoinfoselect();
 		    	break;
 		    	
 		    	case "2" :
-		        //DBS.updateceoinfo();
+		        DBS.updateceoinfo();
 			    break;
 			    
 		    	case "3" : 
-		        //DBS.dropceoselect();	
+		        DBS.dropceoselect();	
 		        break;
 		        
 		    	case "4" : 
