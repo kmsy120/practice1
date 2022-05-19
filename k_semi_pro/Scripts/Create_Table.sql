@@ -67,8 +67,6 @@ CREATE TABLE 테마예약_현황(
            , CONSTRAINT UN_테마_예약현황_일자_시간_지역_매장명_테마명 UNIQUE(일자,시간,지역,매장명,테마명)
           );   
          
-INSERT INTO 테마예약_현황(일자,시간,지역,매장명,테마명,장르,예약가격,예약여부) VALUES ('2022년05월16일','13시23분','강남','역삼이스케이프','역삼역김밥집','분식','4000원','O');
-COMMIT;
 CREATE TABLE 테마_후기(
              닉네임 VARCHAR2(20) CONSTRAINT NN_테마_후기_닉네임 NOT NULL
            , 지역 VARCHAR2(20)
@@ -82,9 +80,6 @@ CREATE TABLE 테마_후기(
            , CONSTRAINT UN_테마_후기_지역_매장명_테마명_닉네임 UNIQUE(지역,매장명,테마명,닉네임)
 );
 
-
-SELECT * FROM USER_TABLES ;
-
 CREATE OR REPLACE VIEW 테마평점 AS
               SELECT   지역
                     ,  매장명
@@ -93,3 +88,4 @@ CREATE OR REPLACE VIEW 테마평점 AS
                    FROM 테마_후기
                    GROUP BY(지역,매장명,테마명);
 
+ COMMIT;

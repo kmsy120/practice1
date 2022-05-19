@@ -25,7 +25,7 @@ public class DBView {
 //Start : 예약 시스템의 초기 화면.	
     public void start() throws Exception{
 		
-		System.out.println("           방탈출 예약 시스템             ");
+		System.out.println("           방탈출 관리 시스템             ");
 		System.out.println("           1. 로그인                   ");
 		System.out.println("           2. 회원가입                 ");
 		System.out.println("           3. 종료                    ");
